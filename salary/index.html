@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071011">
+<meta name="description" content="نظام شخصي متقدم لإدارة الراتب والحسابات والحوالات.">
+<title>راتبي</title>\n<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2718%27 fill=%27%23099999%27/%3E%3Ctext x=%2732%27 y=%2742%27 text-anchor=%27middle%27 font-size=%2736%27 font-family=%27Arial%27 fill=%27white%27%3Eر%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="app.css?v=20260924-1">
+<link rel="stylesheet" href="v4.css?v=20260924-2">
+</head>
+<body>
+<div class="noise"></div>
+<div id="loader" class="loader"><div class="loaderMark">ر</div><strong>راتبي</strong><div class="loaderLine"></div></div>
+<section id="auth" class="auth hidden">
+  <div class="authVisual"><div class="authBadge"><i></i><span>Private financial workspace</span></div><div><h1>راتبك.<br>حساباتك.<br>قرارك.</h1><p>مركز مالي شخصي يجمع الراتب والمصاريف والحوالات والحسابات ضمن تجربة واحدة واضحة.</p></div></div>
+  <div class="authFormWrap"><form id="loginForm" class="authCard"><div class="authLogo">ر</div><h2>أهلًا باسل</h2><p>أدخل كلمة السر لفتح مساحة العمل المالية.</p><label class="input"><span>كلمة السر</span><input id="passwordInput" type="password" inputmode="numeric" autocomplete="current-password" required></label><button class="btn primary wide" type="submit">فتح النظام</button><div id="loginError" class="error"></div></form></div>
+</section>
+<div id="app" class="app hidden">
+<aside class="sidebar">
+  <div class="brand"><div class="brandMark">ر</div><div><strong id="brandName">راتبي</strong><span id="brandSubtitle">Financial OS</span></div></div>
+  <nav id="nav" class="nav">
+    <button class="active" data-page="dashboard"><span class="ico">⌂</span><span>الرئيسية</span></button>
+    <button data-page="transactions"><span class="ico">↕</span><span>الحركات</span></button>
+    <button id="mobileAddBtn" class="mobileAddBtn" type="button" aria-label="إضافة حركة"><span class="mobileAddIcon">+</span><span>إضافة</span></button>
+    <button data-page="transfers" class="secondaryNav"><span class="ico">⇄</span><span>الحوالات</span></button>
+    <button data-page="accounts" class="secondaryNav"><span class="ico">▣</span><span>الحسابات</span></button>
+    <button data-page="reports"><span class="ico">▥</span><span>التقارير</span></button>
+    <button data-page="settings"><span class="ico">⚙</span><span>الإعدادات</span></button>
+  </nav>
+  <div class="sideFoot"><span>إجمالي السيولة</span><strong id="sideTotal" class="moneyValue">0.00 د.أ</strong><button id="lockBtn" type="button">قفل النظام</button></div>
+</aside>
+<main class="main">
+<header class="topbar"><div class="greeting"><h1 id="welcomeTitle">مساء الخير، باسل</h1><p id="welcomeSubtitle">هذه صورتك المالية لهذا الشهر.</p></div><div class="topActions"><label class="monthPicker"><span>الشهر</span><input id="monthInput" type="month"></label><button id="privacyBtn" class="circleBtn" type="button" title="إخفاء الأرصدة">◉</button><button id="quickThemeBtn" class="circleBtn" type="button" title="تغيير المظهر">◐</button></div></header>
+<section id="dashboardPage" class="page active">
+  <div class="heroGrid">
+    <article class="balanceHero">
+      <div class="heroTop"><div><span class="eyebrow">Monthly position</span><h2 id="heroMonth">هذا الشهر</h2></div><span class="liveBadge"><i></i> LIVE</span></div>
+      <div class="balanceNumber"><span>المتبقي من دخل الشهر</span><strong id="heroBalance" class="moneyValue">0.00 د.أ</strong><small>بعد المصاريف المسجلة</small></div>
+      <div class="flowTrack" aria-hidden="true"><div id="spendProgress" class="flowFill"></div></div>
+      <div class="heroFooter"><div class="heroPill"><span>نسبة الصرف</span><strong id="spendRate">0%</strong></div><div class="heroPill"><span>عدد الحركات</span><strong id="movementCount">0</strong></div></div>
+    </article>
+    <div class="quickColumn">
+      <article class="quickCard liquidity"><span>إجمالي السيولة</span><strong id="liquidityTotal" class="moneyValue">0.00</strong><small>في الحسابات النشطة</small></article>
+      <div class="quickPair"><article class="quickCard income"><span>الدخل</span><strong id="incomeTotal" class="moneyValue">0.00</strong><small>هذا الشهر</small></article><article class="quickCard expense"><span>المصاريف</span><strong id="expenseTotal" class="moneyValue">0.00</strong><small>هذا الشهر</small></article></div>
+    </div>
+  </div>
+  <div class="decisionGrid">
+    <article class="panel commitmentsPanel">
+      <div class="miniSectionHead"><div><span class="eyebrow">Commitments</span><h3>التزامات الشهر</h3></div><strong id="commitmentsTotal" class="moneyValue">0.00 د.أ</strong></div>
+      <div id="upcomingList" class="commitmentList"></div>
+    </article>
+    <article class="panel categoryPanel">
+      <div class="miniSectionHead"><div><span class="eyebrow">Spending map</span><h3>أين يذهب الصرف؟</h3></div><span id="categoryCount" class="softBadge">0 تصنيف</span></div>
+      <div id="categoryBreakdown" class="categoryBreakdown"></div>
+    </article>
+  </div>
+  <div class="sectionHead"><div><span class="eyebrow">Accounts</span><h2>حساباتك</h2><p>اضغط على أي بطاقة لعرض حركات الحساب مباشرة.</p></div><button id="dashboardAddAccount" class="btn ghost small" type="button">+ حساب جديد</button></div><div id="dashboardAccounts" class="accounts"></div>
+  <div class="sectionHead"><div><span class="eyebrow">Recent activity</span><h2>آخر الحركات</h2></div><button class="btn ghost small" data-go="transactions" type="button">عرض الكل</button></div><div class="panel"><div id="recentList" class="txList"></div></div>
+</section>
+<section id="transactionsPage" class="page">
+  <div class="sectionHead"><div><span class="eyebrow">Transactions</span><h1>الحركات المالية</h1><p id="transactionContext">كل الدخل والمصاريف.</p></div><button id="addTransactionBtn" class="btn primary" type="button">+ حركة جديدة</button></div>
+  <div class="panel"><div class="toolbar transactionToolbar"><input id="txSearch" placeholder="ابحث عن حركة..."><select id="txType"><option value="all">كل الأنواع</option><option value="income">دخل</option><option value="expense">مصروف</option></select><select id="txCategory"><option value="all">كل التصنيفات</option></select><select id="txAccount"><option value="all">كل الحسابات</option></select><select id="txRecurring"><option value="all">الكل</option><option value="recurring">متكرر</option><option value="once">مرة واحدة</option></select></div><div id="txList" class="txList"></div></div>
+</section>
+<section id="transfersPage" class="page"><div class="sectionHead"><div><span class="eyebrow">Transfers</span><h1>الحوالات الداخلية</h1><p>نقل الرصيد بين حساباتك دون احتسابه كمصروف.</p></div><button id="addTransferBtn" class="btn primary" type="button">+ حوالة جديدة</button></div><div class="panel"><div id="transferList" class="txList"></div></div></section>
+<section id="accountsPage" class="page"><div class="sectionHead"><div><span class="eyebrow">Accounts control</span><h1>إدارة الحسابات</h1><p>أضف أو عدّل أو أرشف الحسابات وحدد أرصدتها الافتتاحية.</p></div><button id="addAccountBtn" class="btn primary" type="button">+ إضافة حساب</button></div><div id="accountsManager" class="accounts"></div></section>
+<section id="reportsPage" class="page">
+  <div class="sectionHead"><div><span class="eyebrow">Financial log</span><h1>التقارير</h1><p>سجل كامل قابل للبحث والفرز والتصدير.</p></div><button id="exportCsvBtn" class="btn ghost" type="button">تنزيل CSV</button></div>
+  <div class="panel"><div id="reportTabs" class="reportTabs"><button class="active" data-report="all">عام</button><button data-report="expense">المصاريف</button><button data-report="income">الدخل</button><button data-report="transfer">الحوالات</button></div><div class="toolbar reportToolbar"><input id="reportSearch" placeholder="بحث داخل التقرير..."><input id="reportFrom" type="month"><input id="reportTo" type="month"><select id="reportCategory"><option value="all">كل التصنيفات</option></select><select id="reportAccount"><option value="all">كل الحسابات</option></select></div><div id="reportSummary" class="accounts" style="margin-bottom:12px"></div><div class="tableWrap"><table class="table"><thead><tr><th data-sort="date">التاريخ</th><th data-sort="name">الحركة</th><th data-sort="type">النوع</th><th data-sort="account">الحساب</th><th data-sort="toAccount">إلى حساب</th><th data-sort="category">التصنيف</th><th data-sort="amount">القيمة</th><th data-sort="month">الشهر</th></tr></thead><tbody id="reportBody"></tbody></table></div></div>
+</section>
+<section id="settingsPage" class="page">
+  <div class="sectionHead"><div><span class="eyebrow">System preferences</span><h1>إعدادات النظام</h1><p>تحكم بالهوية، الألوان، العرض والسلوك العام.</p></div><button id="saveSettingsBtn" class="btn primary" type="button">حفظ الإعدادات</button></div>
+  <div class="settingsGrid">
+    <article class="panel settingCard"><h3>الهوية</h3><p>غيّر اسم الموقع والنصوص الأساسية الظاهرة في النظام.</p><div class="formGrid"><label class="input full"><span>اسم الموقع</span><input id="settingSiteName"></label><label class="input full"><span>الوصف المختصر</span><input id="settingSubtitle"></label><label class="input"><span>اسم المستخدم</span><input id="settingUserName"></label><label class="input"><span>العملة</span><input id="settingCurrency"></label></div></article>
+    <article class="panel settingCard"><h3>المظهر والألوان</h3><p>الوضع النهاري والداكن مع لون رئيسي قابل للتخصيص.</p><div class="formGrid"><label class="input"><span>المظهر</span><select id="settingTheme"><option value="dark">داكن</option><option value="light">نهاري</option><option value="system">حسب الجهاز</option></select></label><label class="input"><span>اللون الرئيسي</span><input id="settingAccent" class="colorInput" type="color"></label><label class="switchRow full"><span>الحركات البصرية</span><input id="settingMotion" type="checkbox"></label><label class="switchRow full"><span>إخفاء الأرصدة عند الدخول</span><input id="settingPrivacy" type="checkbox"></label></div></article>
+    <article class="panel settingCard"><h3>السلوك المالي</h3><p>حدد الحساب الافتراضي وحد الإنذار الشهري للمصروف.</p><div class="formGrid"><label class="input full"><span>الحساب الافتراضي</span><select id="settingDefaultAccount"></select></label><label class="input full"><span>حد المصروف الشهري للتنبيه</span><input id="settingBudget" type="number" min="0" step="0.01"></label></div></article>
+    <article class="panel settingCard"><h3>البيانات والصيانة</h3><p>نسخة احتياطية كاملة أو استرجاع نسخة سابقة.</p><div style="display:grid;gap:10px"><button id="exportJsonBtn" class="btn ghost wide" type="button">تنزيل JSON</button><label class="btn ghost wide">استرجاع JSON<input id="importJsonInput" type="file" accept=".json,application/json" hidden></label><button id="copyMonthBtn" class="btn ghost wide" type="button">نسخ المتكرر من الشهر السابق</button><button id="resetMonthBtn" class="btn danger wide" type="button">تصفير الشهر الحالي</button></div></article>
+  </div>
+</section>
+</main></div>
+<div id="transactionModal" class="modal hidden"><form id="transactionForm" class="modalCard"><div class="modalHead"><div><span class="eyebrow">Transaction editor</span><h2 id="transactionModalTitle">حركة جديدة</h2></div><button class="circleBtn" data-close="transactionModal" type="button">×</button></div><input id="transactionId" type="hidden"><div class="formGrid"><label class="input full"><span>اسم الحركة</span><input id="transactionName" required></label><label class="input"><span>القيمة</span><input id="transactionAmount" type="number" min="0" step="0.01" required></label><label class="input"><span>النوع</span><select id="transactionType"><option value="expense">مصروف</option><option value="income">دخل</option></select></label><label class="input"><span>الحساب</span><select id="transactionAccount"></select></label><label class="input"><span>التصنيف</span><select id="transactionCategory" required></select></label><label class="input"><span>التاريخ</span><input id="transactionDate" type="date"></label><label class="switchRow full"><span>يتكرر شهريًا</span><input id="transactionRecurring" type="checkbox" checked></label><label class="input full"><span>ملاحظات</span><textarea id="transactionNotes" rows="3"></textarea></label></div><div class="modalActions"><button id="deleteTransactionBtn" class="btn danger hidden" type="button">حذف</button><div class="spacer"></div><button class="btn ghost" data-close="transactionModal" type="button">إلغاء</button><button class="btn primary" type="submit">حفظ</button></div></form></div>
+<div id="transferModal" class="modal hidden"><form id="transferForm" class="modalCard"><div class="modalHead"><div><span class="eyebrow">Internal transfer</span><h2 id="transferModalTitle">حوالة جديدة</h2></div><button class="circleBtn" data-close="transferModal" type="button">×</button></div><input id="transferId" type="hidden"><div class="formGrid"><label class="input"><span>من حساب</span><select id="transferFrom"></select></label><label class="input"><span>إلى حساب</span><select id="transferTo"></select></label><label class="input"><span>القيمة</span><input id="transferAmount" type="number" min="0" step="0.01" required></label><label class="input"><span>التاريخ</span><input id="transferDate" type="date"></label><label class="input full"><span>ملاحظات</span><textarea id="transferNotes" rows="3"></textarea></label></div><div class="modalActions"><button id="deleteTransferBtn" class="btn danger hidden" type="button">حذف</button><div class="spacer"></div><button class="btn ghost" data-close="transferModal" type="button">إلغاء</button><button class="btn primary" type="submit">حفظ</button></div></form></div>
+<div id="accountModal" class="modal hidden"><form id="accountForm" class="modalCard"><div class="modalHead"><div><span class="eyebrow">Account manager</span><h2 id="accountModalTitle">حساب جديد</h2></div><button class="circleBtn" data-close="accountModal" type="button">×</button></div><input id="accountOriginalName" type="hidden"><div class="formGrid"><label class="input full"><span>اسم الحساب</span><input id="accountName" required></label><label class="input"><span>الرصيد الافتتاحي</span><input id="accountOpening" type="number" step="0.01"></label><label class="input"><span>الرمز المختصر</span><input id="accountSymbol" maxlength="3"></label><label class="switchRow full"><span>الحساب نشط</span><input id="accountActive" type="checkbox" checked></label></div><div class="modalActions"><button id="deleteAccountBtn" class="btn danger hidden" type="button">حذف الحساب</button><div class="spacer"></div><button class="btn ghost" data-close="accountModal" type="button">إلغاء</button><button class="btn primary" type="submit">حفظ</button></div></form></div>
+<div id="toast" class="toast"></div>
+<script src="bootstrap-v2.js?v=20260924-1"></script>
+<script src="v4.js?v=20260924-2"></script>
+</body>
+</html>
