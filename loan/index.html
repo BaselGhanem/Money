@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#061214" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta name="description" content="قرضي — متتبع قرض شخصي بسيط وسينمائي" />
+  <title>قرضي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260924-cinematic-v3-scrollbar" />
+  <link rel="stylesheet" href="desktop.css?v=20260924-desktop-v2" />
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.7 12 3l9 7.7V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10.7Z"/><path d="M9 22h6"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4H18a2 2 0 0 1 2 2v12.5A1.5 1.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5v-11Z"/><path d="M20 9h-5a2.5 2.5 0 0 0 0 5h5"/><circle cx="15.5" cy="11.5" r=".7"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M5 3v3M19 3v3M4 8h16M5 5h14a2 2 0 0 1 2 2v13H3V7a2 2 0 0 1 2-2Z"/><path d="M7 12h3M14 12h3M7 16h3M14 16h3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v4c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 9v4c0 1.7 3.1 3 7 3s7-1.3 7-3V9M5 13v4c0 1.7 3.1 3 7 3s7-1.3 7-3v-4"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16M15 4v16"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12 8.5A3.5 3.5 0 1 0 12 15.5 3.5 3.5 0 0 0 12 8.5Z"/><path d="m19 13 1.6 1.3-1.8 3.1-2-.7a7.9 7.9 0 0 1-2.3 1.3l-.4 2.1h-3.6l-.4-2.1a8 8 0 0 1-2.3-1.3l-2 .7-1.8-3.1L5 13a8.8 8.8 0 0 1 0-2l-1.6-1.3 1.8-3.1 2 .7A7.9 7.9 0 0 1 9.5 6l.4-2.1h3.6l.4 2.1a8 8 0 0 1 2.3 1.3l2-.7L20 9.7 18.5 11a8.8 8.8 0 0 1 0 2Z"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 16-1 5 5-1L19 9l-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7.2h.01"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </svg>
+
+  <div class="ambient" aria-hidden="true">
+    <div class="ambient__glow ambient__glow--one"></div>
+    <div class="ambient__glow ambient__glow--two"></div>
+    <div class="ambient__grid"></div>
+  </div>
+
+  <div class="app-shell" id="appShell">
+    <header class="topbar">
+      <button class="icon-button" id="settingsButton" type="button" aria-label="الإعدادات">
+        <svg><use href="#i-settings"></use></svg>
+      </button>
+      <div class="brand-lockup">
+        <strong>قرضي</strong>
+        <span></span>
+      </div>
+      <div class="topbar-spacer" aria-hidden="true"></div>
+    </header>
+
+    <main class="main-content">
+      <section class="view is-active" data-view="home" id="viewHome">
+        <section class="cinema-hero reveal">
+          <div class="cinema-hero__skyline" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div class="hero-copy">
+            <span class="eyebrow">رحلة سداد واضحة</span>
+            <h1>كل دفعة تقرّبك من النهاية</h1>
+            <p id="heroSubline">بياناتك الحالية محسوبة من كشف البنك والدفعات الفعلية.</p>
+          </div>
+        </section>
+
+        <section class="balance-card glass reveal">
+          <div class="balance-card__copy">
+            <div class="card-label"><svg><use href="#i-wallet"></use></svg><span>الرصيد الحالي</span></div>
+            <strong class="balance-value" id="currentBalance">—</strong>
+            <span class="balance-caption" id="balanceCaption">من أصل 51,000 د.أ</span>
+            <div class="progress-track"><span id="progressBar"></span></div>
+          </div>
+          <div class="progress-ring" id="progressRing" aria-label="نسبة الإنجاز">
+            <div class="progress-ring__inner">
+              <strong id="progressPct">0%</strong>
+              <span>إنجاز</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="quick-stats glass reveal">
+          <article><svg><use href="#i-calendar"></use></svg><span>القسط القادم</span><strong id="nextPayment">—</strong></article>
+          <article><svg><use href="#i-clock"></use></svg><span>النهاية الحالية</span><strong id="currentPayoff">—</strong></article>
+          <article><svg><use href="#i-coins"></use></svg><span>الفائدة المتبقية</span><strong id="remainingInterest">—</strong></article>
+          <article><svg><use href="#i-chart"></use></svg><span>نسبة الإنجاز</span><strong id="progressInline">—</strong></article>
+        </section>
+
+        <section class="impact-card glass reveal">
+          <div class="impact-card__head">
+            <div><span class="eyebrow">الأثر الحقيقي</span><h2>أثر الدفعات الإضافية</h2></div>
+            <div class="impact-orb"><svg><use href="#i-coins"></use></svg></div>
+          </div>
+          <div class="impact-grid">
+            <article><span>دفعت إضافي</span><strong id="extraPaidTotal">—</strong></article>
+            <article><span>وفرت مدة</span><strong id="monthsSaved">—</strong></article>
+            <article><span>قبل</span><strong id="baselinePayoff">—</strong></article>
+            <article class="accent-tile"><span>الآن</span><strong id="impactCurrentPayoff">—</strong></article>
+          </div>
+          <div class="impact-saving"><span>توفير الفائدة</span><strong id="interestSaved">—</strong></div>
+        </section>
+
+        <button class="primary-cta reveal" id="openAddPaymentHome" type="button">
+          <svg><use href="#i-plus"></use></svg>
+          <span>إضافة دفعة</span>
+        </button>
+
+        <section class="recent-block reveal">
+          <div class="section-title-row"><h2>آخر دفعة إضافية</h2><button type="button" class="text-button" data-nav-target="payments">عرض الكل</button></div>
+          <div id="recentPaymentCard"></div>
+        </section>
+      </section>
+
+      <section class="view" data-view="payments" id="viewPayments">
+        <header class="page-heading reveal"><span class="eyebrow">حركات فعلية فقط</span><h1>دفعاتي</h1><p>كل دفعة محفوظة هنا تغيّر حساب القرض الحقيقي.</p></header>
+        <section class="payments-summary glass reveal">
+          <div><span>إجمالي الدفعات الإضافية</span><strong id="paymentsTotal">—</strong></div>
+          <div class="summary-icon"><svg><use href="#i-coins"></use></svg></div>
+        </section>
+        <button class="primary-cta reveal" id="openAddPaymentPayments" type="button"><svg><use href="#i-plus"></use></svg><span>إضافة دفعة</span></button>
+        <div class="section-title-row reveal"><h2>سجل الدفعات</h2><span class="soft-count" id="paymentCount">0</span></div>
+        <div class="payments-list" id="paymentsList"></div>
+      </section>
+
+      <section class="view" data-view="whatif" id="viewWhatIf">
+        <header class="page-heading reveal"><span class="eyebrow">بدون حفظ فعلي</span><h1>ماذا لو؟</h1><p>جرّب أي دفعة وشاهد أثرها قبل أن تقرر.</p></header>
+        <form class="simulation-card glass reveal" id="simulationForm">
+          <div class="field-grid">
+            <label class="field"><span>مبلغ الدفعة</span><div class="input-shell"><input id="simulationAmount" type="number" min="1" step="0.01" inputmode="decimal" placeholder="1000" /><b>د.أ</b></div></label>
+            <label class="field"><span>تاريخ الدفعة</span><div class="input-shell"><input id="simulationDate" type="date" /></div></label>
+          </div>
+          <button class="primary-cta compact" type="submit"><svg><use href="#i-chart"></use></svg><span>احسب الأثر</span></button>
+        </form>
+        <section class="simulation-results glass reveal" id="simulationResults" hidden>
+          <div class="section-title-row"><h2>نتيجة المحاكاة</h2><span class="live-dot">افتراضية</span></div>
+          <div class="compare-grid">
+            <article><span>النهاية الحالية</span><strong id="simCurrentPayoff">—</strong></article>
+            <article class="accent-tile"><span>النهاية الجديدة</span><strong id="simNewPayoff">—</strong></article>
+            <article><span>توفير المدة</span><strong id="simMonthsSaved">—</strong></article>
+            <article><span>توفير الفائدة</span><strong id="simInterestSaved">—</strong></article>
+          </div>
+          <div class="notice"><svg><use href="#i-info"></use></svg><span>هذه محاكاة فقط. لن تتغير بيانات قرضك إلا عند تسجيل الدفعة كحركة فعلية.</span></div>
+          <button class="primary-cta" id="commitSimulation" type="button"><svg><use href="#i-plus"></use></svg><span>سجلها كدفعة فعلية</span></button>
+          <button class="secondary-button" id="clearSimulation" type="button">تفريغ المحاكاة</button>
+        </section>
+      </section>
+
+      <section class="view" data-view="schedule" id="viewSchedule">
+        <header class="page-heading reveal"><span class="eyebrow">تفاصيل عند الحاجة</span><h1>الجدول</h1><p>أبسط عرض لجدول السداد: قسط، أصل، فائدة، ورصيد.</p></header>
+        <section class="schedule-toolbar glass reveal">
+          <label class="compact-control"><svg><use href="#i-calendar"></use></svg><select id="scheduleYear"></select></label>
+          <label class="compact-control search-control"><svg><use href="#i-search"></use></svg><input id="scheduleSearch" type="search" placeholder="ابحث بالتاريخ..." /></label>
+          <button class="icon-button subtle" id="exportSchedule" type="button" aria-label="تصدير CSV"><svg><use href="#i-download"></use></svg></button>
+        </section>
+        <section class="schedule-card glass reveal">
+          <div class="schedule-head"><span>التاريخ</span><span>القسط</span><span>أصل الدين</span><span>الفائدة</span><span>الرصيد</span></div>
+          <div id="scheduleRows" class="schedule-rows"></div>
+        </section>
+        <section class="schedule-footer glass reveal">
+          <article><span>إجمالي الفائدة</span><strong id="scheduleInterestTotal">—</strong></article>
+          <article><span>تاريخ الإغلاق الحالي</span><strong id="schedulePayoffDate">—</strong></article>
+        </section>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="التنقل الرئيسي">
+      <button type="button" class="nav-item is-active" data-nav="home"><svg><use href="#i-home"></use></svg><span>الرئيسية</span></button>
+      <button type="button" class="nav-item" data-nav="payments"><svg><use href="#i-wallet"></use></svg><span>دفعاتي</span></button>
+      <button type="button" class="nav-item" data-nav="whatif"><svg><use href="#i-chart"></use></svg><span>ماذا لو؟</span></button>
+      <button type="button" class="nav-item" data-nav="schedule"><svg><use href="#i-table"></use></svg><span>الجدول</span></button>
+    </nav>
+  </div>
+
+  <div class="sheet-backdrop" id="paymentSheet" aria-hidden="true">
+    <section class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="paymentSheetTitle">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><div><span class="eyebrow">حركة فعلية</span><h2 id="paymentSheetTitle">إضافة دفعة</h2></div><button class="icon-button subtle" type="button" data-close-sheet="payment"><svg><use href="#i-close"></use></svg></button></div>
+      <form id="paymentForm">
+        <input id="paymentId" type="hidden" />
+        <div class="field-grid single-mobile">
+          <label class="field"><span>قيمة الدفعة</span><div class="input-shell"><input id="paymentAmount" type="number" min="1" step="0.01" inputmode="decimal" required /><b>د.أ</b></div></label>
+          <label class="field"><span>تاريخ الدفعة</span><div class="input-shell"><input id="paymentDate" type="date" required /></div></label>
+          <label class="field full-span"><span>ملاحظة اختيارية</span><div class="input-shell"><input id="paymentNote" type="text" maxlength="120" placeholder="مثال: دفعة إضافية من الراتب" /></div></label>
+        </div>
+        <div class="sheet-preview" id="paymentPreview"></div>
+        <button class="primary-cta" type="submit"><svg><use href="#i-plus"></use></svg><span id="paymentSubmitText">حفظ الدفعة</span></button>
+      </form>
+    </section>
+  </div>
+
+  <div class="sheet-backdrop" id="settingsSheet" aria-hidden="true">
+    <section class="bottom-sheet settings-sheet" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><div><span class="eyebrow">مخفي عن الاستخدام اليومي</span><h2 id="settingsTitle">الإعدادات المتقدمة</h2></div><button class="icon-button subtle" type="button" data-close-sheet="settings"><svg><use href="#i-close"></use></svg></button></div>
+      <form id="settingsForm">
+        <div class="field-grid">
+          <label class="field"><span>مبلغ القرض</span><div class="input-shell"><input id="settingAmount" type="number" step="0.01" min="1" /><b>د.أ</b></div></label>
+          <label class="field"><span>القسط الشهري</span><div class="input-shell"><input id="settingPayment" type="number" step="0.01" min="1" /><b>د.أ</b></div></label>
+          <label class="field"><span>الفائدة السنوية</span><div class="input-shell"><input id="settingRate" type="number" step="0.0001" min="0" /><b>%</b></div></label>
+          <label class="field"><span>تاريخ الاتفاق</span><div class="input-shell"><input id="settingAgreementDate" type="date" /></div></label>
+          <label class="field"><span>تاريخ أول قسط</span><div class="input-shell"><input id="settingFirstDate" type="date" /></div></label>
+          <label class="field"><span>عدد الأقساط حسب البنك</span><div class="input-shell"><input id="settingTerm" type="number" step="1" min="1" /></div></label>
+        </div>
+        <div class="settings-note"><svg><use href="#i-info"></use></svg><span>المحرك يستخدم Actual/360 ويطبّق الدفعات الإضافية من تاريخها الفعلي.</span></div>
+        <button class="primary-cta" type="submit">حفظ الإعدادات</button>
+      </form>
+      <div class="settings-actions">
+        <button class="secondary-button" id="exportBackup" type="button"><svg><use href="#i-download"></use></svg><span>نسخة احتياطية JSON</span></button>
+        <button class="danger-button" id="resetBankData" type="button"><svg><use href="#i-trash"></use></svg><span>استعادة بيانات البنك الأصلية</span></button>
+      </div>
+    </section>
+  </div>
+
+  <div class="confirm-backdrop" id="confirmDialog" aria-hidden="true">
+    <section class="confirm-box" role="dialog" aria-modal="true">
+      <div class="confirm-icon"><svg><use href="#i-info"></use></svg></div>
+      <h2 id="confirmTitle">تأكيد</h2>
+      <p id="confirmMessage"></p>
+      <div class="confirm-actions"><button class="secondary-button" id="confirmCancel" type="button">إلغاء</button><button class="danger-button" id="confirmAccept" type="button">تأكيد</button></div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js?v=20260924-cinematic-v2-desktop" defer></script>
+</body>
+</html>
