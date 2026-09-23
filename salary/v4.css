@@ -399,3 +399,78 @@ body.light .toolbar input,body.light .toolbar select,body.light .input input,bod
   .transactionToolbar input,.reportToolbar input{grid-column:auto}
   .accountCard{flex-basis:88%}
 }
+
+/* ===== Money UI normalization — shared visual language ===== */
+:where(html, body, *, *::before, *::after) {
+  scrollbar-width: none;
+}
+
+:where(html, body, .bottom-sheet, .payments-list, .schedule-rows, .tableWrap, .modalCard, .accounts, .nav)::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+/* Remove browser-native number steppers */
+input[type="number"] {
+  -moz-appearance: textfield !important;
+  appearance: textfield !important;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  margin: 0 !important;
+}
+
+/* Remove native select arrows and keep the control visually consistent */
+select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: none !important;
+}
+
+/* Remove native search decorations */
+input[type="search"] {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Make date/month fields follow the same visual language */
+input[type="date"],
+input[type="month"] {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="month"]::-webkit-calendar-picker-indicator {
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Kill browser autofill paint so fields never jump out of the design */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: inherit !important;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  transition: background-color 9999s ease-out 0s !important;
+}
+
+/* Consistent focus language */
+:where(input, select, textarea, button):focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(9,153,153,.18) !important;
+}
