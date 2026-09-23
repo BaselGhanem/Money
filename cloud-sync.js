@@ -47,7 +47,7 @@
   }
 
   function docRef() {
-    return db.collection(`users`).doc(user.uid).collection(`apps`).doc(appId);
+    return db.collection(`moneyUsers`).doc(user.uid).collection(`apps`).doc(appId);
   }
 
   function setStatus(mode, text) {
