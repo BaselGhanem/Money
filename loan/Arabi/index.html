@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#099999">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="متتبع قرض شخصي مع جدول إطفاء ودفعات تحت الحساب لتقليل مدة القرض.">
+  <title>رحلة التحرر من القرض</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="التنقل الرئيسي">
+      <a class="brand" href="#dashboard" data-view-link="dashboard" aria-label="الصفحة الرئيسية">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img"><path d="M5 13.5 10 18l9-12"/></svg>
+        </span>
+        <span>
+          <strong>حرية</strong>
+          <small>متتبع القرض</small>
+        </span>
+      </a>
+
+      <nav class="side-nav">
+        <button class="nav-item is-active" type="button" data-view="dashboard">
+          <span class="nav-icon" aria-hidden="true">⌂</span><span>نظرة عامة</span>
+        </button>
+        <button class="nav-item" type="button" data-view="extra-payments">
+          <span class="nav-icon" aria-hidden="true">＋</span><span>دفعات تحت الحساب</span>
+        </button>
+        <button class="nav-item" type="button" data-view="schedule">
+          <span class="nav-icon" aria-hidden="true">▦</span><span>جدول القرض</span>
+        </button>
+        <button class="nav-item" type="button" data-view="timeline">
+          <span class="nav-icon" aria-hidden="true">◌</span><span>الخط الزمني</span>
+        </button>
+        <button class="nav-item" type="button" data-view="reports">
+          <span class="nav-icon" aria-hidden="true">⇩</span><span>التقارير والنسخ</span>
+        </button>
+        <button class="nav-item" type="button" data-view="settings">
+          <span class="nav-icon" aria-hidden="true">⚙</span><span>الإعدادات</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="save-indicator" id="saveIndicator" aria-live="polite">
+          <span class="save-dot"></span>
+          <span>محفوظ محليًا</span>
+        </div>
+        <button class="icon-button theme-toggle" id="themeToggle" type="button" aria-label="تبديل المظهر">
+          <span id="themeIcon">◐</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="mobile-header">
+        <a class="brand compact" href="#dashboard" data-view-link="dashboard">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13.5 10 18l9-12"/></svg></span>
+          <strong>حرية</strong>
+        </a>
+        <div class="mobile-actions">
+          <span class="save-indicator compact" id="mobileSaveIndicator"><span class="save-dot"></span><span>محفوظ</span></span>
+          <button class="icon-button" id="mobileThemeToggle" type="button" aria-label="تبديل المظهر">◐</button>
+        </div>
+      </header>
+
+      <section class="view is-active" id="view-dashboard" data-view-panel="dashboard">
+        <div class="hero glass-card reveal">
+          <div class="hero-copy">
+            <span class="eyebrow">رحلتك المالية تبدأ من قرار واضح</span>
+            <h1>هدفك واضح: <em>تقليل المدة</em>، وليس تقليل القسط.</h1>
+            <p id="heroMessage">كل دفعة إضافية بتقربك من الحرية المالية.</p>
+            <div class="hero-actions">
+              <button class="primary-button" type="button" data-open-extra-modal>
+                <span aria-hidden="true">＋</span> سجل دفعة تحت الحساب
+              </button>
+              <button class="secondary-button" type="button" data-go-view="schedule">عرض جدول القرض</button>
+            </div>
+          </div>
+          <div class="hero-visual" aria-label="نسبة إنجاز القرض">
+            <div class="progress-ring" id="heroProgressRing" style="--progress:0">
+              <div class="progress-ring-inner">
+                <strong id="heroProgressValue">0%</strong>
+                <span>تم إنجازه</span>
+              </div>
+            </div>
+            <div class="floating-stat months">
+              <small>أشهر وفّرتها</small>
+              <strong id="heroMonthsSaved">0</strong>
+            </div>
+            <div class="floating-stat interest">
+              <small>فائدة وفّرتها</small>
+              <strong id="heroInterestSaved">0.000 د.أ</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">ملخص مباشر</span>
+            <h2>وضع القرض حتى اليوم</h2>
+          </div>
+          <div class="as-of-chip">حتى <span id="asOfDate"></span></div>
+        </div>
+
+        <div class="dashboard-grid" id="dashboardCards"></div>
+
+        <div class="dashboard-split">
+          <article class="glass-card payoff-card reveal">
+            <div class="card-heading">
+              <div>
+                <span class="eyebrow">الأثر الفعلي</span>
+                <h3>مقارنة موعد السداد</h3>
+              </div>
+              <span class="status-pill positive" id="payoffStatusPill">الخطة الأصلية</span>
+            </div>
+            <div class="payoff-compare">
+              <div class="payoff-node original">
+                <span>الموعد الأصلي</span>
+                <strong id="originalPayoffDate"></strong>
+                <small id="originalDurationLabel"></small>
+              </div>
+              <div class="payoff-arrow" aria-hidden="true">←</div>
+              <div class="payoff-node updated">
+                <span>الموعد بعد الدفعات</span>
+                <strong id="updatedPayoffDate"></strong>
+                <small id="updatedDurationLabel"></small>
+              </div>
+            </div>
+            <div class="impact-strip">
+              <div><span>أشهر أقل</span><strong id="compareMonthsSaved">0</strong></div>
+              <div><span>فائدة أقل</span><strong id="compareInterestSaved">0.000 د.أ</strong></div>
+              <div><span>إجمالي الدفعات الإضافية</span><strong id="compareExtraTotal">0.000 د.أ</strong></div>
+            </div>
+          </article>
+
+          <article class="glass-card next-step-card reveal">
+            <div class="card-heading">
+              <div>
+                <span class="eyebrow">الخطوة التالية</span>
+                <h3>القسط القادم</h3>
+              </div>
+              <span class="date-badge" id="nextPaymentMonth"></span>
+            </div>
+            <div class="next-payment-amount">
+              <span>المبلغ</span>
+              <strong id="nextPaymentAmount">436.000 د.أ</strong>
+            </div>
+            <dl class="compact-details">
+              <div><dt>التاريخ</dt><dd id="nextPaymentDate"></dd></div>
+              <div><dt>أصل الدين</dt><dd id="nextPrincipal"></dd></div>
+              <div><dt>الفائدة</dt><dd id="nextInterest"></dd></div>
+              <div><dt>الأقساط المتبقية</dt><dd id="remainingInstallments"></dd></div>
+            </dl>
+          </article>
+        </div>
+
+        <article class="glass-card recent-extra-card reveal">
+          <div class="card-heading">
+            <div>
+              <span class="eyebrow">آخر نشاط</span>
+              <h3>دفعات تحت الحساب</h3>
+            </div>
+            <button class="text-button" type="button" data-go-view="extra-payments">عرض الكل</button>
+          </div>
+          <div id="recentExtraPayments"></div>
+        </article>
+      </section>
+
+      <section class="view" id="view-extra-payments" data-view-panel="extra-payments">
+        <div class="page-header reveal">
+          <div>
+            <span class="eyebrow">تسريع السداد</span>
+            <h1>دفعات تحت الحساب</h1>
+            <p>دفعة صغيرة اليوم ممكن توفر عليك أشهر من الالتزام.</p>
+          </div>
+          <button class="primary-button" type="button" data-open-extra-modal>＋ إضافة دفعة</button>
+        </div>
+
+        <div class="simulator-layout">
+          <article class="glass-card simulator-card reveal">
+            <div class="card-heading">
+              <div>
+                <span class="eyebrow">قبل التسجيل</span>
+                <h3>محاكي أثر الدفعة</h3>
+              </div>
+              <span class="live-pill">تحديث مباشر</span>
+            </div>
+            <form id="simulatorForm" class="form-grid" novalidate>
+              <label class="field">
+                <span>تاريخ الدفعة</span>
+                <input type="date" id="simulatorDate" required>
+              </label>
+              <label class="field">
+                <span>قيمة الدفعة</span>
+                <div class="input-with-unit"><input type="number" id="simulatorAmount" min="0.001" step="0.001" inputmode="decimal" placeholder="0.000" required><span>د.أ</span></div>
+              </label>
+              <label class="field full-span">
+                <span>ملاحظة</span>
+                <input type="text" id="simulatorNote" maxlength="120" placeholder="مثال: دفعة من مكافأة سنوية">
+              </label>
+            </form>
+            <div class="preview-grid" id="simulatorPreview"></div>
+            <button class="primary-button full-width" id="saveSimulatorPayment" type="button">تسجيل الدفعة وتثبيت الأثر</button>
+          </article>
+
+          <aside class="glass-card motivation-card reveal">
+            <div class="motivation-icon" aria-hidden="true">↘</div>
+            <span class="eyebrow">استراتيجية ثابتة</span>
+            <h3>القسط لا يتغير.<br>النهاية هي التي تقترب.</h3>
+            <p>كل دفعة إضافية تُخصم من أصل الدين، لذلك تقل الفائدة المستقبلية وتنتهي الرحلة في وقت أبكر.</p>
+            <div class="mini-impact">
+              <span>إجمالي ما وفّرته حتى الآن</span>
+              <strong id="motivationSaved">0.000 د.أ</strong>
+              <small id="motivationMonths">0 شهر</small>
+            </div>
+          </aside>
+        </div>
+
+        <article class="glass-card table-card reveal">
+          <div class="card-heading table-heading">
+            <div>
+              <span class="eyebrow">السجل الكامل</span>
+              <h3>جميع الدفعات الإضافية</h3>
+            </div>
+            <div class="table-actions">
+              <span class="count-chip" id="extraCountChip">0 دفعة</span>
+              <button class="secondary-button small" id="exportExtraCsv" type="button">CSV</button>
+            </div>
+          </div>
+          <div class="responsive-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>التاريخ</th>
+                  <th>المبلغ</th>
+                  <th>الملاحظة</th>
+                  <th>الرصيد قبل</th>
+                  <th>الرصيد بعد</th>
+                  <th>الفائدة الموفرة</th>
+                  <th>الأشهر الموفرة</th>
+                  <th>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="extraPaymentsBody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="extraEmptyState">
+            <span class="empty-icon">＋</span>
+            <h4>لا توجد دفعات إضافية بعد</h4>
+            <p>أضف أول دفعة وشاهد كيف يتغير موعد السداد فورًا.</p>
+            <button class="primary-button" type="button" data-open-extra-modal>إضافة أول دفعة</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="view" id="view-schedule" data-view-panel="schedule">
+        <div class="page-header reveal">
+          <div>
+            <span class="eyebrow">من أول شهر إلى آخر شهر</span>
+            <h1>جدول إطفاء القرض</h1>
+            <p>الأصل، الفائدة، الدفعات الإضافية، والرصيد المتبقي لكل قسط.</p>
+          </div>
+          <div class="segmented-control" id="scheduleMode" role="group" aria-label="نوع الجدول">
+            <button class="is-active" type="button" data-mode="updated">بعد الدفعات</button>
+            <button type="button" data-mode="original">الجدول الأصلي</button>
+          </div>
+        </div>
+
+        <article class="glass-card table-card reveal">
+          <div class="schedule-toolbar">
+            <label class="search-box">
+              <span aria-hidden="true">⌕</span>
+              <input type="search" id="scheduleSearch" placeholder="ابحث بالتاريخ أو الملاحظة...">
+            </label>
+            <label class="select-field">
+              <span>السنة</span>
+              <select id="scheduleYear"></select>
+            </label>
+            <div class="table-actions">
+              <button class="secondary-button small" id="exportScheduleCsv" type="button">CSV</button>
+              <button class="secondary-button small" id="exportScheduleExcel" type="button">Excel</button>
+              <button class="secondary-button small" id="printSchedule" type="button">طباعة / PDF</button>
+            </div>
+          </div>
+
+          <div class="schedule-summary" id="scheduleSummary"></div>
+
+          <div class="responsive-table schedule-table-wrap">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>تاريخ القسط</th>
+                  <th>القسط الشهري</th>
+                  <th>أصل الدين</th>
+                  <th>الفائدة</th>
+                  <th>دفعة إضافية</th>
+                  <th>الرصيد المتبقي</th>
+                  <th>الملاحظات</th>
+                  <th>الحالة</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination" id="schedulePagination"></div>
+        </article>
+      </section>
+
+      <section class="view" id="view-timeline" data-view-panel="timeline">
+        <div class="page-header reveal">
+          <div>
+            <span class="eyebrow">من البداية إلى الحرية</span>
+            <h1>الخط الزمني للقرض</h1>
+            <p>محطات السداد السنوية وعلامات الدفعات التي قرّبت النهاية.</p>
+          </div>
+          <span class="status-pill positive" id="timelineSavingPill"></span>
+        </div>
+        <article class="glass-card timeline-overview reveal">
+          <div class="timeline-track-large">
+            <div class="timeline-fill-large" id="timelineFill"></div>
+            <span class="timeline-start" id="timelineStart"></span>
+            <span class="timeline-today" id="timelineToday"><i></i><small>اليوم</small></span>
+            <span class="timeline-end" id="timelineEnd"></span>
+            <div id="timelineMarkers"></div>
+          </div>
+        </article>
+        <div class="year-timeline" id="yearTimeline"></div>
+      </section>
+
+      <section class="view" id="view-reports" data-view-panel="reports">
+        <div class="page-header reveal">
+          <div>
+            <span class="eyebrow">ملكية كاملة للبيانات</span>
+            <h1>التقارير والنسخ الاحتياطي</h1>
+            <p>صدّر الجدول، اطبع تقريرًا، أو احتفظ بنسخة كاملة قابلة للاستعادة.</p>
+          </div>
+        </div>
+        <div class="action-card-grid">
+          <article class="glass-card action-card reveal">
+            <span class="action-icon">CSV</span>
+            <h3>تصدير الجدول بصيغة CSV</h3>
+            <p>ملف خفيف يفتح مباشرة في Excel ويشمل الجدول المحدّث بالكامل.</p>
+            <button class="primary-button" id="reportCsv" type="button">تصدير CSV</button>
+          </article>
+          <article class="glass-card action-card reveal">
+            <span class="action-icon">XLS</span>
+            <h3>تصدير تقرير Excel</h3>
+            <p>ملف منسق يحتوي على ملخص القرض وجدول الإطفاء والدفعات الإضافية.</p>
+            <button class="primary-button" id="reportExcel" type="button">تصدير Excel</button>
+          </article>
+          <article class="glass-card action-card reveal">
+            <span class="action-icon">PDF</span>
+            <h3>طباعة تقرير مالي</h3>
+            <p>نسخة جاهزة للطباعة أو الحفظ كملف PDF من المتصفح.</p>
+            <button class="primary-button" id="reportPrint" type="button">طباعة / PDF</button>
+          </article>
+          <article class="glass-card action-card reveal">
+            <span class="action-icon">JSON</span>
+            <h3>نسخة احتياطية كاملة</h3>
+            <p>تشمل إعدادات القرض، الدفعات، الألوان، المظهر، والفلاتر.</p>
+            <div class="dual-buttons">
+              <button class="primary-button" id="backupJson" type="button">تنزيل نسخة</button>
+              <button class="secondary-button" id="restoreJsonButton" type="button">استعادة</button>
+            </div>
+            <input type="file" id="restoreJsonInput" accept="application/json,.json" hidden>
+          </article>
+        </div>
+        <article class="glass-card report-summary-card reveal" id="reportSummaryCard"></article>
+      </section>
+
+      <section class="view" id="view-settings" data-view-panel="settings">
+        <div class="page-header reveal">
+          <div>
+            <span class="eyebrow">تحكم كامل</span>
+            <h1>إعدادات القرض والمظهر</h1>
+            <p>أي تعديل يعيد احتساب الجدول ويحفظ تلقائيًا على هذا الجهاز.</p>
+          </div>
+        </div>
+
+        <form id="settingsForm" class="settings-layout" novalidate>
+          <article class="glass-card settings-card reveal">
+            <div class="card-heading"><div><span class="eyebrow">بيانات التمويل</span><h3>إعدادات القرض</h3></div></div>
+            <div class="form-grid two-columns">
+              <label class="field"><span>مبلغ القرض (د.أ)</span><input id="settingLoanAmount" type="number" min="0.001" step="0.001" required></label>
+              <label class="field"><span>القسط الشهري (د.أ)</span><input id="settingMonthlyPayment" type="number" min="0.001" step="0.001" required></label>
+              <label class="field"><span>الفائدة السنوية (%)</span><input id="settingAnnualRate" type="number" min="0" step="0.0001" required></label>
+              <label class="field"><span>عدد الأقساط حسب كشف البنك</span><input id="settingTermMonths" type="number" min="1" step="1" required></label>
+              <label class="field"><span>تاريخ أول قسط</span><input id="settingFirstDate" type="date" required></label>
+              <label class="field"><span>اسم القرض</span><input id="settingLoanName" type="text" maxlength="80"></label>
+            </div>
+            <div class="validation-banner" id="settingsValidation"></div>
+            <button class="primary-button full-width" type="submit">حفظ وإعادة الاحتساب</button>
+          </article>
+
+          <article class="glass-card settings-card reveal">
+            <div class="card-heading"><div><span class="eyebrow">الهوية البصرية</span><h3>المظهر والألوان</h3></div></div>
+            <div class="theme-choice" role="group" aria-label="المظهر">
+              <button type="button" data-theme-choice="light">فاتح</button>
+              <button type="button" data-theme-choice="dark">داكن</button>
+              <button type="button" data-theme-choice="system">حسب الجهاز</button>
+            </div>
+            <div class="color-settings">
+              <label class="color-field"><span>اللون الرئيسي</span><input id="settingAccentColor" type="color" value="#099999"></label>
+              <label class="color-field"><span>لون التقدم</span><input id="settingProgressColor" type="color" value="#168b62"></label>
+            </div>
+            <button class="secondary-button full-width" id="restoreDefaultColors" type="button">استعادة الألوان الافتراضية</button>
+          </article>
+
+          <article class="glass-card danger-card reveal">
+            <div class="card-heading"><div><span class="eyebrow">منطقة حساسة</span><h3>إعادة ضبط النظام</h3></div></div>
+            <p>سيتم حذف جميع الدفعات والتعديلات والإعدادات المحفوظة محليًا وإعادة بيانات القرض الأصلية.</p>
+            <button class="danger-button full-width" id="resetApp" type="button">إعادة ضبط كل البيانات</button>
+          </article>
+        </form>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="تنقل الهاتف">
+      <button class="is-active" type="button" data-view="dashboard"><span>⌂</span><small>الرئيسية</small></button>
+      <button type="button" data-view="extra-payments"><span>＋</span><small>دفعة</small></button>
+      <button type="button" data-view="schedule"><span>▦</span><small>الجدول</small></button>
+      <button type="button" data-view="timeline"><span>◌</span><small>الرحلة</small></button>
+      <button type="button" data-view="reports"><span>⇩</span><small>التقارير</small></button>
+    </nav>
+  </div>
+
+  <div class="modal-backdrop" id="extraPaymentModal" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="extraModalTitle">
+      <div class="modal-header">
+        <div><span class="eyebrow">خطوة تقرّب النهاية</span><h2 id="extraModalTitle">إضافة دفعة تحت الحساب</h2></div>
+        <button class="modal-close" type="button" data-close-modal aria-label="إغلاق">×</button>
+      </div>
+      <form id="extraPaymentForm" novalidate>
+        <input type="hidden" id="extraPaymentId">
+        <div class="form-grid two-columns">
+          <label class="field"><span>تاريخ الدفعة</span><input type="date" id="extraPaymentDate" required></label>
+          <label class="field"><span>قيمة الدفعة</span><div class="input-with-unit"><input type="number" id="extraPaymentAmount" min="0.001" step="0.001" inputmode="decimal" required><span>د.أ</span></div></label>
+          <label class="field full-span"><span>ملاحظة</span><textarea id="extraPaymentNote" rows="3" maxlength="160" placeholder="سبب الدفعة أو مصدرها"></textarea></label>
+        </div>
+        <div class="modal-preview" id="modalPaymentPreview"></div>
+        <div class="modal-actions">
+          <button class="secondary-button" type="button" data-close-modal>إلغاء</button>
+          <button class="primary-button" type="submit">حفظ الدفعة</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="confirmModal" aria-hidden="true">
+    <section class="modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="confirm-icon" id="confirmIcon">!</div>
+      <h2 id="confirmTitle">تأكيد الإجراء</h2>
+      <p id="confirmMessage"></p>
+      <div id="confirmPhraseWrap" class="confirm-phrase hidden">
+        <label class="field"><span>اكتب <strong id="confirmPhraseLabel"></strong> للتأكيد</span><input id="confirmPhraseInput" type="text" autocomplete="off"></label>
+      </div>
+      <div class="modal-actions centered">
+        <button class="secondary-button" id="confirmCancel" type="button">إلغاء</button>
+        <button class="danger-button" id="confirmAccept" type="button">تأكيد</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+
+  <template id="printReportTemplate">
+    <section class="print-report">
+      <header class="print-header">
+        <div><h1>تقرير القرض</h1><p>خطة تقليل المدة مع تثبيت قيمة القسط</p></div>
+        <strong>حرية</strong>
+      </header>
+      <div id="printSummary"></div>
+      <div id="printExtraPayments"></div>
+      <div id="printScheduleTable"></div>
+    </section>
+  </template>
+
+  <script src="app.js?v=20260923_bank_schedule_actual360" defer></script>
+</body>
+</html>
