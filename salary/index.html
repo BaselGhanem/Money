@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071011">
 <meta name="description" content="نظام شخصي متقدم لإدارة الراتب والحسابات والحوالات.">
-<title>راتبي</title>\n<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2718%27 fill=%27%23099999%27/%3E%3Ctext x=%2732%27 y=%2742%27 text-anchor=%27middle%27 font-size=%2736%27 font-family=%27Arial%27 fill=%27white%27%3Eر%3C/text%3E%3C/svg%3E">
+<title>راتبي</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2718%27 fill=%27%23099999%27/%3E%3Ctext x=%2732%27 y=%2742%27 text-anchor=%27middle%27 font-size=%2736%27 font-family=%27Arial%27 fill=%27white%27%3Eر%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="app.css?v=20260928-status-1">
-<link rel="stylesheet" href="v4.css?v=20260928-status-1">
+<link rel="stylesheet" href="v4.css?v=20260928-layout-2">
 </head>
 <body>
 <div class="noise"></div>
@@ -20,13 +21,13 @@
 <aside class="sidebar">
   <div class="brand"><div class="brandMark">ر</div><div><strong id="brandName">راتبي</strong><span id="brandSubtitle">Financial OS</span></div></div>
   <nav id="nav" class="nav">
-    <button class="active" data-page="dashboard"><span class="ico">⌂</span><span>الرئيسية</span></button>
-    <button data-page="transactions"><span class="ico">↕</span><span>الحركات</span></button>
+    <a class="active" href="?page=dashboard" data-page="dashboard"><span class="ico">⌂</span><span>الرئيسية</span></a>
+    <a href="?page=transactions" data-page="transactions"><span class="ico">↕</span><span>الحركات</span></a>
     <button id="mobileAddBtn" class="mobileAddBtn" type="button" aria-label="إضافة حركة"><span class="mobileAddIcon">+</span><span>إضافة</span></button>
-    <button data-page="transfers" class="secondaryNav"><span class="ico">⇄</span><span>الحوالات</span></button>
-    <button data-page="accounts" class="secondaryNav"><span class="ico">▣</span><span>الحسابات</span></button>
-    <button data-page="reports"><span class="ico">▥</span><span>التقارير</span></button>
-    <button data-page="settings"><span class="ico">⚙</span><span>الإعدادات</span></button>
+    <a href="?page=transfers" data-page="transfers" class="secondaryNav"><span class="ico">⇄</span><span>الحوالات</span></a>
+    <a href="?page=accounts" data-page="accounts" class="secondaryNav"><span class="ico">▣</span><span>الحسابات</span></a>
+    <a href="?page=reports" data-page="reports"><span class="ico">▥</span><span>التقارير</span></a>
+    <a href="?page=settings" data-page="settings"><span class="ico">⚙</span><span>الإعدادات</span></a>
   </nav>
   <div class="sideFoot"><span>إجمالي السيولة</span><strong id="sideTotal" class="moneyValue">0.00 د.أ</strong><button id="lockBtn" type="button">قفل النظام</button></div>
 </aside>
@@ -56,7 +57,7 @@
     </article>
   </div>
   <div class="sectionHead"><div><span class="eyebrow">Accounts</span><h2>حساباتك</h2><p>اضغط على أي بطاقة لعرض حركات الحساب مباشرة.</p></div><button id="dashboardAddAccount" class="btn ghost small" type="button">+ حساب جديد</button></div><div id="dashboardAccounts" class="accounts"></div>
-  <div class="sectionHead"><div><span class="eyebrow">Recent activity</span><h2>آخر الحركات</h2></div><button class="btn ghost small" data-go="transactions" type="button">عرض الكل</button></div><div class="panel"><div id="recentList" class="txList"></div></div>
+  <div class="sectionHead"><div><span class="eyebrow">Recent activity</span><h2>آخر الحركات</h2></div><a class="btn ghost small" href="?page=transactions" data-go="transactions">عرض الكل</a></div><div class="panel"><div id="recentList" class="txList"></div></div>
 </section>
 <section id="transactionsPage" class="page">
   <div class="sectionHead"><div><span class="eyebrow">Transactions</span><h1>الحركات المالية</h1><p id="transactionContext">حدد الحركات التي تمت؛ الحسابات تعرض الرصيد الفعلي والمتوقع.</p></div><button id="addTransactionBtn" class="btn primary" type="button">+ حركة جديدة</button></div>
@@ -86,7 +87,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="../cloud-sync-v4.js?v=20260924-7"></script>
-<script src="bootstrap-v2.js?v=20260928-status-1"></script>
+<script src="bootstrap-v2.js?v=20260928-layout-2"></script>
 <script src="v4.js?v=20260928-status-1"></script>
 </body>
 </html>
