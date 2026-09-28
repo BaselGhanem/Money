@@ -25,12 +25,12 @@
     Object.entries(st?.accounts || {}).forEach(([name, account]) => {
       balances[name] = Number(account?.opening || 0);
     });
-    month.items.forEach(item => {
+    month.items.filter(item => item.completed === true).forEach(item => {
       const amount = Number(item.amount || 0);
       if (!(item.account in balances)) balances[item.account] = 0;
       balances[item.account] += item.type === `income` ? amount : -amount;
     });
-    month.transfers.forEach(item => {
+    month.transfers.filter(item => item.completed === true).forEach(item => {
       const amount = Number(item.amount || 0);
       if (!(item.from in balances)) balances[item.from] = 0;
       if (!(item.to in balances)) balances[item.to] = 0;
@@ -64,8 +64,8 @@
     if (!st) return;
     const month = activeMonthData(st);
     const currency = st.settings?.currency || `د.أ`;
-    const income = month.items.filter(item => item.type === `income`).reduce((sum, item) => sum + Number(item.amount || 0), 0);
-    const expenses = month.items.filter(item => item.type === `expense`);
+    const income = month.items.filter(item => item.completed === true && item.type === `income`).reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    const expenses = month.items.filter(item => item.completed === true && item.type === `expense`);
     const expense = expenses.reduce((sum, item) => sum + Number(item.amount || 0), 0);
     const rate = income ? Math.round((expense / income) * 100) : 0;
 
