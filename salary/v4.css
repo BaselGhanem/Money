@@ -513,3 +513,35 @@ body.light select{color-scheme:light;background-color:#f7faf9;color:#142122}
 body.light select option,body.light select optgroup{background-color:#fff;color:#142122}
 @media(max-width:1100px){.nav a[data-page]{justify-content:center;padding:0}.nav a[data-page] span:last-child{display:none}}
 @media(max-width:760px){.nav a[data-page]{min-width:0;height:54px;min-height:54px;padding:4px 2px;border-radius:16px;flex-direction:column;justify-content:center;gap:1px;font-size:8px}.nav a[data-page] span:last-child{display:block}.nav a[data-page] .ico{height:25px;width:28px;font-size:16px}.nav a.secondaryNav{display:none}.nav a[data-page].active{border-color:transparent;background:rgba(9,153,153,.10)}.accountCard{min-height:230px}}
+
+/* Status filters and date management */
+.transactionToolbar{grid-template-columns:minmax(170px,1.4fr) repeat(5,minmax(115px,.8fr))}
+.reportToolbar{grid-template-columns:minmax(170px,1.25fr) repeat(5,minmax(115px,.8fr))}
+.transferToolbar{grid-template-columns:minmax(160px,220px)}
+.dateToolbar{grid-template-columns:minmax(180px,1.5fr) repeat(3,minmax(120px,.75fr))}
+.dateActions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0 16px;border-bottom:1px solid var(--hairline)}
+.dateSelectAll,.dateTarget{display:flex;align-items:center;gap:8px;color:var(--text-strong);font-size:12px;font-weight:700}
+.dateSelectAll{cursor:pointer}.dateSelectAll input,.dateRow input{accent-color:var(--accent);width:18px;height:18px;flex:none;cursor:pointer}
+#dateSelectionCount{color:var(--muted);font-size:12px;margin-inline-end:auto}
+.dateTarget input{min-height:40px;border:1px solid var(--hairline);border-radius:12px;background:var(--surface-2);color:var(--text-strong);padding:6px 10px;color-scheme:dark}
+body.light .dateTarget input{color-scheme:light}
+#dateMoveBtn:disabled{opacity:.48;cursor:not-allowed;box-shadow:none}
+.dateList{display:grid;gap:6px;padding-top:13px;max-height:68vh;overflow:auto}
+.dateRow{display:flex;align-items:center;gap:13px;padding:11px 13px;border:1px solid var(--hairline);border-radius:15px;cursor:pointer;background:var(--surface-2)}
+.dateRow:hover,.dateRow:has(input:checked){border-color:var(--brand-line);background:var(--brand-soft)}
+.dateRowMain{display:grid;gap:4px;min-width:0;flex:1}.dateRowMain strong{font-size:13px;overflow-wrap:anywhere}.dateRowMain small{color:var(--muted);font-size:11px;overflow-wrap:anywhere}
+.dateRow b{font-size:12px;white-space:nowrap}
+/* Floating shortcuts stay reachable while moving gently with scrolling. */
+.quickFab{position:fixed;z-index:600;left:max(20px,env(safe-area-inset-left));bottom:max(20px,env(safe-area-inset-bottom));display:grid;justify-items:start;gap:10px;transition:transform .25s ease,opacity .25s ease}
+#app.hidden .quickFab{display:none}.quickFab.isScrolling:not(.expanded){transform:translateY(12px) scale(.94);opacity:.84}
+.fabToggle{display:flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:var(--brand);color:#fff;box-shadow:0 18px 40px rgba(2,62,65,.28);padding:9px 16px 9px 10px;font-size:12px;font-weight:800;cursor:pointer}
+.fabToggle span:first-child{font-size:25px;line-height:1;display:grid;place-items:center;width:28px;height:28px;transition:transform .2s ease}.quickFab.expanded .fabToggle span:first-child{transform:rotate(45deg)}
+.fabMenu{display:none;min-width:190px;padding:8px;border:1px solid var(--hairline);border-radius:18px;background:var(--surface);box-shadow:0 22px 60px rgba(0,0,0,.25)}
+.quickFab.expanded .fabMenu{display:grid;gap:2px;animation:fabIn .18s ease-out}
+.fabMenu button,.fabMenu a{display:block;text-align:right;width:100%;padding:12px;border:0;border-radius:11px;background:transparent;color:var(--text-strong);font:700 12px 'Almarai',system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.fabMenu button:hover,.fabMenu a:hover{background:var(--brand-soft)}
+@keyframes fabIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1100px){.transactionToolbar,.reportToolbar{grid-template-columns:repeat(3,minmax(0,1fr))}.dateToolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.transactionToolbar,.reportToolbar,.dateToolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.transactionToolbar input,.reportToolbar input,.dateToolbar input{grid-column:1/-1}.quickFab{left:max(14px,env(safe-area-inset-left));bottom:max(88px,calc(env(safe-area-inset-bottom) + 78px))}.fabLabel{display:none}.fabToggle{width:52px;height:52px;padding:8px;justify-content:center}.dateActions{align-items:stretch}.dateTarget{width:100%;justify-content:space-between}.dateTarget input{flex:1;max-width:240px}.dateActions #dateMoveBtn{width:100%}.dateRow{gap:8px;padding:10px}.dateRow b{font-size:11px}}
+body.no-motion .quickFab,body.no-motion .fabToggle span:first-child,body.no-motion .fabMenu{animation:none!important;transition:none!important}
+.reportMetric{min-height:140px}.reportMetric small{display:block;margin-top:7px;color:var(--muted)}
