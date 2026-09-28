@@ -143,8 +143,8 @@
     const filter = $(`reportCategory`)?.value || `all`;
     document.querySelectorAll(`#reportBody tr`).forEach(row => {
       const cells = row.querySelectorAll(`td`);
-      if (cells.length < 6) return;
-      row.style.display = filter === `all` || cells[5].textContent.trim() === filter ? `` : `none`;
+      if (cells.length < 7) return;
+      row.style.display = filter === `all` || cells[6].textContent.trim() === filter ? `` : `none`;
     });
   }
 
