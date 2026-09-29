@@ -562,3 +562,8 @@ body.no-motion .quickFab,body.no-motion .fabToggle span:first-child,body.no-moti
 .kindChoices button.active{background:color-mix(in srgb,var(--brand) 16%,var(--surface));border-color:var(--brand);color:var(--text);box-shadow:inset 0 0 0 1px var(--brand)}
 .kindChoices button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 @media(max-width:520px){.kindChoices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.dateField{display:flex;align-items:end;gap:8px;min-width:0}
+.dateField .input{flex:1;min-width:0}
+.dateField .btn{white-space:nowrap;min-height:52px}
+@media(max-width:520px){.dateField{grid-column:1/-1}.dateField .btn{padding-inline:12px}}
