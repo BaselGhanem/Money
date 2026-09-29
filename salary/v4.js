@@ -139,15 +139,6 @@
     });
   }
 
-  function applyReportCategoryFilter() {
-    const filter = $(`reportCategory`)?.value || `all`;
-    document.querySelectorAll(`#reportBody tr`).forEach(row => {
-      const cells = row.querySelectorAll(`td`);
-      if (cells.length < 8) return;
-      row.style.display = filter === `all` || cells[7].textContent.trim() === filter ? `` : `none`;
-    });
-  }
-
   function syncNewTransactionCategory() {
     setTimeout(() => {
       const type = $(`transactionType`)?.value;
@@ -169,13 +160,9 @@
     });
 
     $(`txCategory`)?.addEventListener(`change`, applyTransactionCategoryFilter);
-    $(`reportCategory`)?.addEventListener(`change`, applyReportCategoryFilter);
 
     const txList = $(`txList`);
     if (txList) new MutationObserver(applyTransactionCategoryFilter).observe(txList, { childList: true });
-
-    const reportBody = $(`reportBody`);
-    if (reportBody) new MutationObserver(applyReportCategoryFilter).observe(reportBody, { childList: true });
 
     const recentList = $(`recentList`);
     if (recentList) new MutationObserver(renderFinancialCockpit).observe(recentList, { childList: true });
@@ -186,7 +173,6 @@
     bindEnhancements();
     renderFinancialCockpit();
     applyTransactionCategoryFilter();
-    applyReportCategoryFilter();
   }
 
   window.addEventListener(`load`, () => setTimeout(init, 950));
