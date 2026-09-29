@@ -7,8 +7,8 @@
 <meta name="description" content="نظام شخصي متقدم لإدارة الراتب والحسابات والحوالات.">
 <title>راتبي</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2718%27 fill=%27%23099999%27/%3E%3Ctext x=%2732%27 y=%2742%27 text-anchor=%27middle%27 font-size=%2736%27 font-family=%27Arial%27 fill=%27white%27%3Eر%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="app.css?v=20260929-created-1">
-<link rel="stylesheet" href="v4.css?v=20260929-created-1">
+<link rel="stylesheet" href="app.css?v=20260929-account-context-1">
+<link rel="stylesheet" href="v4.css?v=20260929-account-context-1">
 </head>
 <body>
 <div class="noise"></div>
@@ -65,7 +65,7 @@
   <div class="panel"><div class="toolbar transactionToolbar"><input id="txSearch" placeholder="ابحث عن حركة..."><select id="txType"><option value="all">كل الأنواع</option><option value="income">دخل</option><option value="expense">مصروف</option><option value="previous">رصيد سابق</option><option value="adjustment">تعديل رصيد</option></select><select id="txCategory"><option value="all">كل التصنيفات</option></select><select id="txAccount"><option value="all">كل الحسابات</option></select><select id="txRecurring"><option value="all">كل التكرارات</option><option value="recurring">متكرر</option><option value="once">مرة واحدة</option></select><select id="txStatus" aria-label="حالة الحركة"><option value="all">كل الحالات</option><option value="completed">تمت</option><option value="pending">لم تتم</option></select></div><div id="txList" class="txList"></div></div>
 </section>
 <section id="transfersPage" class="page"><div class="sectionHead"><div><span class="eyebrow">Transfers</span><h1>الحوالات الداخلية</h1><p>نقل الرصيد بين حساباتك دون احتسابه كمصروف.</p></div><button id="addTransferBtn" class="btn primary" type="button">+ حوالة جديدة</button></div><div class="panel"><div class="toolbar transferToolbar"><select id="transferStatus" aria-label="حالة الحوالة"><option value="all">كل الحالات</option><option value="completed">تمت</option><option value="pending">لم تتم</option></select></div><div id="transferList" class="txList"></div></div></section>
-<section id="accountsPage" class="page"><div class="sectionHead"><div><span class="eyebrow">Accounts control</span><h1>إدارة الحسابات</h1><p>أضف أو عدّل أو أرشف الحسابات وحدد أرصدتها الافتتاحية.</p></div><button id="addAccountBtn" class="btn primary" type="button">+ إضافة حساب</button></div><div id="accountsManager" class="accounts"></div></section>
+<section id="accountsPage" class="page"><div class="sectionHead"><div><span class="eyebrow">Accounts control</span><h1>إدارة الحسابات</h1><p>تظهر الحسابات ذات الرصيد غير الصفري. يمكنك إظهار الحسابات الصفرية وتعديل أي حساب.</p></div><div class="accountHeadActions"><button id="toggleZeroAccounts" class="btn ghost" type="button" aria-pressed="false"></button><button id="addAccountBtn" class="btn primary" type="button">+ إضافة حساب</button></div></div><div id="accountsManager" class="accounts"></div></section>
 <section id="reportsPage" class="page">
   <div class="sectionHead"><div><span class="eyebrow">Financial log</span><h1>التقارير</h1><p>سجل كامل قابل للبحث والفرز والتصدير.</p></div><button id="exportCsvBtn" class="btn ghost" type="button">تنزيل CSV</button></div>
   <div class="panel"><div id="reportTabs" class="reportTabs"><button class="active" data-report="all">عام</button><button data-report="expense">المصاريف</button><button data-report="income">الدخل</button><button data-report="transfer">الحوالات</button><button data-report="previous">رصيد سابق</button><button data-report="adjustment">تعديل رصيد</button></div><div class="toolbar reportToolbar"><input id="reportSearch" placeholder="بحث داخل التقرير..."><input id="reportFrom" type="month"><input id="reportTo" type="month"><select id="reportCategory"><option value="all">كل التصنيفات</option></select><select id="reportAccount"><option value="all">كل الحسابات</option></select><select id="reportStatus" aria-label="حالة الحركة في التقرير"><option value="all">كل الحالات</option><option value="completed">تمت</option><option value="pending">لم تتم</option></select></div><div id="reportSummary" class="accounts" style="margin-bottom:12px"></div><div class="tableWrap"><table class="table"><thead><tr><th data-sort="date">تاريخ الحركة</th><th data-sort="createdAt">وقت الإدخال</th><th data-sort="name">الحركة</th><th data-sort="type">النوع</th><th>الحالة</th><th data-sort="account">الحساب</th><th data-sort="toAccount">إلى حساب</th><th data-sort="category">التصنيف</th><th data-sort="amount">القيمة</th><th data-sort="month">الشهر</th></tr></thead><tbody id="reportBody"></tbody></table></div></div>
@@ -96,7 +96,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="../cloud-sync-v4.js?v=20260924-7"></script>
-<script src="bootstrap-v2.js?v=20260929-created-1"></script>
-<script src="v4.js?v=20260929-created-1"></script>
+<script src="bootstrap-v2.js?v=20260929-account-context-1"></script>
+<script src="v4.js?v=20260929-account-context-1"></script>
 </body>
 </html>
