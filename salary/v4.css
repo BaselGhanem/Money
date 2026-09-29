@@ -570,3 +570,9 @@ body.no-motion .quickFab,body.no-motion .fabToggle span:first-child,body.no-moti
 
 .accountHeadActions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 @media(max-width:600px){.accountHeadActions{width:100%}.accountHeadActions .btn{flex:1;min-width:max-content}}
+
+.setupNotice{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px;padding:20px}
+.setupNotice h2{font-size:20px;margin:0 0 6px}.setupNotice p{margin:0;color:var(--muted);line-height:1.8;font-size:12px;max-width:580px}
+.setupNotice label{display:grid;gap:6px;color:var(--muted);font-size:12px}.setupNotice input{min-height:45px;border:1px solid var(--hairline);border-radius:12px;background:var(--surface);color:var(--text);padding:0 10px}
+.setupActions{display:flex;gap:8px;flex-wrap:wrap}.missingToggle{display:flex;align-items:center;gap:8px;min-height:44px;color:var(--text);white-space:nowrap}.missingToggle input{accent-color:var(--brand)}
+@media(max-width:600px){.setupNotice{align-items:stretch}.setupNotice label,.setupActions,.setupActions .btn{width:100%}}
