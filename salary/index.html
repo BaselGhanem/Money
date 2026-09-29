@@ -7,8 +7,8 @@
 <meta name="description" content="نظام شخصي متقدم لإدارة الراتب والحسابات والحوالات.">
 <title>راتبي</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2718%27 fill=%27%23099999%27/%3E%3Ctext x=%2732%27 y=%2742%27 text-anchor=%27middle%27 font-size=%2736%27 font-family=%27Arial%27 fill=%27white%27%3Eر%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="app.css?v=20260929-account-context-1">
-<link rel="stylesheet" href="v4.css?v=20260929-account-context-1">
+<link rel="stylesheet" href="app.css?v=20260929-logic-1">
+<link rel="stylesheet" href="v4.css?v=20260929-logic-1">
 </head>
 <body>
 <div class="noise"></div>
@@ -35,7 +35,7 @@
 <main class="main">
 <header class="topbar"><div class="greeting"><h1 id="welcomeTitle">مساء الخير، باسل</h1><p id="welcomeSubtitle">هذه صورتك المالية لهذا الشهر.</p></div><div class="topActions"><label class="monthPicker"><span>الشهر</span><input id="monthInput" type="month"></label><button id="privacyBtn" class="circleBtn" type="button" title="إخفاء الأرصدة">◉</button><button id="quickThemeBtn" class="circleBtn" type="button" title="تغيير المظهر">◐</button></div></header>
 <section id="dashboardPage" class="page active">
-  <div class="heroGrid">
+  <div id="starterTemplates" class="panel setupNotice hidden"><div><h2>ابدأ ببياناتك</h2><p>الحساب الجديد فارغ. يمكنك إضافة 16 حركة مقترحة للمراجعة، بتاريخ تختاره أنت؛ لن تُحسب كمنفذة.</p></div><label>تاريخ الحركات المقترحة <input id="templateDate" type="date" required></label><div class="setupActions"><button id="addTemplatesBtn" class="btn primary" type="button">إضافة الحركات المقترحة</button><button id="dismissTemplatesBtn" class="btn ghost" type="button">ابدأ فارغا</button></div></div><div id="undatedNotice" class="panel setupNotice hidden"><div><h2>حركات تحتاج تاريخا</h2><p>هناك <strong id="undatedCount">0</strong> حركة قديمة بلا تاريخ. اختر تواريخها من إدارة التواريخ؛ لن يُفترض تاريخ لها تلقائيا.</p></div><button id="reviewUndatedBtn" class="btn ghost" type="button">مراجعة الحركات</button></div><div class="heroGrid">
     <article class="balanceHero">
       <div class="heroTop"><div><span class="eyebrow">Monthly position</span><h2 id="heroMonth">هذا الشهر</h2></div><span class="liveBadge"><i></i> LIVE</span></div>
       <div class="balanceNumber"><span>الصافي الفعلي لهذا الشهر</span><strong id="heroBalance" class="moneyValue">0.00 د.أ</strong><small>الدخل المنفذ ناقص المصاريف المنفذة</small></div>
@@ -68,12 +68,12 @@
 <section id="accountsPage" class="page"><div class="sectionHead"><div><span class="eyebrow">Accounts control</span><h1>إدارة الحسابات</h1><p>تظهر الحسابات ذات الرصيد غير الصفري. يمكنك إظهار الحسابات الصفرية وتعديل أي حساب.</p></div><div class="accountHeadActions"><button id="toggleZeroAccounts" class="btn ghost" type="button" aria-pressed="false"></button><button id="addAccountBtn" class="btn primary" type="button">+ إضافة حساب</button></div></div><div id="accountsManager" class="accounts"></div></section>
 <section id="reportsPage" class="page">
   <div class="sectionHead"><div><span class="eyebrow">Financial log</span><h1>التقارير</h1><p>سجل كامل قابل للبحث والفرز والتصدير.</p></div><button id="exportCsvBtn" class="btn ghost" type="button">تنزيل CSV</button></div>
-  <div class="panel"><div id="reportTabs" class="reportTabs"><button class="active" data-report="all">عام</button><button data-report="expense">المصاريف</button><button data-report="income">الدخل</button><button data-report="transfer">الحوالات</button><button data-report="previous">رصيد سابق</button><button data-report="adjustment">تعديل رصيد</button></div><div class="toolbar reportToolbar"><input id="reportSearch" placeholder="بحث داخل التقرير..."><input id="reportFrom" type="month"><input id="reportTo" type="month"><select id="reportCategory"><option value="all">كل التصنيفات</option></select><select id="reportAccount"><option value="all">كل الحسابات</option></select><select id="reportStatus" aria-label="حالة الحركة في التقرير"><option value="all">كل الحالات</option><option value="completed">تمت</option><option value="pending">لم تتم</option></select></div><div id="reportSummary" class="accounts" style="margin-bottom:12px"></div><div class="tableWrap"><table class="table"><thead><tr><th data-sort="date">تاريخ الحركة</th><th data-sort="createdAt">وقت الإدخال</th><th data-sort="name">الحركة</th><th data-sort="type">النوع</th><th>الحالة</th><th data-sort="account">الحساب</th><th data-sort="toAccount">إلى حساب</th><th data-sort="category">التصنيف</th><th data-sort="amount">القيمة</th><th data-sort="month">الشهر</th></tr></thead><tbody id="reportBody"></tbody></table></div></div>
+  <div class="panel"><div id="reportTabs" class="reportTabs"><button class="active" data-report="all">عام</button><button data-report="expense">المصاريف</button><button data-report="income">الدخل</button><button data-report="transfer">الحوالات</button><button data-report="previous">رصيد سابق</button><button data-report="adjustment">تعديل رصيد</button></div><div class="toolbar reportToolbar"><input id="reportSearch" placeholder="بحث داخل التقرير..."><input id="reportFrom" type="month"><input id="reportTo" type="month"><select id="reportCategory"><option value="all">كل التصنيفات</option></select><select id="reportAccount"><option value="all">كل الحسابات</option></select><select id="reportStatus" aria-label="حالة الحركة في التقرير"><option value="completed" selected>تمت</option><option value="pending">لم تتم</option><option value="all">كل الحالات</option></select></div><div id="reportSummary" class="accounts" style="margin-bottom:12px"></div><div class="tableWrap"><table class="table"><thead><tr><th data-sort="date">تاريخ الحركة</th><th data-sort="createdAt">وقت الإدخال</th><th data-sort="name">الحركة</th><th data-sort="type">النوع</th><th>الحالة</th><th data-sort="account">الحساب</th><th data-sort="toAccount">إلى حساب</th><th data-sort="category">التصنيف</th><th data-sort="amount">القيمة</th><th data-sort="month">الشهر</th></tr></thead><tbody id="reportBody"></tbody></table></div></div>
 </section>
 <section id="datesPage" class="page">
   <div class="sectionHead"><div><span class="eyebrow">Date manager</span><h1>إدارة تاريخ الحركات</h1><p>حدد حركة واحدة أو عدة حركات لنقلها إلى يوم وشهر آخر. تبقى قيمتها وحالتها كما هي.</p></div></div>
   <div class="panel dateManagerPanel">
-    <div class="toolbar dateToolbar"><input id="dateSearch" type="search" placeholder="ابحث عن حركة..."><select id="dateMonth" aria-label="الشهر"><option value="active">الشهر الحالي</option><option value="all">كل الأشهر</option></select><select id="dateType" aria-label="النوع"><option value="all">كل الأنواع</option><option value="income">دخل</option><option value="expense">مصروف</option><option value="transfer">حوالة</option><option value="previous">رصيد سابق</option><option value="adjustment">تعديل رصيد</option></select><select id="dateStatus" aria-label="الحالة"><option value="all">كل الحالات</option><option value="completed">تمت</option><option value="pending">لم تتم</option></select></div>
+    <div class="toolbar dateToolbar"><input id="dateSearch" type="search" placeholder="ابحث عن حركة..."><select id="dateMonth" aria-label="الشهر"><option value="active">الشهر الحالي</option><option value="all">كل الأشهر</option></select><select id="dateType" aria-label="النوع"><option value="all">كل الأنواع</option><option value="income">دخل</option><option value="expense">مصروف</option><option value="transfer">حوالة</option><option value="previous">رصيد سابق</option><option value="adjustment">تعديل رصيد</option></select><select id="dateStatus" aria-label="الحالة"><option value="all">كل الحالات</option><option value="completed">تمت</option><option value="pending">لم تتم</option></select><label class="missingToggle"><input id="dateMissing" type="checkbox"> بلا تاريخ</label></div>
     <div class="dateActions"><label class="dateSelectAll"><input id="dateSelectAll" type="checkbox"> تحديد النتائج الظاهرة</label><span id="dateSelectionCount">لم تحدد أي حركة</span><label class="dateTarget">التاريخ الجديد <input id="dateTarget" type="date" required></label><button id="dateMoveBtn" class="btn primary" type="button" disabled>نقل الحركات المحددة</button></div>
     <div id="dateList" class="dateList"></div>
   </div>
@@ -96,7 +96,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="../cloud-sync-v4.js?v=20260924-7"></script>
-<script src="bootstrap-v2.js?v=20260929-account-context-1"></script>
-<script src="v4.js?v=20260929-account-context-1"></script>
+<script src="bootstrap-v2.js?v=20260929-logic-1"></script>
+<script src="v4.js?v=20260929-logic-1"></script>
 </body>
 </html>
