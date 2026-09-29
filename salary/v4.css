@@ -567,3 +567,6 @@ body.no-motion .quickFab,body.no-motion .fabToggle span:first-child,body.no-moti
 .dateField .input{flex:1;min-width:0}
 .dateField .btn{white-space:nowrap;min-height:52px}
 @media(max-width:520px){.dateField{grid-column:1/-1}.dateField .btn{padding-inline:12px}}
+
+.accountHeadActions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+@media(max-width:600px){.accountHeadActions{width:100%}.accountHeadActions .btn{flex:1;min-width:max-content}}
