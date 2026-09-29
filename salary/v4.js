@@ -28,7 +28,7 @@
     month.items.filter(item => item.completed === true).forEach(item => {
       const amount = Number(item.amount || 0);
       if (!(item.account in balances)) balances[item.account] = 0;
-      balances[item.account] += item.type === `income` ? amount : -amount;
+      balances[item.account] += [`income`, `previous`, `adjustment`].includes(item.type) ? amount : -amount;
     });
     month.transfers.filter(item => item.completed === true).forEach(item => {
       const amount = Number(item.amount || 0);
