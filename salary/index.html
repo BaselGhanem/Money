@@ -7,15 +7,15 @@
 <meta name="description" content="نظام شخصي متقدم لإدارة الراتب والحسابات والحوالات.">
 <title>راتبي</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2718%27 fill=%27%23099999%27/%3E%3Ctext x=%2732%27 y=%2742%27 text-anchor=%27middle%27 font-size=%2736%27 font-family=%27Arial%27 fill=%27white%27%3Eر%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="app.css?v=20260928-status-1">
-<link rel="stylesheet" href="v4.css?v=20260928-dates-3">
+<link rel="stylesheet" href="app.css?v=20260929-auth-accounts-1">
+<link rel="stylesheet" href="v4.css?v=20260929-auth-accounts-1">
 </head>
 <body>
 <div class="noise"></div>
 <div id="loader" class="loader"><div class="loaderMark">ر</div><strong>راتبي</strong><div class="loaderLine"></div></div>
 <section id="auth" class="auth hidden">
   <div class="authVisual"><div class="authBadge"><i></i><span>Private financial workspace</span></div><div><h1>راتبك.<br>حساباتك.<br>قرارك.</h1><p>مركز مالي شخصي يجمع الراتب والمصاريف والحوالات والحسابات ضمن تجربة واحدة واضحة.</p></div></div>
-  <div class="authFormWrap"><form id="loginForm" class="authCard"><div class="authLogo">ر</div><h2>أهلًا باسل</h2><p>أدخل كلمة السر لفتح مساحة العمل المالية.</p><label class="input"><span>كلمة السر</span><input id="passwordInput" type="password" inputmode="numeric" autocomplete="current-password" required></label><button class="btn primary wide" type="submit">فتح النظام</button><div id="loginError" class="error"></div></form></div>
+  <div class="authFormWrap"><form id="loginForm" class="authCard"><div class="authLogo">ر</div><h2>أهلًا باسل</h2><p>أدخل كلمة السر لفتح مساحة العمل المالية.</p><label class="input"><span>كلمة السر</span><input id="passwordInput" type="password" inputmode="numeric" autocomplete="current-password" required></label><label class="rememberDevice"><input id="rememberDevice" type="checkbox"><span>تذكرني على هذا الجهاز</span></label><button class="btn primary wide" type="submit">فتح النظام</button><div id="loginError" class="error" role="alert"></div></form></div>
 </section>
 <div id="app" class="app hidden">
 <aside class="sidebar">
@@ -57,7 +57,7 @@
       <div id="categoryBreakdown" class="categoryBreakdown"></div>
     </article>
   </div>
-  <div class="sectionHead"><div><span class="eyebrow">Accounts</span><h2>حساباتك</h2><p>اضغط على أي بطاقة لعرض حركات الحساب مباشرة.</p></div><button id="dashboardAddAccount" class="btn ghost small" type="button">+ حساب جديد</button></div><div id="dashboardAccounts" class="accounts"></div>
+  <div class="sectionHead"><div><span class="eyebrow">Accounts</span><h2>حساباتك</h2><p>تظهر هنا حسابات الشهر التي عليها حركات. بقية الحسابات متاحة عند إضافة حركة أو من إدارة الحسابات.</p></div><button id="dashboardAddAccount" class="btn ghost small" type="button">+ حساب جديد</button></div><div id="dashboardAccounts" class="accounts"></div>
   <div class="sectionHead"><div><span class="eyebrow">Recent activity</span><h2>آخر الحركات</h2></div><a class="btn ghost small" href="?page=transactions" data-go="transactions">عرض الكل</a></div><div class="panel"><div id="recentList" class="txList"></div></div>
 </section>
 <section id="transactionsPage" class="page">
@@ -96,7 +96,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="../cloud-sync-v4.js?v=20260924-7"></script>
-<script src="bootstrap-v2.js?v=20260928-dates-3"></script>
-<script src="v4.js?v=20260928-dates-3"></script>
+<script src="bootstrap-v2.js?v=20260929-auth-accounts-1"></script>
+<script src="v4.js?v=20260929-auth-accounts-1"></script>
 </body>
 </html>
