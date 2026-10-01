@@ -7,8 +7,8 @@
 <meta name="description" content="نظام شخصي متقدم لإدارة الراتب والحسابات والحوالات.">
 <title>راتبي</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2718%27 fill=%27%23099999%27/%3E%3Ctext x=%2732%27 y=%2742%27 text-anchor=%27middle%27 font-size=%2736%27 font-family=%27Arial%27 fill=%27white%27%3Eر%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="app.css?v=20261002-carry-categories-1">
-<link rel="stylesheet" href="v4.css?v=20261002-carry-categories-1">
+<link rel="stylesheet" href="app.css?v=20261002-close-blank-2">
+<link rel="stylesheet" href="v4.css?v=20261002-close-blank-2">
 </head>
 <body>
 <div class="noise"></div>
@@ -80,7 +80,7 @@
   </div>
 </section>
 <section id="categoriesPage" class="page"><div class="sectionHead"><div><span class="eyebrow">تصنيفاتك</span><h1>التصنيفات والتحليل</h1><p>أضف تصنيفاتك، تابع توزيع الصرف واتجاهه، وافتح الحركات من أي تصنيف.</p></div><button id="addCategoryBtn" class="btn primary">+ تصنيف جديد</button></div><div class="panel"><div class="toolbar categoryToolbar"><input id="categorySearch" placeholder="بحث عن تصنيف"><input id="categoryFrom" type="month" aria-label="من شهر"><input id="categoryTo" type="month" aria-label="إلى شهر"><select id="categoryNameFilter"><option value="all">كل التصنيفات</option></select><select id="categoryAccount"><option value="all">كل الحسابات</option></select><select id="categoryType"><option value="expense">المصاريف</option><option value="income">الدخل</option><option value="all">الدخل والمصاريف</option></select><select id="categoryStatus"><option value="completed">تمت</option><option value="pending">مخططة</option><option value="all">كل الحالات</option></select><select id="categoryVisibility"><option value="all">نشطة ومؤرشفة</option><option value="active">نشطة</option><option value="archived">مؤرشفة</option></select></div><div id="categoriesChips" class="filterChips"></div></div><div id="categoryMetrics" class="categoryMetrics"></div><div class="decisionGrid"><article class="panel"><h3>توزيع المصاريف</h3><div id="categoryChart"></div></article><article class="panel"><h3>الدخل والصرف عبر الأشهر</h3><div id="categoryTrend"></div></article></div><div id="categoryCards" class="categoryCards"></div></section>
-<section id="reconciliationPage" class="page"><div class="sectionHead"><div><h1>مطابقة الأرصدة وإقفال الشهر</h1><p>قارن رصيد نهاية الشهر مع البنك أو المحفظة. تسجيل الفرق يضيف حركة تعديل رصيد بالفرق فقط.</p></div></div><div class="panel monthLock"><strong id="monthLockLabel"></strong><button id="closeMonthBtn" class="btn primary">إقفال الشهر</button><button id="reopenMonthBtn" class="btn ghost hidden">إعادة فتح الشهر</button></div><div id="reconciliationRows" class="categoryCards"></div></section>
+<section id="reconciliationPage" class="page"><div class="sectionHead"><div><h1>مطابقة الأرصدة وإقفال الشهر</h1><p>قارن رصيد نهاية الشهر مع البنك أو المحفظة. الحقل الفارغ يعني اعتماد الرصيد المحسوب كما هو عند الإقفال. أي مبلغ تدخله يفحص ويحفظ مباشرة عند الإقفال. تسجيل الفرق يضيف حركة تعديل رصيد بالفرق فقط.</p></div></div><div class="panel monthLock"><strong id="monthLockLabel"></strong><button id="closeMonthBtn" class="btn primary">إقفال الشهر</button><button id="reopenMonthBtn" class="btn ghost hidden">إعادة فتح الشهر</button></div><div id="reconciliationRows" class="categoryCards"></div></section>
 <section id="settingsPage" class="page">
   <div class="sectionHead"><div><span class="eyebrow">System preferences</span><h1>إعدادات النظام</h1><p>تحكم بالهوية، الألوان، العرض والسلوك العام.</p></div><button id="saveSettingsBtn" class="btn primary" type="button">حفظ الإعدادات</button></div>
   <div class="settingsGrid">
@@ -99,7 +99,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="../cloud-sync-v4.js?v=20260924-7"></script>
-<script src="bootstrap-v2.js?v=20261002-carry-categories-1"></script>
-<script src="v4.js?v=20261002-carry-categories-1"></script>
+<script src="bootstrap-v2.js?v=20261002-close-blank-2"></script>
+<script src="v4.js?v=20261002-close-blank-2"></script>
 </body>
 </html>
