@@ -655,3 +655,5 @@ body.menuOpen .quickFab{visibility:hidden}
 .main{margin:0 auto;align-self:start}
 
 .ledgerBalance{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;padding-top:9px;border-top:1px solid var(--hairline)}.ledgerBalance span{font-size:12px;color:var(--text-soft)}.ledgerBalance strong{font-size:15px;color:var(--text-strong)}
+
+.accountCurrentBalance{display:grid;gap:10px;margin:16px 0;border-color:var(--brand-line);background:var(--brand-soft)}.accountCurrentBalance>span{font-size:14px;font-weight:700}.accountCurrentBalance>strong{font-size:30px;line-height:1.5;overflow-wrap:anywhere}.accountCurrentBalance>small{font-size:12px;line-height:1.8;color:var(--text-soft)}
