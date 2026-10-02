@@ -653,3 +653,5 @@ body.menuOpen .quickFab{visibility:hidden}
 .comboCaption{display:block;margin-bottom:7px;font-size:12px;color:var(--text-soft);line-height:1.5}.labelledCombo .comboChevron{top:auto;bottom:15px}.toolbar>.labelledCombo{align-self:end}
 
 .main{margin:0 auto;align-self:start}
+
+.ledgerBalance{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;padding-top:9px;border-top:1px solid var(--hairline)}.ledgerBalance span{font-size:12px;color:var(--text-soft)}.ledgerBalance strong{font-size:15px;color:var(--text-strong)}
