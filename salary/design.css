@@ -23,6 +23,12 @@ body{background:var(--page);color:var(--text-strong);line-height:1.65;-webkit-fo
 /* Bounded reveals preserve readability in dense lists. */
 @media(prefers-reduced-motion:no-preference){body:not(.no-motion) .page.active :is(.accountCard,.categoryManageCard,.settingCard){animation:studioPage var(--motion-sheet) var(--ease-out)}body:not(.no-motion) .page.active :is(.accountCard,.categoryManageCard,.settingCard):nth-child(2){animation-duration:380ms}body:not(.no-motion) .page.active :is(.accountCard,.categoryManageCard,.settingCard):nth-child(3){animation-duration:420ms}body:not(.no-motion) .txList>.tx:nth-child(-n+6){animation:studioPage var(--motion-base) var(--ease-out)}body:not(.no-motion) .table tbody tr:nth-child(-n+6){animation:studioValue var(--motion-base) var(--ease-out)}body:not(.no-motion) .categoryTrack>i{transition:width var(--motion-sheet) var(--ease-out)}}
 
-/* Amount, duplicate, then edit: shared by every transaction list. */
-.tx{grid-template-columns:30px auto minmax(0,1fr) auto}.txEnd{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}.txEnd>.amount{margin-inline-end:8px}.txEnd>.edit{flex-shrink:0;display:grid;place-items:center}.copyMovement .uiIcon{width:18px;height:18px}
-@media(max-width:760px){.tx{grid-template-columns:32px minmax(0,1fr)}.tx .txEnd{grid-column:2;grid-row:2;justify-content:flex-start;flex-wrap:wrap}.tx .txEnd>.amount{grid-column:auto;grid-row:auto;flex:1;text-align:right;min-width:0;margin:0}.tx .txEnd>.edit{grid-column:auto;grid-row:auto;width:44px;height:44px}.tx .txMain{grid-column:2;grid-row:1}}
+/* Stable row actions: fixed icon slots and a flexible amount slot. */
+.tx{grid-template-columns:30px 44px minmax(0,1fr) auto;align-items:center}
+.tx>.completionToggle{grid-column:1;grid-row:1}.tx>.txIcon{grid-column:2;grid-row:1}.tx>.txMain{grid-column:3;grid-row:1}
+.tx>.txEnd{grid-column:4;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) 44px 44px;gap:8px;align-items:center;min-width:0}
+.tx>.txEnd>.amount{grid-column:1;grid-row:1;margin:0;padding-inline-end:8px;text-align:end;line-height:1.5}
+.tx>.txEnd>.edit{grid-column:auto;grid-row:1;display:grid;place-items:center;position:static;align-self:center;width:44px;height:44px;min-width:44px;padding:0;line-height:1;border-radius:12px}
+.tx>.txEnd>.copyMovement{grid-column:2}.tx>.txEnd>[data-edit-item],.tx>.txEnd>[data-edit-transfer]{grid-column:3}
+.copyMovement .uiIcon{display:block;width:18px;height:18px;margin:0}
+@media(max-width:760px){.tx{grid-template-columns:32px minmax(0,1fr);gap:12px}.tx>.completionToggle{grid-column:1;grid-row:1;align-self:start}.tx>.txIcon{display:none}.tx>.txMain{grid-column:2;grid-row:1}.tx>.txEnd{grid-column:1/-1;grid-row:2;width:100%;border-top:1px solid var(--hairline);padding-top:10px;grid-template-columns:minmax(0,1fr) 44px 44px}.tx>.txEnd>.amount{text-align:start;white-space:normal;overflow-wrap:anywhere;font-size:16px}}
