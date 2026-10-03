@@ -32,3 +32,27 @@ body{background:var(--page);color:var(--text-strong);line-height:1.65;-webkit-fo
 .tx>.txEnd>.copyMovement{grid-column:2}.tx>.txEnd>[data-edit-item],.tx>.txEnd>[data-edit-transfer]{grid-column:3}
 .copyMovement .uiIcon{display:block;width:18px;height:18px;margin:0}
 @media(max-width:760px){.tx{grid-template-columns:32px minmax(0,1fr);gap:12px}.tx>.completionToggle{grid-column:1;grid-row:1;align-self:start}.tx>.txIcon{display:none}.tx>.txMain{grid-column:2;grid-row:1}.tx>.txEnd{grid-column:1/-1;grid-row:2;width:100%;border-top:1px solid var(--hairline);padding-top:10px;grid-template-columns:minmax(0,1fr) 44px 44px}.tx>.txEnd>.amount{text-align:start;white-space:normal;overflow-wrap:anywhere;font-size:16px}}
+
+/* Theme-local aliases must resolve against the palette on body, not root. */
+body{--bg:var(--page);--bg2:var(--surface-2);--panel:var(--surface);--panel2:var(--surface-2);--text:var(--text-strong);--muted:var(--text-soft);--line:var(--hairline);--success:var(--success-v4);--danger:var(--danger-v4);--warning:var(--warning-v4);--brand-soft:color-mix(in srgb,var(--brand) 12%,var(--surface));--brand-line:color-mix(in srgb,var(--brand) 38%,var(--hairline));--brand-text:color-mix(in srgb,var(--brand) 35%,#eef5f6)}
+body.light{--bg:var(--page);--bg2:var(--surface-2);--panel:var(--surface);--panel2:var(--surface-2);--text:var(--text-strong);--muted:var(--text-soft);--line:var(--hairline);--success:var(--success-v4);--danger:var(--danger-v4);--warning:var(--warning-v4);--brand-soft:color-mix(in srgb,var(--brand) 8%,var(--surface));--brand-line:color-mix(in srgb,var(--brand) 28%,var(--hairline));--brand-text:color-mix(in srgb,var(--brand) 25%,#12343c);color-scheme:light}
+body:not(.light){color-scheme:dark}html:has(body.light){background:#f3f6f8}
+.balanceHero,.balanceHero h2,.balanceNumber strong,.heroPill strong,.projectionSummary strong{color:var(--text-strong)}
+.balanceHero .eyebrow,.balanceHero p,.balanceNumber span,.balanceNumber small,.heroPill span,.projectionSummary span{color:var(--text-soft)}
+.accountLogo,.softBadge,body.light .softBadge,.settingNumber,.comboOption.selected,.categoryChartRow small{color:var(--brand-text)}
+.tx.isCompleted .statusBadge{color:var(--brand-text);background:var(--brand-soft)}
+.txIcon.income,.amount.income,.quickCard.income strong{color:var(--success)}
+.txIcon.expense,.amount.expense,.quickCard.expense strong,.error{color:var(--danger)}
+.txIcon.transfer,.amount.transfer{color:var(--brand-text)}
+.txIcon.previous,.txIcon.adjustment,.amount.previous,.amount.adjustment{color:var(--text-strong)}
+.completionToggle input:checked+span{color:var(--button-ink,#081014)}
+body.light .tx.isPending{opacity:1}
+body.light .badge,body.light .softBadge{background:var(--surface-3);color:var(--text-soft)}
+body.light .tx.isCompleted .statusBadge{background:var(--brand-soft);color:var(--brand-text)}
+body.light .mobileMoreBtn.active,body.light .installCard summary{color:var(--brand-text)}
+body.light .accountLogo{background:var(--brand-soft);color:var(--brand-text)}
+body.light .categoryDot{outline:1px solid #6b7f88;outline-offset:1px}
+body.light .categoryTrack>i{outline:1px solid #78919b;outline-offset:-1px}
+body.light .expenseBar{background:#aa4c32!important}
+input::placeholder,textarea::placeholder{color:var(--text-soft);opacity:1}
+input:disabled,textarea:disabled,.searchCombo.disabled .comboInput{color:var(--text-soft);-webkit-text-fill-color:var(--text-soft)}
