@@ -74,3 +74,8 @@ input:disabled,textarea:disabled,.searchCombo.disabled .comboInput{color:var(--t
 /* Keep nonzero balances as light transparent overlays. */
 .heroAccount{background:color-mix(in srgb,var(--surface) 12%,transparent);border-color:color-mix(in srgb,var(--text-strong) 7%,transparent);backdrop-filter:none}
 @media(hover:hover){.heroAccount:hover{background:color-mix(in srgb,var(--surface) 24%,transparent);border-color:var(--brand-line)}}
+
+/* One accent family, gently varied across account cards. */
+.heroAccount{--account-tint:6%;background:color-mix(in srgb,var(--brand) var(--account-tint),transparent);border-color:color-mix(in srgb,var(--brand) 20%,transparent)}
+.heroAccount:nth-child(6n+2){--account-tint:10%}.heroAccount:nth-child(6n+3){--account-tint:14%}.heroAccount:nth-child(6n+4){--account-tint:8%}.heroAccount:nth-child(6n+5){--account-tint:12%}.heroAccount:nth-child(6n+6){--account-tint:16%}
+@media(hover:hover){.heroAccount:hover{background:color-mix(in srgb,var(--brand) 20%,transparent);border-color:var(--brand-line)}}
