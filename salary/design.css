@@ -70,3 +70,7 @@ input:disabled,textarea:disabled,.searchCombo.disabled .comboInput{color:var(--t
 @media(prefers-reduced-motion:no-preference){body:not(.no-motion) .heroAccount{transition:transform var(--motion-base) var(--ease-out),background-color var(--motion-base),border-color var(--motion-base)}body:not(.no-motion) .heroAccount:active{transform:scale(.98)}}
 @media(max-width:1100px){.heroAccounts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.dailyHero{grid-template-columns:minmax(0,1fr);gap:12px}.dailyHero>.heroAccounts{grid-column:1;grid-row:auto;margin-top:12px;padding-top:16px;border-top:1px solid var(--hairline)}.heroAccounts{gap:8px}.heroAccount{min-height:112px;padding:12px;backdrop-filter:none}.heroAccountName{font-size:24px}.heroAccount strong{font-size:15px}.heroAccount small{font-size:10px}}
+
+/* Keep nonzero balances as light transparent overlays. */
+.heroAccount{background:color-mix(in srgb,var(--surface) 12%,transparent);border-color:color-mix(in srgb,var(--text-strong) 7%,transparent);backdrop-filter:none}
+@media(hover:hover){.heroAccount:hover{background:color-mix(in srgb,var(--surface) 24%,transparent);border-color:var(--brand-line)}}
