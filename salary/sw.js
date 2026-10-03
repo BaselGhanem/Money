@@ -1,4 +1,4 @@
-const CACHE=`salary-shell-20261003-unified-1`;
+const CACHE=`salary-shell-20261003-carrypending-1`;
 const ASSETS=[`./`,`index.html`,`app.css`,`v4.css`,`mobile.css`,`v4.js`,`install.js`,`bootstrap-v2.js`,`app-part1.txt`,`app-part2.txt`,`manifest.webmanifest`,`icons/app-192.png`,`icons/app-512.png`].map(path=>new URL(path,self.registration.scope).href);
 self.addEventListener(`install`,event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS.map(url=>new Request(url,{cache:`reload`})))).then(()=>self.skipWaiting())));
 self.addEventListener(`activate`,event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith(`salary-shell-`)&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
