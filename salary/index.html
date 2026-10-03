@@ -8,15 +8,16 @@
 <link rel="apple-touch-icon" href="icons/app-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<script defer src="install.js?v=20261004-contrast-1"></script>
+<script defer src="install.js?v=20261004-glass-1"></script>
 <meta name="description" content="نظام شخصي متقدم لإدارة الراتب والحسابات والحوالات.">
 <title>راتبي</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2718%27 fill=%27%23099999%27/%3E%3Ctext x=%2732%27 y=%2742%27 text-anchor=%27middle%27 font-size=%2736%27 font-family=%27Arial%27 fill=%27white%27%3Eر%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="app.css?v=20261004-contrast-1">
-<link rel="stylesheet" href="v4.css?v=20261004-contrast-1">
-<link rel="stylesheet" href="mobile.css?v=20261004-contrast-1">
-<link rel="stylesheet" href="daily.css?v=20261004-contrast-1">
-<link rel="stylesheet" href="design.css?v=20261004-contrast-1">
+<link rel="stylesheet" href="app.css?v=20261004-glass-1">
+<link rel="stylesheet" href="v4.css?v=20261004-glass-1">
+<link rel="stylesheet" href="mobile.css?v=20261004-glass-1">
+<link rel="stylesheet" href="daily.css?v=20261004-glass-1">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design.css?v=20261004-glass-1">
 </head>
 <body>
 <div class="noise"></div>
@@ -33,7 +34,7 @@
 </aside>
 <main class="main">
 <header class="topbar"><div class="greeting"><h1 id="welcomeTitle">مساء الخير، باسل</h1><p id="welcomeSubtitle">سجل يومك المالي بسهولة.</p></div><div class="topActions"><label class="monthPicker"><span>الشهر</span><input id="monthInput" type="month"></label><button id="privacyBtn" class="circleBtn" type="button" title="إخفاء الأرصدة" aria-label="إخفاء أو إظهار الأرصدة"><svg class="uiIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button><button id="quickThemeBtn" class="circleBtn" type="button" title="تغيير المظهر" aria-label="تغيير المظهر"><svg class="uiIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 13a9 9 0 1 1-10-10 7 7 0 0 0 10 10Z"/></svg></button></div></header>
-<section id="dashboardPage" class="page active"><div id="dailyHome"><article class="panel dailyHero"><span>رصيدك الفعلي اليوم</span><strong id="dailyBalance" class="moneyValue"></strong><small>الحركات المنفذة حتى اليوم</small><button id="dailyAdd" class="btn primary" type="button">أضف حركة</button></article><div class="sectionHead"><h2>اختصاراتك</h2><button id="manageShortcuts" class="btn ghost small" type="button">تخصيص</button></div><div id="dailyShortcuts" class="dailyShortcuts"></div><div id="dailyUndo" class="panel hidden"><span>تم حفظ الحركة</span><button id="undoDailySave" class="btn ghost small" type="button">تراجع</button></div><div class="sectionHead"><h2>حركات اليوم</h2><a href="?page=transactions" data-go="transactions" class="btn ghost small">كل الحركات</a></div><div id="dailyToday" class="txList"></div></div>
+<section id="dashboardPage" class="page active"><div id="dailyHome"><article class="panel dailyHero"><span>رصيدك الفعلي اليوم</span><strong id="dailyBalance" class="moneyValue"></strong><small>الحركات المنفذة حتى اليوم</small><button id="dailyAdd" class="btn primary" type="button">أضف حركة</button><div id="heroAccounts" class="heroAccounts" aria-label="أرصدة حساباتك الحالية"></div></article><div class="sectionHead"><h2>اختصاراتك</h2><button id="manageShortcuts" class="btn ghost small" type="button">تخصيص</button></div><div id="dailyShortcuts" class="dailyShortcuts"></div><div id="dailyUndo" class="panel hidden"><span>تم حفظ الحركة</span><button id="undoDailySave" class="btn ghost small" type="button">تراجع</button></div><div class="sectionHead"><h2>حركات اليوم</h2><a href="?page=transactions" data-go="transactions" class="btn ghost small">كل الحركات</a></div><div id="dailyToday" class="txList"></div></div>
   <div id="starterTemplates" class="panel setupNotice hidden"><div><h2>ابدأ ببياناتك</h2><p>الحساب الجديد فارغ. يمكنك إضافة 16 حركة مقترحة للمراجعة، بتاريخ تختاره أنت؛ لن تُحسب كمنفذة.</p></div><label>تاريخ الحركات المقترحة <input id="templateDate" type="date" required></label><div class="setupActions"><button id="addTemplatesBtn" class="btn primary" type="button">إضافة الحركات المقترحة</button><button id="dismissTemplatesBtn" class="btn ghost" type="button">ابدأ فارغا</button></div></div><div id="undatedNotice" class="panel setupNotice hidden"><div><h2>حركات تحتاج تاريخا</h2><p>هناك <strong id="undatedCount">0</strong> حركة قديمة بلا تاريخ. اختر تواريخها من إدارة التواريخ؛ لن يُفترض تاريخ لها تلقائيا.</p></div><button id="reviewUndatedBtn" class="btn ghost" type="button">مراجعة الحركات</button></div><div class="heroGrid">
     <article class="balanceHero">
       <div class="heroTop"><div><span class="eyebrow">Monthly position</span><h2 id="heroMonth">هذا الشهر</h2></div><span class="liveBadge"><i></i> LIVE</span></div>
@@ -98,10 +99,10 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="../cloud-sync-v4.js?v=20260924-7"></script>
-<script src="bootstrap-v2.js?v=20261004-contrast-1"></script>
-<script src="v4.js?v=20261004-contrast-1"></script>
-<script src="daily.js?v=20261004-contrast-1"></script>
-<script src="design.js?v=20261004-contrast-1"></script>
+<script src="bootstrap-v2.js?v=20261004-glass-1"></script>
+<script src="v4.js?v=20261004-glass-1"></script>
+<script src="daily.js?v=20261004-glass-1"></script>
+<script src="design.js?v=20261004-glass-1"></script>
 </body>
 </html>
 
