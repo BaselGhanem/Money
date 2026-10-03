@@ -79,3 +79,7 @@ input:disabled,textarea:disabled,.searchCombo.disabled .comboInput{color:var(--t
 .heroAccount{--account-tint:6%;background:color-mix(in srgb,var(--brand) var(--account-tint),transparent);border-color:color-mix(in srgb,var(--brand) 20%,transparent)}
 .heroAccount:nth-child(6n+2){--account-tint:10%}.heroAccount:nth-child(6n+3){--account-tint:14%}.heroAccount:nth-child(6n+4){--account-tint:8%}.heroAccount:nth-child(6n+5){--account-tint:12%}.heroAccount:nth-child(6n+6){--account-tint:16%}
 @media(hover:hover){.heroAccount:hover{background:color-mix(in srgb,var(--brand) 20%,transparent);border-color:var(--brand-line)}}
+
+.heroAccount{isolation:isolate}.heroAccount>.heroAccountName,.heroAccount>strong{position:relative;z-index:1}
+.heroAccountEngraving{position:absolute;z-index:0;pointer-events:none;user-select:none;inset-inline-end:-8px;bottom:-18px;font-family:'Aref Ruqaa',Almarai,serif;font-size:clamp(44px,4vw,64px);font-weight:700;line-height:1.7;white-space:nowrap;color:var(--text-strong);opacity:.045;transform:rotate(-9deg);transform-origin:center}
+@media(max-width:760px){.heroAccountEngraving{font-size:54px;bottom:-20px}}
