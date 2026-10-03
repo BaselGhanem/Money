@@ -1,5 +1,6 @@
-const CACHE=`salary-shell-20261004-daily-1`;
-const ASSETS=[`./`,`index.html`,`app.css`,`v4.css`,`mobile.css`,`daily.css`,`v4.js`,`daily.js`,`install.js`,`bootstrap-v2.js`,`app-part1.txt`,`app-part2.txt`,`manifest.webmanifest`,`icons/app-192.png`,`icons/app-512.png`].map(path=>new URL(path,self.registration.scope).href);
+const CACHE=`salary-shell-20261004-studio-1`;
+const ASSETS=[`./`,`index.html`,`app.css`,`v4.css`,`mobile.css`,`daily.css`,`design.css`,`design.js`,`v4.js`,`daily.js`,`install.js`,`bootstrap-v2.js`,`app-part1.txt`,`app-part2.txt`,`manifest.webmanifest`,`icons/app-192.png`,`icons/app-512.png`].map(path=>new URL(path,self.registration.scope).href);
 self.addEventListener(`install`,event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS.map(url=>new Request(url,{cache:`reload`})))).then(()=>self.skipWaiting())));
 self.addEventListener(`activate`,event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith(`salary-shell-`)&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener(`fetch`,event=>{const url=new URL(event.request.url);url.search=``;if(event.request.method!==`GET`||url.origin!==self.location.origin||(!ASSETS.includes(url.href)&&event.request.mode!==`navigate`))return;if(!url.href.startsWith(self.registration.scope))return;event.respondWith((async()=>{const cache=await caches.open(CACHE);try{const response=await fetch(event.request);if(response.ok&&ASSETS.includes(url.href))await cache.put(url.href,response.clone());return response}catch(error){const saved=await cache.match(event.request.mode===`navigate`?new URL(`index.html`,self.registration.scope).href:url.href);if(saved)return saved;throw error}})())});
+
