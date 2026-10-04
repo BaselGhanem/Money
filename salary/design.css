@@ -85,3 +85,5 @@ input:disabled,textarea:disabled,.searchCombo.disabled .comboInput{color:var(--t
 @media(max-width:760px){.heroAccountEngraving{font-size:54px;bottom:-20px}}
 
 #pendingList .tx{cursor:pointer}#pendingList .tx:hover{border-color:var(--accent)}
+
+.recurrenceSection{margin-top:24px}.recurrenceSection>input{width:100%;margin:12px 0 18px}.recurrenceControls{display:flex;align-items:end;flex-wrap:wrap;gap:10px;margin:16px 0}.recurrenceControls .input{flex:1;min-width:140px}.recurrenceCard small{color:var(--muted)}@media(max-width:760px){.recurrenceControls .input{flex-basis:100%}.recurrenceControls .btn{flex:1}.recurrenceCard{min-width:0}}
