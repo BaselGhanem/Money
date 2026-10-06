@@ -1,0 +1,27 @@
+.loader.moneyStories{display:block;overflow:hidden;background:#071516;color:#fff;isolation:isolate;gap:0;transition:opacity .42s ease,visibility .42s;direction:ltr;font-family:Almarai,sans-serif}
+.storyArtwork{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:36% center;opacity:0;transform:scale(1.025);transition:opacity .6s ease,transform 1.8s ease;z-index:-3}
+.artReady .storyArtwork{opacity:1;transform:scale(1)}
+.storyShade{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(4,16,18,.05) 15%,rgba(4,16,18,.3) 46%,rgba(4,16,18,.95) 77%),linear-gradient(0deg,rgba(3,12,15,.65),transparent 35%)}
+.storyBrand{position:absolute;left:5vw;top:max(32px,env(safe-area-inset-top));display:flex;align-items:center;gap:13px;font-weight:800;font-size:21px;letter-spacing:3px;text-shadow:0 2px 20px #0008}
+.storyMonogram{width:43px;height:43px;border:1px solid #ffffff70;display:grid;place-items:center;border-radius:12px;background:#06191b80;color:#b1ece5;font-size:25px;letter-spacing:0}
+.storyBrandSmall{display:block;font-size:8px;letter-spacing:2px;font-weight:400;margin-top:6px;color:#d2dedf}
+.storyContent{position:absolute;right:6vw;top:50%;transform:translateY(-40%);width:min(38vw,530px);text-align:left}
+.storyChapter{display:block;color:#91d9ce;font-size:12px;text-transform:uppercase;letter-spacing:4px;margin-bottom:22px;animation:storyReveal .65s both .1s}
+.storyContent h1{font-family:Arial,sans-serif;font-size:clamp(32px,4.4vw,72px);line-height:.98;letter-spacing:-2px;font-weight:900;margin:0;text-wrap:balance;animation:storyReveal .65s both .22s}
+.storyContent p{font-size:clamp(15px,1.25vw,19px);line-height:1.9;color:#e3eceb;margin:27px 0 45px;text-align:right;animation:storyReveal .65s both .36s}
+.storyLoading{animation:storyReveal .65s both .5s}
+.storyChapter,.storyContent h1,.storyContent p,.storyLoading{animation-play-state:paused}
+.artReady .storyChapter,.artReady .storyContent h1,.artReady .storyContent p,.artReady .storyLoading{animation-play-state:running}
+.storyLoadLabel{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:9px;letter-spacing:1.2px;color:#c9dad8;margin-bottom:12px;line-height:1.6}
+.storyLoadState{font-family:Almarai,sans-serif;letter-spacing:0;font-size:11px;white-space:nowrap}
+.storyTrack{height:3px;width:100%;background:#ffffff28;border-radius:4px;overflow:hidden}
+.storyTrack span{display:block;height:100%;width:0;background:#a7ded4;box-shadow:0 0 16px #099999;transition:width .4s ease}
+.storyFootnote{position:absolute;bottom:max(25px,env(safe-area-inset-bottom));right:6vw;color:#d6e6e4b0;font-size:10px;letter-spacing:1px}
+.storyExit .storyArtwork{transform:scale(1.035)}
+.storyExit{opacity:0;pointer-events:none}
+.storyRetry{margin-top:18px;padding:12px 20px;border:1px solid #ffffff60;border-radius:10px;background:#099999;color:#fff;font:inherit;cursor:pointer}
+@keyframes storyReveal{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}
+@media(max-width:700px){.storyArtwork{object-position:35% 32%;height:79%}.storyShade{background:linear-gradient(0deg,#071516 5%,#071516f5 20%,#071516a0 38%,transparent 67%),linear-gradient(180deg,#07151690,transparent 25%)}.storyBrand{left:7vw;top:max(27px,env(safe-area-inset-top));font-size:17px;gap:10px}.storyMonogram{width:37px;height:37px;font-size:22px}.storyContent{top:auto;bottom:max(65px,calc(env(safe-area-inset-bottom) + 40px));right:7vw;left:7vw;width:auto;transform:none}.storyChapter{font-size:10px;letter-spacing:3px;margin-bottom:13px}.storyContent h1{font-size:clamp(32px,9.4vw,48px);line-height:1.02;letter-spacing:-1px;max-width:430px}.storyContent p{font-size:14px;line-height:1.85;margin:18px 0 27px}.storyLoadLabel{font-size:8px;letter-spacing:.7px}.storyLoadState{font-size:10px}.storyFootnote{right:7vw;font-size:9px;bottom:max(22px,env(safe-area-inset-bottom))}}
+@media(max-height:580px) and (min-width:701px){.storyContent{transform:translateY(-35%)}.storyContent h1{font-size:40px}.storyContent p{margin:20px 0 25px}}
+@media(orientation:landscape) and (max-height:500px){.storyArtwork{height:100%;object-position:30% center}.storyShade{background:linear-gradient(90deg,#07151610 10%,#07151650 42%,#071516f5 72%)}.storyBrand{top:20px;left:5vw;font-size:15px}.storyContent{left:auto;right:5vw;top:50%;bottom:auto;width:42vw;transform:translateY(-35%)}.storyChapter{margin-bottom:12px;font-size:9px}.storyContent h1{font-size:clamp(26px,4vw,38px);line-height:1.05}.storyContent p{font-size:12px;margin:14px 0 20px;line-height:1.7}.storyFootnote{display:none}.storyLoadLabel{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.moneyStories *{animation:none!important;transition:none!important;transform:none!important}.storyContent{transform:translateY(-40%)!important}.storyExit{opacity:0}@media(max-width:700px){.storyContent{transform:none!important}}}
