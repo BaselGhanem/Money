@@ -61,3 +61,22 @@ document.getElementById(`settingUserName`).addEventListener(`input`,syncProfile)
 new MutationObserver(syncProfile).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:[`data-mode`,`disabled`]});
 syncProfile();
 })();
+
+(()=>{`use strict`;
+const page=document.getElementById(`categoriesPage`);if(!page)return;
+page.classList.add(`categoriesStudio`);
+const heading=page.querySelector(`.sectionHead`);
+const toolbar=page.querySelector(`.categoryToolbar`).parentElement;
+const filter=document.createElement(`details`);filter.className=`categoryFilterPanel`;filter.innerHTML=`<summary>البحث والتصفية <span>⌄</span></summary>`;toolbar.before(filter);filter.append(toolbar);
+const metrics=document.getElementById(`categoryMetrics`);
+const hero=document.createElement(`article`);hero.className=`categoryMobileHero`;hero.innerHTML=`<div><span>مساحتك المالية</span><h2>التصنيفات والتكرارات</h2><p>نظم مصاريفك وتابع التزاماتك المتكررة</p></div><div class="categoryHeroCounts"><span><strong id="categoryHeroCount">0</strong>تصنيفات ظاهرة</span><span><strong id="categoryHeroRules">0</strong>تكرارات مفعلة</span></div><div class="categoryHeroActions"><button type="button" class="btn primary" id="categoryHeroAdd">+ اضافة تصنيف</button><button type="button" class="btn ghost" id="categoryHeroRecurring">ادارة التكرارات</button></div>`;heading.after(hero);
+const charts=page.querySelector(`.decisionGrid`);charts.classList.add(`categoryStudioCharts`);
+function wrap(title,node,kind){const details=document.createElement(`details`);details.className=`categoryStudioGroup ${kind}`;details.open=true;details.innerHTML=`<summary><strong>${title}</strong><span>⌄</span></summary><div class="categoryStudioBody"></div>`;node.before(details);details.lastElementChild.append(node);return details}
+const cards=wrap(`التصنيفات`,document.getElementById(`categoryCards`),`categoryListGroup`);
+const recurrences=wrap(`التكرارات`,page.querySelector(`.recurrenceSection`),`categoryRecurringGroup`);
+document.getElementById(`categoryHeroAdd`).onclick=()=>document.getElementById(`addCategoryBtn`).click();
+document.getElementById(`categoryHeroRecurring`).onclick=()=>{recurrences.open=true;recurrences.scrollIntoView({behavior:matchMedia(`(prefers-reduced-motion:reduce)`).matches?`auto`:`smooth`,block:`start`});document.getElementById(`recurrenceSearch`).focus({preventScroll:true})};
+const desktop=matchMedia(`(min-width:761px)`);function adapt(){filter.open=desktop.matches;if(desktop.matches){cards.open=true;recurrences.open=true}}adapt();desktop.addEventListener(`change`,adapt);
+function sync(){const categories=metrics.querySelector(`strong`)?.textContent||`0`;document.getElementById(`categoryHeroCount`).textContent=categories;document.getElementById(`categoryHeroRules`).textContent=String([...document.querySelectorAll(`#recurrenceList .recurrenceCard`)].filter(node=>node.querySelector(`[data-toggle-recurrence]`)?.textContent.includes(`إيقاف`)).length)}
+window.addEventListener(`salary:render`,sync);sync();
+})();
