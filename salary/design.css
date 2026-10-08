@@ -233,3 +233,53 @@ body.light .authVisual p,body.light .authBadge{color:var(--text-soft)}
 .categoriesStudio .recurrenceCard{padding:16px 0;border:0;border-top:1px solid var(--hairline);border-radius:0;background:transparent!important;box-shadow:none}
 .categoriesStudio .recurrenceControls .btn{min-height:42px}
 }
+
+/* Final category layout: compact desktop tiles and recurrence ledger. */
+.categoriesStudio>.sectionSpy{display:none}
+.categoriesStudio .categoryFilterPanel>summary{display:flex;justify-content:space-between;align-items:center;list-style:none;cursor:pointer;padding:14px 20px;font-size:13px;font-weight:700}
+.categoriesStudio .categoryFilterPanel .mobileFilterToggle{display:none!important}
+.categoriesStudio .categoryFilterPanel .mobileFilterGroup .categoryToolbar{display:grid!important}
+.categoriesStudio .categoryToolbar{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.categoriesStudio .categoryToolbar>.searchCombo,.categoriesStudio .categoryToolbar>input{min-width:0}
+.categoriesStudio .categoryToolbar input,.categoriesStudio .categoryToolbar .comboInput{min-height:44px}
+.categoriesStudio .categoryStudioCharts{grid-template-columns:1.1fr 1fr}
+.categoriesStudio #categoryChart,.categoriesStudio #categoryTrend{max-height:290px}
+.categoriesStudio #categoryCards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px}
+.categoriesStudio .categoryManageCard{position:relative;padding:18px;border-radius:18px;min-height:155px;background:var(--surface)!important}
+.categoriesStudio .categoryManageCard .miniSectionHead{align-items:center;margin-bottom:14px}
+.categoriesStudio .categoryManageCard h3{display:flex;align-items:center;gap:9px;font-size:15px;margin:0}
+.categoriesStudio .categoryDot{width:13px;height:13px;flex-shrink:0;border-radius:50%;box-shadow:0 0 0 7px var(--brand-soft)}
+.categoriesStudio .categoryManageCard .categoryFigures{display:flex;flex-direction:column;gap:6px}
+.categoriesStudio .categoryFigures>span{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-soft)}
+.categoriesStudio .categoryFigures b{color:var(--text-strong);font-size:15px}
+.categoriesStudio .categoryManageCard .accountHeadActions{opacity:0;transition:opacity .15s}
+.categoriesStudio .categoryManageCard:hover .accountHeadActions,.categoriesStudio .categoryManageCard:focus-within .accountHeadActions{opacity:1}
+.categoriesStudio #recurrenceList{grid-template-columns:minmax(0,1fr)!important;gap:0}
+.categoriesStudio .recurrenceCard{display:grid;grid-template-columns:minmax(160px,1.2fr) minmax(150px,1fr) minmax(260px,1.6fr);gap:16px;align-items:center;border:0;border-top:1px solid var(--hairline);border-radius:0;box-shadow:none;background:transparent!important;padding:16px 0}
+.categoriesStudio .recurrenceCard .miniSectionHead{margin:0;gap:10px}
+.categoriesStudio .recurrenceCard p{margin:0;font-size:12px;color:var(--text-soft);line-height:1.9}
+.categoriesStudio .recurrenceCard small{grid-column:1/-1;font-size:10px;margin-top:-7px}
+.categoriesStudio .recurrenceControls{display:grid;grid-template-columns:minmax(90px,1fr) auto auto;gap:8px;align-items:end}
+.categoriesStudio .recurrenceControls .input{min-width:0}
+.categoriesStudio .recurrenceControls select{min-height:40px}
+@media(min-width:761px) and (max-width:1100px){.categoriesStudio #categoryCards{grid-template-columns:repeat(3,minmax(0,1fr))!important}.categoriesStudio .recurrenceCard{grid-template-columns:1fr 1fr}.categoriesStudio .recurrenceControls{grid-column:1/-1}}
+@media(max-width:760px){
+.categoriesStudio .categoryToolbar{grid-template-columns:minmax(0,1fr)!important}
+.categoriesStudio .categoryFilterPanel .mobileFilterGroup{margin:0}
+.categoriesStudio .categoryStudioCharts{grid-template-columns:minmax(0,1fr)}
+.categoriesStudio .categoryStudioCharts{display:none}
+.categoriesStudio .categoryMetrics{display:none}
+.categoriesStudio #categoryCards{grid-template-columns:minmax(0,1fr)!important}
+.categoriesStudio .categoryManageCard{display:grid;grid-template-columns:minmax(0,1fr) minmax(115px,auto);gap:8px 16px;min-height:0;border:0;border-top:1px solid var(--hairline);border-radius:0;padding:18px 4px;background:transparent!important}
+.categoriesStudio .categoryManageCard .miniSectionHead{margin:0;align-items:start;flex-wrap:wrap}
+.categoriesStudio .categoryManageCard h3{font-size:14px}
+.categoriesStudio .categoryManageCard .categoryFigures{font-size:11px}
+.categoriesStudio .categoryManageCard p{margin:0;font-size:10px}
+.categoriesStudio .categoryManageCard .accountHeadActions{opacity:1;grid-column:1/-1;justify-content:flex-end}
+.categoriesStudio .recurrenceCard{display:block;padding:18px 4px}
+.categoriesStudio .recurrenceCard .miniSectionHead{margin-bottom:10px}
+.categoriesStudio .recurrenceCard p{margin-bottom:12px}
+.categoriesStudio .recurrenceControls{grid-template-columns:minmax(70px,1fr) auto auto}
+.categoriesStudio .recurrenceCard small{display:block;margin:10px 0 0}
+}
+@media(prefers-reduced-motion:reduce){.categoriesStudio .categoryManageCard .accountHeadActions{transition:none}}
