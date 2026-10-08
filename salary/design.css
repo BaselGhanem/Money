@@ -160,3 +160,76 @@ body.light .authVisual p,body.light .authBadge{color:var(--text-soft)}
 #settingsPage .installCopy{min-width:0}
 #settingsPage .installCard>img{display:none}
 }
+
+/* Categories: desktop analysis dashboard, mobile management hub. */
+.categoriesStudio .sectionHead{margin-top:0}
+.categoryMobileHero{display:none}
+.categoryFilterPanel{border:1px solid var(--hairline);background:var(--surface);border-radius:18px;margin-bottom:20px}
+.categoryFilterPanel>summary{display:none}
+.categoryFilterPanel>.panel{border:0;box-shadow:none;margin:0;background:transparent!important}
+.categoriesStudio .categoryMetrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}
+.categoriesStudio .categoryMetrics .quickCard{min-width:0;padding:20px}
+.categoriesStudio .categoryMetrics strong{font-size:clamp(18px,2vw,28px);overflow-wrap:anywhere}
+.categoriesStudio .categoryStudioCharts{align-items:start;gap:16px}
+.categoriesStudio .categoryStudioCharts>.panel{min-height:0;height:auto;padding:22px}
+.categoriesStudio .categoryStudioCharts h3{font-size:17px;margin:0 0 18px}
+#categoryChart,#categoryTrend{max-height:360px;overflow:auto;scrollbar-width:thin}
+.categoriesStudio .categoryChartRow{padding:10px 0}
+.categoriesStudio .categoryChartRow>span:first-child{font-size:13px}
+.categoriesStudio .categoryChartRow small{font-size:11px}
+.categoriesStudio .categoryTrack{height:6px}
+.categoryStudioGroup{margin-top:24px;min-width:0}
+.categoryStudioGroup>summary{display:flex;align-items:center;justify-content:space-between;list-style:none;font-size:20px;font-weight:700;cursor:pointer;padding:0 0 14px}
+.categoryStudioGroup>summary::-webkit-details-marker,.categoryFilterPanel>summary::-webkit-details-marker{display:none}
+.categoriesStudio #categoryCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px}
+.categoriesStudio .categoryManageCard{padding:18px;min-width:0}
+.categoriesStudio .categoryManageCard h3{font-size:15px}
+.categoriesStudio .categoryManageCard .categoryFigures{display:grid;gap:6px;font-size:12px}
+.categoriesStudio .categoryManageCard p{font-size:11px;color:var(--text-soft);margin:10px 0}
+.categoriesStudio .accountHeadActions{display:flex;flex-wrap:wrap;gap:6px}
+.categoriesStudio .accountHeadActions .btn{padding:7px 10px;min-height:34px;font-size:11px}
+.categoriesStudio .recurrenceSection{padding:22px}
+.categoriesStudio .recurrenceSection>.miniSectionHead{display:none}
+.categoriesStudio .recurrenceSection>p{font-size:12px;color:var(--text-soft);line-height:1.9}
+.categoriesStudio #recurrenceSearch{width:100%;min-height:46px;background:var(--surface-2);color:var(--text-strong);border:1px solid var(--hairline);border-radius:12px;padding:12px;margin-bottom:18px}
+.categoriesStudio #recurrenceList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px}
+.categoriesStudio .recurrenceCard{padding:18px;min-width:0}
+.categoriesStudio .recurrenceCard h3{font-size:14px}
+.categoriesStudio .recurrenceCard p{font-size:12px}
+.categoriesStudio .recurrenceCard small{font-size:11px;color:var(--text-soft);line-height:1.8}
+.categoriesStudio .recurrenceControls{display:flex;flex-wrap:wrap;gap:8px;align-items:end}
+.categoriesStudio .recurrenceControls .input{flex:1;min-width:100px}
+.categoriesStudio .recurrenceControls .btn{font-size:11px;padding:10px 12px}
+.categoryStudioGroup>summary:focus-visible,.categoryFilterPanel>summary:focus-visible{outline:3px solid var(--brand);outline-offset:4px}
+@media(min-width:761px){.categoryStudioGroup>summary>span{display:none}}
+@media(max-width:760px){
+.categoriesStudio>.sectionHead{display:none}
+.categoryMobileHero{display:grid;gap:18px;padding:22px;background:linear-gradient(135deg,var(--brand-soft),var(--surface));border:1px solid var(--brand-line);border-radius:24px;margin-bottom:16px;overflow:hidden}
+.categoryMobileHero>div>span{color:var(--text-soft);font-size:11px}
+.categoryMobileHero h2{font-size:23px;margin:4px 0}
+.categoryMobileHero p{font-size:12px;color:var(--text-soft);line-height:1.8;margin:0}
+.categoryHeroCounts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.categoryHeroCounts>span{display:grid;gap:4px;font-size:11px;color:var(--text-soft);background:var(--surface);border:1px solid var(--hairline);padding:14px;border-radius:16px;text-align:center}
+.categoryHeroCounts strong{font-size:28px;color:var(--text-strong)}
+.categoryHeroActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.categoryHeroActions .btn{font-size:11px;padding:12px 8px;min-width:0}
+.categoryFilterPanel>summary{display:flex;justify-content:space-between;list-style:none;padding:16px;font-size:13px;font-weight:700;cursor:pointer}
+.categoriesStudio .categoryMetrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+.categoriesStudio .categoryMetrics .quickCard{padding:14px}
+.categoriesStudio .categoryMetrics strong{font-size:21px}
+.categoriesStudio .categoryStudioCharts{grid-template-columns:minmax(0,1fr);gap:12px}
+.categoriesStudio .categoryStudioCharts>.panel{padding:18px}
+#categoryChart,#categoryTrend{max-height:240px}
+.categoryStudioGroup{border:1px solid var(--hairline);background:var(--surface);border-radius:20px;overflow:hidden;margin-top:16px;scroll-margin-top:16px}
+.categoryStudioGroup>summary{padding:18px;font-size:17px}
+.categoryStudioBody{padding:0 14px 14px}
+.categoriesStudio #categoryCards{grid-template-columns:minmax(0,1fr)!important;gap:0}
+.categoriesStudio .categoryManageCard{padding:16px 0;border:0;border-top:1px solid var(--hairline);border-radius:0;background:transparent!important;box-shadow:none}
+.categoriesStudio .categoryManageCard .categoryFigures{display:flex;justify-content:space-between;flex-wrap:wrap}
+.categoriesStudio .categoryManageCard .miniSectionHead{margin-bottom:10px}
+.categoriesStudio .categoryManageCard p{margin:8px 0}
+.categoriesStudio .recurrenceSection{padding:0;border:0;background:transparent!important;box-shadow:none}
+.categoriesStudio #recurrenceList{grid-template-columns:minmax(0,1fr)!important;gap:0}
+.categoriesStudio .recurrenceCard{padding:16px 0;border:0;border-top:1px solid var(--hairline);border-radius:0;background:transparent!important;box-shadow:none}
+.categoriesStudio .recurrenceControls .btn{min-height:42px}
+}
