@@ -80,3 +80,9 @@ const desktop=matchMedia(`(min-width:761px)`);function adapt(){filter.open=deskt
 function sync(){const categories=metrics.querySelector(`strong`)?.textContent||`0`;document.getElementById(`categoryHeroCount`).textContent=categories;document.getElementById(`categoryHeroRules`).textContent=String([...document.querySelectorAll(`#recurrenceList .recurrenceCard`)].filter(node=>node.querySelector(`[data-toggle-recurrence]`)?.textContent.includes(`إيقاف`)).length)}
 window.addEventListener(`salary:render`,sync);sync();
 })();
+
+(()=>{`use strict`;const page=document.getElementById(`categoriesPage`);if(!page)return;
+const labels={categoryFrom:`من شهر`,categoryTo:`الى شهر`,categoryNameFilter:`التصنيف`,categoryAccount:`الحساب`,categoryType:`نوع الحركة`,categoryStatus:`حالة التنفيذ`,categoryVisibility:`ظهور التصنيفات`};
+for(const [id,label] of Object.entries(labels)){const control=document.getElementById(id);if(!control)continue;const wrapper=control.closest(`.searchCombo`);if(wrapper){wrapper.classList.add(`labelledCombo`);if(!wrapper.querySelector(`.comboCaption`)){const caption=document.createElement(`span`);caption.className=`comboCaption`;caption.textContent=label;wrapper.prepend(caption)}}}
+const panel=page.querySelector(`.categoryFilterPanel`);if(panel){panel.open=false;panel.querySelector(`summary`).innerHTML=`البحث والفلاتر <span>⌄</span>`}
+})();
