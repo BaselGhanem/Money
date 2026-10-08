@@ -1,5 +1,5 @@
 (()=>{`use strict`;
-const root=document.getElementById(`loader`);if(!root)return;
+const root=document.getElementById(`loader`);if(!root||root.dataset.story)return;
 const stories=[
 [`planner`,`The Planner`,`PLAN THE MONTH. OWN THE MONTH.`,`المصاري المرتبة بتبدأ من حركة مسجلة صح.`],
 [`payday`,`The Payday`,`PAYDAY IS HERE.`,`سجل الدخل قبل ما يبدأ الصرف.`],
@@ -13,7 +13,9 @@ const stories=[
 [`weekend`,`The Reset`,`A FRESH START, EVERY DAY.`,`راجع حركاتك وخلي خطوتك الجاية واضحة.`]
 ];
 let previous=``;try{previous=localStorage.getItem(`salary_last_loading_story`)||``}catch{}
-const choices=stories.filter(s=>s[0]!==previous),story=choices[Math.floor(Math.random()*choices.length)];
+let resumed=null;try{resumed=JSON.parse(sessionStorage.getItem(`salary_loading_resume`)||`null`);sessionStorage.removeItem(`salary_loading_resume`)}catch{}
+const resumeStory=resumed&&Date.now()-resumed.savedAt>=0&&Date.now()-resumed.savedAt<30000?stories.find(s=>s[0]===resumed.story):null;
+const choices=stories.filter(s=>s[0]!==previous),story=resumeStory||choices[Math.floor(Math.random()*choices.length)];
 try{localStorage.setItem(`salary_last_loading_story`,story[0])}catch{}
 root.classList.add(`moneyStories`);root.dataset.story=story[0];
 root.innerHTML=`<img class="storyArtwork" alt="" aria-hidden="true"><div class="storyShade"></div><div class="storyBrand" dir="ltr"><span class="storyMonogram">M</span><span>MONEY<span class="storyBrandSmall">PERSONAL FINANCIAL HQ</span></span></div><main class="storyContent"><span class="storyChapter" dir="ltr"></span><h1 dir="ltr"></h1><p dir="rtl"></p><div class="storyLoading"><div class="storyLoadLabel" dir="ltr"><span>LOADING YOUR FINANCIAL HQ...</span><span class="storyLoadState">جار التجهيز</span></div><div class="storyTrack" role="progressbar" aria-label="تحميل التطبيق" aria-valuemin="0" aria-valuemax="100"><span></span></div></div></main><span class="storyFootnote">مساحتك المالية. كل يوم.</span>`;
