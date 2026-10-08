@@ -137,6 +137,20 @@
     if (this === localStorage && key === storageKey && !suppressStorageSync) scheduleUpload();
   };
 
+
+  function reloadForCloudSync() {
+    const loader = document.getElementById(`loader`);
+    if (appId === `salary` && loader?.dataset.story && !loader.classList.contains(`done`)) {
+      try {
+        sessionStorage.setItem(`salary_loading_resume`, JSON.stringify({
+          story: loader.dataset.story,
+          savedAt: Date.now()
+        }));
+      } catch {}
+    }
+    location.reload();
+  }
+
   async function initialSync() {
     const ref = docRef();
     const snap = await ref.get();
@@ -166,7 +180,7 @@
         suppressStorageSync = false;
       }
       setStatus(`online`, `تم تحميل بياناتك`);
-      location.reload();
+      reloadForCloudSync();
       return;
     }
 
@@ -202,7 +216,7 @@
       }
 
       setStatus(`online`, `تم تحديث البيانات`);
-      setTimeout(() => location.reload(), 250);
+      setTimeout(() => reloadForCloudSync(), 250);
     }, error => {
       console.error(`Money Cloud realtime failed`, error);
       setStatus(`error`, `السحابة غير متاحة`);
