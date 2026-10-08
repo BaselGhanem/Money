@@ -96,3 +96,67 @@ select{min-height:46px;font:inherit;color:var(--text);background-color:var(--sur
 .authVisual h1{color:var(--text-strong)}
 body.light .authVisual h1{text-shadow:none}
 body.light .authVisual p,body.light .authBadge{color:var(--text-soft)}
+
+/* Settings: grouped desktop rows and mobile control center. */
+#settingsPage{max-width:1100px;margin-inline:auto}
+#settingsPage .settingsHeading{margin-top:0;align-items:center;flex-direction:row}
+.settingsProfile{display:flex;align-items:center;justify-content:space-between;padding:24px;background:var(--surface);border:1px solid var(--hairline);border-radius:22px;margin-bottom:28px}
+.settingsIdentity{display:flex;align-items:center;gap:16px}
+.settingsIdentity strong{display:block;font-size:24px}
+.settingsCloudStatus{display:block;font-size:12px;color:var(--text-soft);margin-top:6px}
+.settingsAvatar,.settingsGroupIcon{display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-text);border-radius:16px}
+.settingsAvatar{width:60px;height:60px}
+.settingsAvatar svg{width:30px;height:30px}
+.settingsCloudArt{display:none}
+.settingsQuickActions{display:none}
+#settingsPage .settingsGrid{display:grid;grid-template-columns:minmax(0,1fr)!important;gap:22px}
+.settingsGroup{border:1px solid var(--hairline);border-radius:20px;background:var(--surface);overflow:hidden;min-width:0}
+.settingsGroup>summary{display:flex;align-items:center;gap:14px;list-style:none;padding:20px 24px;cursor:pointer}
+.settingsGroup>summary::-webkit-details-marker{display:none}
+.settingsGroupIcon{width:44px;height:44px;flex-shrink:0}
+.settingsGroupIcon svg,.settingsChevron svg{width:23px;height:23px}
+.settingsGroup summary strong{font-size:17px;display:block}
+.settingsGroup summary small{font-size:12px;color:var(--text-soft);display:block;margin-top:4px}
+.settingsChevron{margin-inline-start:auto;color:var(--text-soft)}
+.settingsGroup[open] .settingsChevron{transform:rotate(180deg)}
+#settingsPage .settingCard{border:0;background:transparent!important;box-shadow:none;border-radius:0;padding:0}
+#settingsPage .settingNumber,#settingsPage .settingCard>h3,#settingsPage .settingCard>p{display:none}
+.settingsGroupBody{padding:0 24px 16px}
+#settingsPage .settingsGroup .formGrid{display:block}
+#settingsPage .settingsGroup .input,#settingsPage .settingsGroup .switchRow{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,42%);align-items:center;gap:24px;border:0;border-top:1px solid var(--hairline);border-radius:0;background:transparent;padding:16px 0;margin:0;min-width:0}
+#settingsPage .settingsGroup .input>span,#settingsPage .settingsGroup .switchRow>span{font-size:14px;color:var(--text-strong)}
+#settingsPage .settingsGroup .switchRow input{justify-self:end}
+#settingsPage .settingsGroup .colorInput{width:100%;max-width:180px;justify-self:end}
+#settingsPage .settingsGroup .installCard{margin:0;border:0;background:transparent!important;box-shadow:none;padding:0}
+#settingsPage .maintenanceGroup{margin-top:20px}
+.settingsGroup summary:focus-visible{outline:3px solid var(--brand);outline-offset:-4px}
+@media(max-width:760px){
+#settingsPage .settingsHeading{gap:12px}
+#settingsPage .settingsHeading h1{font-size:27px}
+#settingsPage .settingsHeading .eyebrow,#settingsPage .settingsHeading p{display:none}
+#settingsPage .settingsHeading .btn{padding:10px 14px;font-size:12px;min-height:42px}
+.settingsProfile{min-height:180px;padding:24px;position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(130deg,var(--brand-soft),var(--surface));border-color:var(--brand-line);margin-bottom:16px}
+.settingsProfile::after{content:"";position:absolute;z-index:-1;width:220px;height:220px;border:32px solid var(--brand-soft);border-radius:50%;inset-inline-end:-80px;bottom:-150px}
+.settingsIdentity{align-items:flex-start;flex-direction:column;gap:12px}
+.settingsIdentity strong{font-size:25px}
+.settingsCloudArt{display:grid;place-items:center;color:var(--brand-text);width:100px;height:100px;background:var(--brand-soft);border-radius:30px}
+.settingsCloudArt svg{width:62px;height:62px}
+.settingsCloudStatus{max-width:200px;font-size:11px}
+.settingsProfile[data-cloud=online] .settingsCloudStatus{color:var(--success-v4)}
+.settingsQuickActions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:24px}
+.settingsQuickActions button{min-width:0;border:1px solid var(--hairline);border-radius:18px;background:var(--surface);color:var(--text-strong);padding:16px 6px;display:grid;justify-items:center;align-content:start;gap:12px;cursor:pointer}
+.settingsQuickActions button>span{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:var(--brand-soft);color:var(--brand-text)}
+.settingsQuickActions svg{width:25px;height:25px}
+.settingsQuickActions strong{font-size:11px;line-height:1.8}
+#settingsPage .settingsGrid{gap:12px}
+.settingsGroup>summary{padding:18px 16px;gap:12px}
+.settingsGroup summary strong{font-size:16px}
+.settingsGroup summary small{font-size:11px;line-height:1.8}
+.settingsGroupBody{padding:0 16px 16px}
+#settingsPage .settingsGroup .input{grid-template-columns:minmax(0,1fr);gap:8px;padding:14px 0}
+#settingsPage .settingsGroup .switchRow{grid-template-columns:minmax(0,1fr) auto;gap:12px}
+#settingsPage .settingsGroup .colorInput{justify-self:start}
+#settingsPage .settingsGroup .installCard{display:flex;flex-direction:column;align-items:stretch}
+#settingsPage .installCopy{min-width:0}
+#settingsPage .installCard>img{display:none}
+}
