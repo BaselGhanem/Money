@@ -17,7 +17,7 @@ function cloudGate(){
  const cover=document.getElementById(`salaryCloudGate`);
  if(cover)cover.remove();
 }
-function setStatus(mode,label){status={mode,label};const pill=document.getElementById(`moneyCloudPill`);if(pill){pill.dataset.mode=mode;pill.querySelector(`[data-cloud-label]`).textContent=label}cloudGate()}
+function setStatus(mode,label){status={mode,label};const pill=document.getElementById(`moneyCloudPill`);if(pill){pill.dataset.mode=mode;pill.querySelector(`[data-cloud-label]`).textContent=label;pill.style.display=mode===`online`?`none`:``}cloudGate()}
 function checkpoint(reason,payload){
  if(!payload)return;
  const snapshots=parse(localStorage.getItem(RECOVERY))||[];
