@@ -22,7 +22,10 @@
 .scrollDock .mobileFilterToggle{width:100%}
 .scrollDockHeading{background:var(--surface)!important}
 @media(max-width:760px){
-.scrollDock{padding:10px;border-radius:14px;top:var(--dock-top,6px)}
+/* On phones the dock and its heading should scroll with the document. */
+.scrollDock,.scrollDockHeading{position:static!important;top:auto!important;z-index:auto;}
+.scrollDockTall{max-height:none!important;overflow:visible!important;overscroll-behavior:auto;}
+.scrollDock{padding:10px;border-radius:14px}
 .scrollDock #reportSummary{grid-template-columns:repeat(3,minmax(0,1fr))}
 .scrollDock #reportSummary .bal{font-size:15px!important}
 .scrollDock #reportSummary h3{font-size:10px}
