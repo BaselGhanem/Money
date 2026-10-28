@@ -10,7 +10,14 @@ const clientId=crypto.randomUUID?.()||`salary_${Date.now()}_${Math.random()}`;
 let user=null,db=null,auth=null,unsubscribe=null,ready=false,writing=false,again=false,timer=null,base=null,blocked=false,remoteConflict=null,view=core.copy(read()),generation=0,deferred=false;
 let status={mode:`offline`,label:`محفوظ على الجهاز · السحابة غير مربوطة`};
 const config={apiKey:`AIzaSyDUSHbMd1A98_OpE3JSNXPD-XT0do8FutM`,authDomain:`moneywithbasel.firebaseapp.com`,projectId:`moneywithbasel`,storageBucket:`moneywithbasel.firebasestorage.app`,messagingSenderId:`1000601907861`,appId:`1:1000601907861:web:6995a21e42d36c1981a19c`};
-function setStatus(mode,label){status={mode,label};const pill=document.getElementById(`moneyCloudPill`);if(pill){pill.dataset.mode=mode;pill.querySelector(`[data-cloud-label]`).textContent=label}}
+const LINKED=`money.salary.cloud-linked.v1`;
+function cloudGate(){
+ const gated=localStorage.getItem(LINKED)===`1`&&status.mode!==`online`;
+ document.documentElement.classList.toggle(`salary-cloud-pending`,gated);
+ const cover=document.getElementById(`salaryCloudGate`);
+ if(cover){cover.hidden=!gated;cover.querySelector(`[data-gate-message]`).textContent=status.label;}
+}
+function setStatus(mode,label){status={mode,label};const pill=document.getElementById(`moneyCloudPill`);if(pill){pill.dataset.mode=mode;pill.querySelector(`[data-cloud-label]`).textContent=label}cloudGate()}
 function checkpoint(reason,payload){
  if(!payload)return;
  const snapshots=parse(localStorage.getItem(RECOVERY))||[];
@@ -38,7 +45,18 @@ function ensureUi(){
   if(user){if(confirm(`البيانات محفوظة على هذا الجهاز. تسجيل الخروج من المزامنة السحابية؟`))auth.signOut();return}
   auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(()=>setStatus(`error`,`تعذر تسجيل الدخول · بياناتك محفوظة على الجهاز`));
  };
- document.body.append(pill);setStatus(status.mode,status.label);
+ document.body.append(pill);
+ const gateStyle=document.createElement(`style`);
+ gateStyle.textContent=`#salaryCloudGate[hidden]{display:none!important}#salaryCloudGate{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#091b20f5;color:#ecf9f8;padding:20px;font-family:Almarai,system-ui,sans-serif;text-align:center}#salaryCloudGate section{max-width:460px;padding:28px;border:1px solid #277879;border-radius:22px;background:#10282d}#salaryCloudGate h2{margin:0 0 14px}#salaryCloudGate p{line-height:1.9}#salaryCloudGate button{background:#099999;color:white;border:0;border-radius:12px;padding:13px 20px;cursor:pointer;font:inherit}`;
+ document.head.append(gateStyle);
+ const cover=document.createElement(`div`);cover.id=`salaryCloudGate`;cover.hidden=true;
+ cover.innerHTML=`<section role="status"><h2>جار التحقق من بيانات السحابة</h2><p data-gate-message></p><p>لن نعرض ارصدة الجهاز القديمة قبل التأكد من النسخة السحابية</p><button type="button" data-gate-connect>ربط السحابة او اعادة المحاولة</button></section>`;
+ cover.querySelector(`[data-gate-connect]`).onclick=()=>{
+   if(blocked){showReview();return}
+   if(user){window.salarySync?.retry();return}
+   if(auth)auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(handleError);
+ };
+ document.body.append(cover);setStatus(status.mode,status.label);
 }
 function showReview(){
  let overlay=document.getElementById(`salarySyncReview`);
@@ -178,9 +196,11 @@ window.salarySync={getStatus:()=>({...status}),retry:()=>{blocked=false;if(ready
 ensureUi();
 if(!window.firebase){setStatus(`offline`,`محفوظ على الجهاز · المزامنة غير متاحة`);return}
 const app=firebase.apps.length?firebase.app():firebase.initializeApp(config);auth=firebase.auth(app);db=firebase.firestore(app);
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(handleError);
 auth.onAuthStateChanged(async current=>{
  generation++;clearTimeout(timer);if(unsubscribe){unsubscribe();unsubscribe=null}user=current;ready=false;base=null;blocked=false;
- if(!user){setStatus(`offline`,`محفوظ على الجهاز · السحابة غير مربوطة`);return}
+ if(!user){setStatus(`offline`,`السحابة غير متصلة · اربط حسابك لعرض الارصدة`);return}
+ nativeSet.call(localStorage,LINKED,`1`);
  try{setStatus(`syncing`,`جار فحص النسخ قبل المزامنة`);await initialize();if(user)listen()}catch(error){handleError(error)}
 });
 })();
