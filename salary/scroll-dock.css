@@ -73,3 +73,13 @@
  .tx.isPending{border-inline-start:3px solid #099999!important}
  .tx.isCompleted{opacity:.82}
 }
+
+/* Elevate the whole movement card, not only the nested menu. */
+.tx:has(>.txEnd .movementMore[open]){position:relative!important;z-index:250!important;overflow:visible!important;opacity:1!important;isolation:auto!important}
+.tx:has(>.txEnd .movementMore[open]) .txEnd{position:relative;z-index:251}
+.tx:has(>.txEnd .movementMore[open]) .movementMoreMenu{z-index:260!important;opacity:1!important}
+#dailyToday,#txList,#pendingList,#obligationList{overflow:visible!important;isolation:auto}
+@media(max-width:760px){
+ #dailyToday .tx:has(.movementMore[open]),#txList .tx:has(.movementMore[open]),#pendingList .tx:has(.movementMore[open]),#obligationList .tx:has(.movementMore[open]){z-index:250!important;opacity:1!important}
+ .tx .movementMoreMenu{background:var(--surface,#fff)!important;box-shadow:0 16px 40px #0004!important}
+}
