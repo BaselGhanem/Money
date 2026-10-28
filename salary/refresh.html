@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#099999"><title>تحديث راتبي</title><style>body{min-height:100dvh;margin:0;display:grid;place-items:center;background:#f4f7f9;color:#183039;font-family:system-ui,sans-serif}main{padding:32px;max-width:360px;text-align:center}h1{font-size:23px}p{line-height:2}button{background:#099999;color:white;border:0;border-radius:12px;padding:12px 24px;font-size:15px}</style></head><body><main><h1>تحديث تطبيق راتبي</h1><p id="status">جار تحديث ملفات التطبيق فقط، مع الحفاظ على الحركات والحسابات</p><button id="retry" hidden>اعادة المحاولة</button></main><script>
+(async()=>{
+const status=document.getElementById(`status`),retry=document.getElementById(`retry`);
+try{
+if(`serviceWorker` in navigator){
+const regs=await navigator.serviceWorker.getRegistrations();
+await Promise.all(regs.filter(r=>r.scope.startsWith(new URL(`./`,location.href).href)).map(r=>r.unregister()));
+}
+if(`caches` in window){
+const keys=await caches.keys();
+await Promise.all(keys.filter(k=>k.startsWith(`salary-shell-`)).map(k=>caches.delete(k)));
+}
+location.replace(`./?v=20261028-device-refresh-2`);
+}catch(error){
+status.textContent=`تعذر التحديث التلقائي، اضغط اعادة المحاولة`;
+retry.hidden=false;retry.onclick=()=>location.reload();
+}
+})();
+</script></body></html>
