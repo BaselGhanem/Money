@@ -8,6 +8,6 @@
  window.addEventListener(`appinstalled`,()=>{installPrompt=null;button().disabled=true;button().textContent=`تم تثبيت التطبيق`;status().textContent=`يمكنك الآن فتح راتبي من الشاشة الرئيسية.`});
  document.addEventListener(`DOMContentLoaded`,()=>{
   update();button()?.addEventListener(`click`,async()=>{if(!installPrompt){const help=document.getElementById(`installHelp`);help.open=true;status().textContent=`اتبع الخطوات أدناه لإضافة التطبيق من متصفحك.`;return}const prompt=installPrompt;installPrompt=null;button().disabled=true;try{await prompt.prompt();const choice=await prompt.userChoice;update();status().textContent=choice.outcome===`accepted`?`تمت الموافقة على التثبيت؛ سيكمل المتصفح إضافة التطبيق.`:`يمكنك تثبيت التطبيق لاحقا من قائمة المتصفح.`}catch{update();document.getElementById(`installHelp`).open=true;status().textContent=`استخدم خطوات التثبيت من قائمة متصفحك.`}});
-  if(`serviceWorker` in navigator)navigator.serviceWorker.register(`./sw.js`).catch(()=>{});
+  if(`serviceWorker` in navigator){navigator.serviceWorker.addEventListener(`controllerchange`,()=>window.location.reload(),{once:true});navigator.serviceWorker.register(`./sw.js`,{updateViaCache:`none`}).then(reg=>{reg.update().catch(()=>{});document.addEventListener(`visibilitychange`,()=>{if(!document.hidden)reg.update().catch(()=>{})});}).catch(()=>{});}
  });
 })();
