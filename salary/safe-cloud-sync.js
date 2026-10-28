@@ -165,8 +165,17 @@ async function initialize(){
   if(!core.equal(current,remote)&&!formOpen())apply(remote);
   remoteConflict=null;setStatus(`online`,`تم التحقق من بيانات السحابة`);return;
  }
- // Legacy installations have no trustworthy baseline. Do not guess which is newer.
- ready=true;conflict(new core.SyncConflict(`first connection has two different histories`),remote);
+ // For an older device without a baseline, safely combine independent movements.
+ // Ambiguous overlapping edits still require review to avoid losing payments.
+ try{
+  const combined=core.merge({months:{}},current,remote);
+  checkpoint(`first-connection-merged-backup`,current);
+  setBase(remote);ready=true;
+  if(!core.equal(current,combined))apply(combined);
+  if(!core.financialEqual(combined,remote))schedule();
+  else setStatus(`online`,`الحركات محدثة على كل اجهزتك`);
+  remoteConflict=null;
+ }catch(error){ready=true;conflict(error,remote)}
 }
 function listen(){
  if(unsubscribe)unsubscribe();
