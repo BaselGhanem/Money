@@ -33,3 +33,14 @@
 .scrollDockTall{max-height:42dvh}
 }
 @media print{.scrollDock,.scrollDockHeading{position:static!important;max-height:none;overflow:visible;box-shadow:none}}
+
+/* Movement contextual actions */
+.tx{overflow:visible}
+.movementMore{position:relative;z-index:2;min-width:0}
+.movementMore[open]{z-index:90}
+.movementMore summary{list-style:none;cursor:pointer;white-space:nowrap;padding:7px 11px;border-radius:11px;border:1px solid var(--hairline,#294046);background:var(--surface,#111a20);font:700 12px Almarai,sans-serif;color:var(--text,#eef5f6)}
+.movementMore summary::-webkit-details-marker{display:none}
+.movementMore summary:after{content:" ▾"}
+.movementMoreMenu{position:absolute;inset-inline-end:0;top:calc(100% + 5px);z-index:100;min-width:175px;display:grid;gap:3px;padding:6px;border:1px solid var(--hairline,#294046);border-radius:13px;background:var(--surface,#111a20);box-shadow:0 14px 35px #0005}
+.movementMoreMenu button{border:0;border-radius:9px;padding:10px 12px;text-align:start;background:transparent;color:var(--text,#eef5f6);font:700 12px Almarai,sans-serif;cursor:pointer}
+.movementMoreMenu button:hover,.movementMoreMenu button:focus-visible{background:rgba(9,153,153,.16)}
