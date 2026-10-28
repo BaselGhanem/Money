@@ -1,5 +1,5 @@
 /* Mobile layout: a single, deliberate override layer. */
-@media(max-width:760px){
+@media(max-width:760px), (pointer:coarse) and (max-device-width:600px){
 html{scroll-padding-bottom:110px}body{padding-bottom:0;overflow-x:clip}.app{display:block;min-height:100dvh}.main{width:100%;max-width:100%;margin:0;padding:16px 14px calc(106px + env(safe-area-inset-bottom));align-self:start}
 .topbar{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;min-height:0;margin:0 0 22px;padding:0}.greeting h1{font-size:21px;line-height:1.5;letter-spacing:0}.greeting p{display:block;font-size:12px;line-height:1.7;margin-top:3px}.topActions{display:grid;grid-template-columns:minmax(0,1fr) 44px 44px;gap:8px;width:100%;align-items:center}.monthPicker{height:46px;width:100%;max-width:none;padding:0 10px;gap:8px;border-radius:13px}.monthPicker>span{display:block;flex-shrink:0}.monthPicker .searchCombo{width:100%;flex:1}.monthPicker .comboInput{width:100%;min-height:38px;font-size:16px;padding-inline:10px 30px}.circleBtn{width:44px;height:44px;min-height:44px;border-radius:13px}
 .sectionHead{display:flex;flex-direction:column;align-items:stretch;gap:14px;margin:20px 0 14px}.sectionHead h1{font-size:25px;letter-spacing:0;line-height:1.5}.sectionHead h2{font-size:21px;line-height:1.5}.sectionHead p{font-size:13px;line-height:1.8}.sectionHead>.btn,.sectionHead>.accountHeadActions{width:100%}.sectionHead>.btn{min-height:46px}.eyebrow{letter-spacing:.04em}.panel{padding:16px;border-radius:20px;box-shadow:none;backdrop-filter:none}
@@ -19,7 +19,7 @@ html{scroll-padding-bottom:110px}body{padding-bottom:0;overflow-x:clip}.app{disp
 body:has(.modal:not(.hidden)){overflow:hidden}.btn{white-space:normal;line-height:1.5}
 }
 @media(max-width:350px){.main{padding-inline:10px}.balanceHero{padding:20px 16px}.menuLink{flex-direction:column;text-align:center}.categoryMetrics .quickCard strong{font-size:17px}}
-@media(min-width:761px){.mobileFilterToggle{display:none}.mobileFilterGroup{display:contents}}
+@media(min-width:761px) and (pointer:fine){.mobileFilterToggle{display:none}.mobileFilterGroup{display:contents}}
 
 /* The cloud status belongs to Settings rather than over the workspace. */
 #moneyCloudPill{position:static!important;inset:auto!important;z-index:auto!important;width:100%!important;min-height:48px;box-shadow:none!important;border-radius:13px!important;background:var(--surface-2)!important;color:var(--text-strong)!important;padding:14px!important;font-size:13px!important;backdrop-filter:none!important}
