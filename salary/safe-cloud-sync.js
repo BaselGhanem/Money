@@ -174,6 +174,19 @@ function listen(){
   if(!snapshot.exists||snapshot.metadata?.hasPendingWrites||blocked||!ready)return;
   const data=snapshot.data();if(data.clientId===clientId||core.equal(data.payload,base))return;
   if(formOpen()){again=true;setStatus(`syncing`,`تحديث متاح · اكمل النموذج للمزامنة`);return}
+  // Apply a server change immediately when this device has no uncommitted edits.
+  // Never overwrite local edits: reconcile those through the transactional writer.
+  const local=read();
+  if(base&&local&&core.equal(local,base)){
+   try{
+    core.validateAndRecompute(core.copy(data.payload));
+    setBase(data.payload);
+    remoteConflict=null;
+    apply(data.payload);
+    setStatus(`online`,`الحركات محدثة على كل اجهزتك`);
+   }catch(error){handleError(error)}
+   return;
+  }
   schedule();
  },handleError);
 }
