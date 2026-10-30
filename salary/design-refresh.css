@@ -1,0 +1,56 @@
+/* Salary Design Refresh — presentation only; no data, storage, or authentication changes. */
+:root{--salary-focus:#099999;--salary-ease:cubic-bezier(.2,.8,.2,1)}
+html{scroll-behavior:smooth}
+body{font-feature-settings:"kern" 1}
+#app{min-width:0}
+.main,.page,.section,.panel,.card,.tx,.modalCard{min-width:0}
+.main{isolation:isolate}
+.sidebar{box-shadow:0 12px 48px rgba(10,34,41,.055)}
+.sidebar .brandMark{box-shadow:0 8px 24px rgba(9,153,153,.16)}
+.sidebar .nav a[data-page]{transition:background-color .2s var(--salary-ease),color .2s var(--salary-ease),transform .2s var(--salary-ease)}
+@media (min-width:761px) and (hover:hover){
+ .sidebar .nav a[data-page]:hover{transform:translateX(-3px)}
+ .btn:not(:disabled):hover{transform:translateY(-1px)}
+}
+.greeting h1,.sectionHead h1,.sectionHead h2{letter-spacing:-.035em;text-wrap:balance}
+.balanceHero,.quickCard,.accountCard,.settingCard,.modalCard{box-shadow:0 12px 36px rgba(18,43,52,.055);border-color:color-mix(in srgb,var(--line,#d9e3e5) 76%,transparent)}
+.balanceHero{overflow:hidden}
+.btn,.menuLink,.tx,.quickCard,.accountCard{transition:background-color .18s ease,border-color .18s ease,box-shadow .2s ease,transform .2s var(--salary-ease)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--salary-focus);outline-offset:3px}
+input,select,textarea,button{font:inherit}
+input,select,textarea{max-width:100%}
+.tx{contain:layout style}
+.tx .txMain{min-width:0}
+.tx .txMain strong,.tx .txMain span{overflow-wrap:anywhere}
+.tx .amount,.moneyValue{font-variant-numeric:tabular-nums}
+.modalCard{overscroll-behavior:contain}
+.moreMenuPanel{overscroll-behavior:contain}
+@media (hover:hover) and (min-width:761px){
+ .tx:hover,.quickCard:hover,.accountCard:hover{box-shadow:0 16px 40px rgba(18,43,52,.10)}
+}
+@media(max-width:760px){
+ html,body,#app,.main{max-width:100%;overflow-x:clip}
+ .main{padding-inline:clamp(12px,3.3vw,20px)}
+ .greeting h1{font-size:clamp(21px,5.8vw,28px);line-height:1.32}
+ .topbar{gap:12px}
+ .balanceHero{border-radius:25px}
+ .sidebar{box-shadow:0 10px 38px rgba(8,29,36,.18)}
+ .sidebar .nav{min-width:0}
+ .sidebar .nav a[data-page],.sidebar .nav .mobileMoreBtn,.sidebar .nav .mobileAddBtn{min-width:0}
+ .tx .txEnd .amount{font-size:clamp(16px,4.8vw,21px)}
+ .tx .txMain>strong{font-size:clamp(14px,4vw,17px)}
+ .modal{padding:10px}
+ .modalCard{max-height:calc(100dvh - 20px);border-radius:23px}
+ .modalActions{flex-wrap:wrap}
+ .modalActions .btn{min-height:44px}
+ .toast{max-width:calc(100vw - 28px)}
+}
+@media(max-width:390px){
+ .sectionHead h1,.sectionHead h2{font-size:19px}
+ .quickColumn{gap:8px}
+ .quickCard{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .sidebar .nav a[data-page],.btn,.menuLink,.tx,.quickCard,.accountCard{transition:none!important}
+}
