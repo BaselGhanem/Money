@@ -1,0 +1,131 @@
+/* Salary Design Refresh — presentation only; no data, storage, or authentication changes. */
+:root{--salary-focus:#099999;--salary-ease:cubic-bezier(.2,.8,.2,1)}
+html{scroll-behavior:smooth}
+body{font-feature-settings:"kern" 1}
+#app{min-width:0}
+.main,.page,.section,.panel,.card,.tx,.modalCard{min-width:0}
+.main{isolation:isolate}
+.sidebar{box-shadow:0 12px 48px rgba(10,34,41,.055)}
+.sidebar .brandMark{box-shadow:0 8px 24px rgba(9,153,153,.16)}
+.sidebar .nav a[data-page]{transition:background-color .2s var(--salary-ease),color .2s var(--salary-ease),transform .2s var(--salary-ease)}
+@media (min-width:761px) and (hover:hover){
+ .sidebar .nav a[data-page]:hover{transform:translateX(-3px)}
+ .btn:not(:disabled):hover{transform:translateY(-1px)}
+}
+.greeting h1,.sectionHead h1,.sectionHead h2{letter-spacing:-.035em;text-wrap:balance}
+.balanceHero,.quickCard,.accountCard,.settingCard,.modalCard{box-shadow:0 12px 36px rgba(18,43,52,.055);border-color:color-mix(in srgb,var(--line,#d9e3e5) 76%,transparent)}
+.balanceHero{overflow:hidden}
+.btn,.menuLink,.tx,.quickCard,.accountCard{transition:background-color .18s ease,border-color .18s ease,box-shadow .2s ease,transform .2s var(--salary-ease)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--salary-focus);outline-offset:3px}
+input,select,textarea,button{font:inherit}
+input,select,textarea{max-width:100%}
+.tx .txMain{min-width:0}
+.tx .txMain strong,.tx .txMain span{overflow-wrap:anywhere}
+.tx .amount,.moneyValue{font-variant-numeric:tabular-nums}
+.modalCard{overscroll-behavior:contain}
+.moreMenuPanel{overscroll-behavior:contain}
+@media (hover:hover) and (min-width:761px){
+ .tx:hover,.quickCard:hover,.accountCard:hover{box-shadow:0 16px 40px rgba(18,43,52,.10)}
+}
+@media(max-width:760px){
+ html,body{max-width:100%;overflow-x:clip}
+ #app,.main{max-width:100%;min-width:0}
+ .main{padding-inline:clamp(12px,3.3vw,20px)}
+ .greeting h1{font-size:clamp(21px,5.8vw,28px);line-height:1.32}
+ .topbar{gap:12px}
+ .balanceHero{border-radius:25px}
+ .sidebar{box-shadow:0 10px 38px rgba(8,29,36,.18)}
+ .sidebar .nav{min-width:0}
+ .sidebar .nav a[data-page],.sidebar .nav .mobileMoreBtn,.sidebar .nav .mobileAddBtn{min-width:0}
+ .tx .txEnd .amount{font-size:clamp(16px,4.8vw,21px)}
+ .tx .txMain>strong{font-size:clamp(14px,4vw,17px)}
+ .modal{padding:10px}
+ .modalCard{max-height:calc(100dvh - 20px);border-radius:23px}
+ .modalActions{flex-wrap:wrap}
+ .modalActions .btn{min-height:44px}
+ .toast{max-width:calc(100vw - 28px)}
+}
+@media(max-width:390px){
+ .sectionHead h1,.sectionHead h2{font-size:19px}
+ .quickColumn{gap:8px}
+ .quickCard{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .sidebar .nav a[data-page],.btn,.menuLink,.tx,.quickCard,.accountCard{transition:none!important}
+}
+
+/* V2 visual polish — preserve all existing screens, IDs, form handlers and data. */
+:root{--ratibi-tint:color-mix(in srgb,var(--brand,#099999) 9%,var(--surface,#fff));--ratibi-elev:0 8px 25px rgba(10,37,43,.065),0 1px 4px rgba(10,37,43,.035)}
+body.light .main{background:radial-gradient(ellipse 55% 32% at 18% 0%,rgba(9,153,153,.045),transparent 75%)}
+.sidebar{border-inline-end:1px solid var(--hairline);background:var(--surface)!important}
+.sidebar .brand{gap:12px}
+.sidebar .brandMark{border-radius:15px}
+.sidebar .nav a[data-page].active{background:var(--ratibi-tint)!important;border-color:color-mix(in srgb,var(--brand) 24%,var(--hairline));color:var(--text-strong)!important;font-weight:800}
+.sidebar .nav a[data-page].active .ico{color:var(--brand)}
+.topbar{border-bottom:0!important;position:relative}
+.topbar::after{content:"";position:absolute;inset-inline:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--hairline),transparent)}
+.topbar .greeting h1{font-size:clamp(22px,2.2vw,29px);font-weight:850}
+#dashboardPage #dailyHome{display:grid;gap:14px}
+#dashboardPage #dailyHome>.sectionHead{margin:12px 0 0}
+#dashboardPage .dailyHero{min-height:260px;padding:clamp(24px,3vw,38px);background:linear-gradient(128deg,#073e46 5%,#075963 55%,#099999 135%)!important;color:#fff!important;border:1px solid rgba(185,244,238,.26)!important;box-shadow:0 18px 46px rgba(5,77,82,.22)!important}
+#dashboardPage .dailyHero::after{width:380px;height:380px;inset:auto auto -210px -115px;border:65px solid rgba(255,255,255,.045)}
+#dashboardPage .dailyHero>span,#dashboardPage .dailyHero>small{color:rgba(236,255,251,.82)!important}
+#dashboardPage .dailyHero>strong{font-size:clamp(34px,5.1vw,64px);line-height:1.2;color:#fff!important;font-weight:850;letter-spacing:-.025em}
+#dashboardPage .dailyHero>.btn.primary{background:#e7faf7!important;color:#064b4d!important;border:0;font-weight:850}
+#dashboardPage .dailyHero #heroAccounts{position:relative;z-index:1}
+#dashboardPage .dailyHero #heroAccounts :is(span,small){color:inherit}
+#dashboardPage .planning-launch{border:1px solid color-mix(in srgb,var(--brand) 32%,var(--hairline));background:linear-gradient(115deg,var(--ratibi-tint),var(--surface));border-radius:22px;min-height:106px;padding:22px 24px;box-shadow:var(--ratibi-elev)}
+#dashboardPage .planning-launch strong{font-size:clamp(18px,2.15vw,24px);font-weight:850}
+#dashboardPage .planning-launch small{letter-spacing:.01em}
+#dashboardPage .dailyShortcuts{gap:10px}
+#dashboardPage .dailyShortcuts>.btn{border:1px solid var(--hairline);background:var(--surface-2);min-height:44px}
+#dashboardPage #dailyToday .tx{border-radius:18px}
+#transactionsPage>.sectionHead,#obligationsPage>.sectionHead,#accountsPage>.sectionHead{margin-top:0;margin-bottom:22px}
+#transactionsPage>.panel,#obligationsPage>.panel{border-radius:24px;padding:clamp(14px,2.2vw,25px);box-shadow:var(--ratibi-elev)}
+#transactionsPage .transactionToolbar{gap:10px}
+#transactionsPage .toolbar :is(input,select),#obligationsPage .toolbar :is(input,select){min-height:46px;border-radius:12px;background:var(--surface-2);border:1px solid var(--hairline);padding-inline:12px;color:var(--text-strong)}
+#transactionsPage #txSearch,#obligationsPage #obligationSearch{border:1px solid color-mix(in srgb,var(--brand) 24%,var(--hairline));background:var(--surface)!important}
+#transactionsPage .filterChips{padding-block:8px}
+#transactionsPage .filterChip{min-height:38px;border-radius:999px}
+#txList,#obligationList,#dailyToday{gap:10px}
+#txList>.tx,#obligationList>.tx,#dailyToday>.tx{border:1px solid var(--hairline);border-radius:18px;box-shadow:0 3px 14px rgba(8,32,38,.035);background:var(--surface);position:relative}
+#txList>.tx:hover,#obligationList>.tx:hover,#dailyToday>.tx:hover{border-color:color-mix(in srgb,var(--brand) 34%,var(--hairline))}
+#txList .txMain strong,#obligationList .txMain strong,#dailyToday .txMain strong{font-size:15px}
+#txList .txEnd .amount,#obligationList .txEnd .amount,#dailyToday .txEnd .amount{font-size:clamp(16px,1.8vw,20px);font-weight:850}
+#obligationMetrics{gap:12px;margin-bottom:16px}
+#obligationMetrics>*{border-radius:18px;box-shadow:var(--ratibi-elev)}
+#accountsPage .carryNote{padding:15px 18px;border-radius:15px;background:var(--ratibi-tint);border:1px solid color-mix(in srgb,var(--brand) 24%,var(--hairline));line-height:1.8}
+#accountsPage #accountsManager{gap:14px}
+#accountsPage .accountCard{min-height:190px;border-radius:22px;padding:23px;box-shadow:var(--ratibi-elev);transition:transform .2s ease,box-shadow .2s ease}
+#accountsPage .accountCard h3{font-size:17px}
+#accountsPage .accountCard .bal{font-size:clamp(24px,2.9vw,34px);font-weight:850}
+#accountsPage .accountCard .open{border-top:1px solid var(--hairline)}
+#accountsPage .accountHeadActions{display:flex;flex-wrap:wrap;gap:9px}
+#accountsPage .accountHeadActions .btn{min-height:44px}
+.modalCard{border-radius:25px;box-shadow:0 28px 84px rgba(0,0,0,.22)}
+.modalHead h2{font-weight:850}
+@media(min-width:761px) and (hover:hover){
+ #accountsPage .accountCard:hover{transform:translateY(-3px);box-shadow:0 16px 42px rgba(10,37,43,.095)}
+}
+@media(max-width:760px){
+ #dashboardPage #dailyHome{gap:11px}
+ #dashboardPage .dailyHero{min-height:230px;padding:25px 19px;border-radius:24px}
+ #dashboardPage .dailyHero>strong{font-size:clamp(32px,9vw,46px)}
+ #dashboardPage .dailyHero>.btn.primary{min-width:0;width:max-content;max-width:100%}
+ #dashboardPage .planning-launch{min-height:100px;padding:17px 18px;border-radius:18px}
+ #dashboardPage .planning-launch strong{font-size:18px}
+ #transactionsPage>.panel,#obligationsPage>.panel{padding:12px;border-radius:18px}
+ #transactionsPage .transactionToolbar{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ #transactionsPage #txSearch{grid-column:1/-1;min-width:0}
+ #transactionsPage .toolbar :is(input,select),#obligationsPage .toolbar :is(input,select){font-size:12px;min-width:0;width:100%;max-width:100%}
+ #transactionsPage .filterChips{max-width:100%;flex-wrap:wrap}
+ #txList>.tx,#obligationList>.tx,#dailyToday>.tx{border-radius:17px}
+ #txList .txEnd .amount,#obligationList .txEnd .amount,#dailyToday .txEnd .amount{font-size:18px}
+ #obligationsPage .sectionHead .btn,#transactionsPage .sectionHead .btn,#accountsPage .accountHeadActions .btn{max-width:100%}
+ #accountsPage .accountHeadActions{width:100%}
+ #accountsPage .accountCard{min-height:0;padding:19px}
+ #accountsPage .carryNote{font-size:12px;padding:13px}
+}
+@media(max-width:375px){#transactionsPage .transactionToolbar{grid-template-columns:1fr}#transactionsPage .toolbar :is(input,select){grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){#accountsPage .accountCard{transition:none}#accountsPage .accountCard:hover{transform:none}}
