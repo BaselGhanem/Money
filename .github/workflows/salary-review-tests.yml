@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - audit-phase1-recurrence-20261031
+      - staging-salary-isolated-20261031
   workflow_dispatch:
 jobs:
   finance-tests:
