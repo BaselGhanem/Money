@@ -129,3 +129,33 @@ body.light .main{background:radial-gradient(ellipse 55% 32% at 18% 0%,rgba(9,153
 }
 @media(max-width:375px){#transactionsPage .transactionToolbar{grid-template-columns:1fr}#transactionsPage .toolbar :is(input,select){grid-column:1/-1}}
 @media(prefers-reduced-motion:reduce){#accountsPage .accountCard{transition:none}#accountsPage .accountCard:hover{transform:none}}
+
+/* Daylight contrast repair — scoped strictly to light theme. */
+body.light{--page:#f5f8fa;--surface:#ffffff;--surface-2:#f1f6f7;--text-strong:#16303a;--text-soft:#526974;--hairline:#dbe6e9}
+body.light .main{background:radial-gradient(ellipse 60% 35% at 10% 0%,rgba(9,153,153,.035),transparent 78%),var(--page)}
+body.light .sidebar{background:#fff!important;border-color:#e0e9eb;box-shadow:-9px 0 36px rgba(16,45,52,.035)}
+body.light .sidebar .nav a[data-page].active{background:#e4f5f2!important;color:#075c60!important;border:1px solid #b9e4de!important;box-shadow:inset 3px 0 0 #099999}
+body.light .sidebar .nav a[data-page].active .ico,
+body.light .sidebar .nav a[data-page].active :is(svg,path){color:#075c60!important;stroke:currentColor!important}
+body.light #dashboardPage .dailyHero{background:linear-gradient(125deg,#093e49 0%,#086872 75%,#077b79 100%)!important;color:#fff!important;border-color:#187b83!important;box-shadow:0 16px 38px rgba(6,65,75,.14)!important}
+body.light #dashboardPage .dailyHero>strong,
+body.light #dashboardPage .dailyHero>span,
+body.light #dashboardPage .dailyHero>small{color:#fff!important}
+body.light #dashboardPage .dailyHero>small{color:#d6edef!important}
+body.light #dashboardPage .dailyHero #heroAccounts{z-index:2}
+body.light #dashboardPage .dailyHero .heroAccount{background:rgba(255,255,255,.12)!important;border:1px solid rgba(222,255,251,.26)!important;box-shadow:none!important;backdrop-filter:blur(6px);color:#fff!important}
+body.light #dashboardPage .dailyHero .heroAccount:hover{background:rgba(255,255,255,.19)!important}
+body.light #dashboardPage .dailyHero .heroAccount .heroAccountName,
+body.light #dashboardPage .dailyHero .heroAccount :is(strong,span,b){color:#fff!important;text-shadow:none}
+body.light #dashboardPage .dailyHero .heroAccount small{color:#cfece9!important}
+body.light #dashboardPage .dailyHero .heroAccount strong.negative{color:#ffd6cf!important}
+body.light #dashboardPage .dailyHero .heroAccount:focus-visible{outline:3px solid #d8f7f0;outline-offset:2px}
+body.light #dashboardPage .dailyHero>.btn.primary{background:#e9faf7!important;color:#074c53!important;border:1px solid rgba(255,255,255,.7)!important}
+body.light #dashboardPage .planning-launch{background:linear-gradient(115deg,#f9fefd,#e5f4f1)!important;color:#113e43!important;border:1px solid #bfdfdb!important;box-shadow:0 7px 22px rgba(9,74,79,.06)!important}
+body.light #dashboardPage .planning-launch :is(small,strong,em,i,svg){color:#12444a!important}
+body.light .sectionHead h2,body.light .sectionHead h1{color:#17333c}
+body.light .panel:not(.dailyHero),body.light .accountCard,body.light .quickCard{box-shadow:0 5px 24px rgba(22,58,64,.045)}
+@media(max-width:760px){
+ body.light #dashboardPage .dailyHero .heroAccount{background:rgba(255,255,255,.14)!important}
+ body.light #dashboardPage .planning-launch{border-radius:18px}
+}
