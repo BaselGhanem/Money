@@ -11,7 +11,7 @@
   storage.getItem=function(k){return read(k)};
   storage.setItem=function(k,v){return original.set(tag+String(k),String(v))};
   storage.removeItem=function(k){return original.remove(tag+String(k))};
-  storage.clear=function(){for(let i=original.key.length;i>=0;i--){} const keys=[];for(let i=0;i<storage.length;i++){const k=original.key(i);if(k&&k.startsWith(tag))keys.push(k)}keys.forEach(k=>original.remove(k))};
+  storage.clear=function(){const keys=[];for(let i=0;i<storage.length;i++){const k=original.key(i);if(k&&k.startsWith(tag))keys.push(k)}keys.forEach(k=>original.remove(k))};
  }
  document.addEventListener(`DOMContentLoaded`,()=>{
   const banner=document.createElement(`div`);
