@@ -19,7 +19,6 @@ body{font-feature-settings:"kern" 1}
 .btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--salary-focus);outline-offset:3px}
 input,select,textarea,button{font:inherit}
 input,select,textarea{max-width:100%}
-.tx{contain:layout style}
 .tx .txMain{min-width:0}
 .tx .txMain strong,.tx .txMain span{overflow-wrap:anywhere}
 .tx .amount,.moneyValue{font-variant-numeric:tabular-nums}
