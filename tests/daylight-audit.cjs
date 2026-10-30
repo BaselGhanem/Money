@@ -47,7 +47,7 @@ const sizes=[{name:'phone',width:390,height:844},{name:'desktop',width:1440,heig
  }
  await browser.close();
  fs.writeFileSync('daylight-artifacts/report.json',JSON.stringify(results,null,2));
- console.log(JSON.stringify(results.map(r=>({size:r.size,page:r.page,checked:r.checked,failures:r.totalFailures,overflow:r.scrollWidth>r.viewport+2})),null,2));
+ console.log(JSON.stringify(results.filter(r=>r.totalFailures).map(r=>({size:r.size,page:r.page,failures:r.failures})),null,2));
  const missing=results.filter(r=>r.error||r.checked===0||r.scrollWidth>r.viewport+2);
  if(missing.length){console.error('CRITICAL',missing);process.exit(1)}
 })().catch(e=>{console.error(e);process.exit(1)});
