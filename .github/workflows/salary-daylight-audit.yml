@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - audit-daylight-all-pages-20261031
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 permissions:
   contents: read
