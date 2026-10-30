@@ -1,0 +1,26 @@
+name: Salary financial regression review
+on:
+  push:
+    branches:
+      - audit-phase1-recurrence-20261031
+  workflow_dispatch:
+jobs:
+  finance-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify syntax of financial cores
+        run: |
+          node --check salary/planner-core.js
+          node --check salary/sync-core.js
+      - name: Run existing planner regression tests
+        run: node --test salary/tests/planner-core.test.cjs
+      - name: Run recurring dates regression tests
+        run: node --test salary/tests/recurrence-date-regression.test.cjs
+      - name: Run payment and synchronization tests
+        run: node --test tests/payment-sync.test.cjs tests/phase2-financial-guards.test.cjs
