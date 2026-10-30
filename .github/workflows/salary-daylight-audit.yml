@@ -1,0 +1,36 @@
+name: Salary daylight all-pages audit
+on:
+  push:
+    branches:
+      - audit-daylight-all-pages-20261031
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Start local server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/salary-daylight.log 2>&1 &
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:8765/salary/ >/dev/null && break; sleep 1; done
+      - name: Audit all pages
+        run: node tests/daylight-audit.cjs
+      - name: Upload screenshots and contrast report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: salary-daylight-all-pages
+          path: daylight-artifacts/*
+          if-no-files-found: warn

@@ -159,3 +159,19 @@ body.light .panel:not(.dailyHero),body.light .accountCard,body.light .quickCard{
  body.light #dashboardPage .dailyHero .heroAccount{background:rgba(255,255,255,.14)!important}
  body.light #dashboardPage .planning-launch{border-radius:18px}
 }
+
+/* Light-mode contrast repairs found by all-pages Chromium audit. */
+body.light #dashboardPage .decisionGrid .commitmentsPanel,
+body.light #dashboardPage .decisionGrid .categoryPanel{
+ background:#ffffff!important;color:#16303a!important;border-color:#dbe6e9!important
+}
+body.light #dashboardPage .decisionGrid :is(.commitmentsPanel,.categoryPanel) .miniSectionHead h3,
+body.light #dashboardPage .decisionGrid .commitmentsPanel #commitmentsTotal{
+ color:#16303a!important
+}
+body.light #categoriesPage .categoryViewTabs button{
+ color:#16303a!important
+}
+body.light #categoriesPage .categoryViewTabs button:not(.active){
+ background:transparent!important
+}
