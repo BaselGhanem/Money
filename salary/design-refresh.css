@@ -28,7 +28,8 @@ input,select,textarea{max-width:100%}
  .tx:hover,.quickCard:hover,.accountCard:hover{box-shadow:0 16px 40px rgba(18,43,52,.10)}
 }
 @media(max-width:760px){
- html,body,#app,.main{max-width:100%;overflow-x:clip}
+ html,body{max-width:100%;overflow-x:clip}
+ #app,.main{max-width:100%;min-width:0}
  .main{padding-inline:clamp(12px,3.3vw,20px)}
  .greeting h1{font-size:clamp(21px,5.8vw,28px);line-height:1.32}
  .topbar{gap:12px}
