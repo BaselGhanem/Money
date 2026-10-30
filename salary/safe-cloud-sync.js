@@ -188,7 +188,7 @@ function listen(){
   const local=read();
   if(base&&local&&core.equal(local,base)){
    try{
-    core.validateAndRecompute(core.copy(data.payload));
+    core.merge(base,base,data.payload);
     setBase(data.payload);
     remoteConflict=null;
     apply(data.payload);

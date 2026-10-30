@@ -31,12 +31,12 @@ function entries(state){return Object.values(state?.months||{}).flatMap(data=>da
 function validateAndRecompute(state){
  const items=entries(state),byId=new Map(items.map(item=>[item.id,item])),paid=new Map(),occurrences=new Map();
  for(const item of items){
-  if(item.obligationId){const parent=byId.get(item.obligationId);if(!parent||parent.obligationTotal===undefined||parent.type!==`expense`||item.type!==`expense`||item.obligationId===item.id||item.recurring===true)throw new SyncConflict(`invalid payment link`);if(item.completed===true)paid.set(parent.id,(paid.get(parent.id)||0)+Number(item.amount))}
+  if(item.obligationId){const parent=byId.get(item.obligationId);if(!parent||parent.obligationTotal===undefined||parent.type!==`expense`||item.type!==`expense`||item.obligationId===item.id||item.recurring===true)throw new SyncConflict(`invalid payment link`);if(item.completed===true){const value=Number(item.amount);if(!Number.isFinite(value)||value<=0)throw new SyncConflict(`invalid completed payment amount`);paid.set(parent.id,(paid.get(parent.id)||0)+value)}}
   if(item.recurrenceId&&item.recurrenceMonth&&!item.obligationId){const key=`${item.recurrenceId}:${item.recurrenceMonth}`;if(occurrences.has(key))throw new SyncConflict(`duplicate recurrence occurrence`);occurrences.set(key,item.id)}
  }
  for(const item of items){
-  if(item.obligationTotal!==undefined){const total=Number(item.obligationTotal),sum=Math.round((paid.get(item.id)||0)*100)/100;if(!Number.isFinite(total)||sum>total+.005)throw new SyncConflict(`payments exceed obligation total`);item.amount=Math.round((total-sum)*100)/100;item.completed=item.amount<.005}
-  else if(!Number.isFinite(Number(item.amount)))throw new SyncConflict(`invalid movement amount`);
+  if(item.obligationTotal!==undefined){const total=Number(item.obligationTotal),sum=Math.round((paid.get(item.id)||0)*100)/100;if(!Number.isFinite(total)||total<0||sum>total+.005)throw new SyncConflict(`payments exceed obligation total`);item.amount=Math.round((total-sum)*100)/100;item.completed=item.amount<.005}
+  else if(!Number.isFinite(Number(item.amount))||([`income`,`expense`,`previous`].includes(item.type)&&Number(item.amount)<0))throw new SyncConflict(`invalid movement amount`);
  }
  return state;
 }
