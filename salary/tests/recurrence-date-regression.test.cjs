@@ -41,7 +41,7 @@ test(`planner still excludes a recurrence outside the salary cycle`, () => {
   const state = {
     accounts: { Bank: { active: true } },
     recurrences: [makeRule(1, 28, `2026-10-28`)],
-    months: { `2026-10`: { items: [], transfers: [] } }
+    months: { [`2026-10`]: { items: [], transfers: [] } }
   };
   const plan = C.build(state, `2026-10-25`, 1000, `regression`);
   const entries = plan.entries.filter(item => item.ruleId === `date-change`);
