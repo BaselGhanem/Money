@@ -36,7 +36,7 @@ function validateAndRecompute(state){
  }
  for(const item of items){
   if(item.obligationTotal!==undefined){const total=Number(item.obligationTotal),sum=Math.round((paid.get(item.id)||0)*100)/100;if(!Number.isFinite(total)||total<0||sum>total+.005)throw new SyncConflict(`payments exceed obligation total`);item.amount=Math.round((total-sum)*100)/100;item.completed=item.amount<.005}
-  else if(!Number.isFinite(Number(item.amount))||Number(item.amount)<0)throw new SyncConflict(`invalid movement amount`);
+  else if(!Number.isFinite(Number(item.amount))||([`income`,`expense`,`previous`].includes(item.type)&&Number(item.amount)<0))throw new SyncConflict(`invalid movement amount`);
  }
  return state;
 }
