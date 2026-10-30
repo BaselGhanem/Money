@@ -15,7 +15,7 @@ const sizes=[{name:'phone',width:390,height:844},{name:'desktop',width:1440,heig
     document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
     const section=document.getElementById(id);if(!section)return {error:'missing section'};
     section.classList.add('active');section.classList.remove('hidden');
-    const parse=val=>{const m=(val||'').match(/rgba?\\(([^)]+)\\)/);if(!m)return null;const a=m[1].split(',').map(Number);return a.length===3?[...a,1]:a};
+    const parse=val=>{const m=(val||'').match(/rgba?\(([^)]+)\)/);if(!m)return null;const a=m[1].split(',').map(Number);return a.length===3?[...a,1]:a};
     const luminance=rgb=>{const [r,g,b]=rgb.slice(0,3).map(c=>{c/=255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4});return .2126*r+.7152*g+.0722*b};
     const ratio=(a,b)=>{const x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
     const candidates=[...section.querySelectorAll('h1,h2,h3,p,small,strong,span,label,button,a,input,select,.moneyValue,.heroAccountName')];
@@ -48,6 +48,6 @@ const sizes=[{name:'phone',width:390,height:844},{name:'desktop',width:1440,heig
  await browser.close();
  fs.writeFileSync('daylight-artifacts/report.json',JSON.stringify(results,null,2));
  console.log(JSON.stringify(results.map(r=>({size:r.size,page:r.page,checked:r.checked,failures:r.totalFailures,overflow:r.scrollWidth>r.viewport+2})),null,2));
- const missing=results.filter(r=>r.error||r.scrollWidth>r.viewport+2);
+ const missing=results.filter(r=>r.error||r.checked===0||r.scrollWidth>r.viewport+2);
  if(missing.length){console.error('CRITICAL',missing);process.exit(1)}
 })().catch(e=>{console.error(e);process.exit(1)});
