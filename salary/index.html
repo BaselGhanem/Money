@@ -32,7 +32,7 @@
 <script src="loading-stories.js?v=20261009-single-story-1"></script>
 <section id="auth" class="auth hidden">
   <div class="authVisual"><div class="authBadge"><i></i><span>مساحتك المالية الخاصة</span></div><div><h1>راتبك.<br>حساباتك.<br>قرارك.</h1><p>مركز مالي شخصي يجمع الراتب والمصاريف والحوالات والحسابات ضمن تجربة واحدة واضحة.</p></div></div>
-  <div class="authFormWrap"><form id="loginForm" class="authCard"><div class="authLogo">ر</div><h2>أهلًا باسل</h2><p>أدخل كلمة السر لفتح مساحة العمل المالية.</p><label class="input"><span>كلمة السر</span><input id="passwordInput" type="password" inputmode="numeric" autocomplete="current-password" required></label><label class="rememberDevice"><input id="rememberDevice" type="checkbox"><span>تذكرني على هذا الجهاز</span></label><button class="btn primary wide" type="submit">فتح النظام</button><div id="loginError" class="error" role="alert"></div></form></div>
+  <div class="authFormWrap"><form id="loginForm" class="authCard"><div class="authLogo">ر</div><h2>أهلًا باسل</h2><p>أدخل كلمة السر لفتح مساحة العمل المالية.</p><label class="input"><span>كلمة السر</span><input type="text" name="username" autocomplete="username" value="Basel" tabindex="-1" aria-hidden="true" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"><input id="passwordInput" type="password" inputmode="numeric" autocomplete="current-password" required></label><label class="rememberDevice"><input id="rememberDevice" type="checkbox"><span>تذكرني على هذا الجهاز</span></label><button class="btn primary wide" type="submit">فتح النظام</button><div id="loginError" class="error" role="alert"></div></form></div>
 </section>
 <div id="app" class="app hidden">
 <aside class="sidebar">
@@ -110,7 +110,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="sync-core.js?v=20261020-payments-2"></script>
-<script src="safe-cloud-sync.js?v=20261031-authoritative-restore-1"></script>
+<script src="safe-cloud-sync.js?v=20261031-canonical-fix-1"></script>
 <script src="planner-core.js?v=20261023-2"></script>
 <script src="planner-pdf.js?v=20261023-2"></script>
 <script src="vendor/exceljs.min.js"></script>
