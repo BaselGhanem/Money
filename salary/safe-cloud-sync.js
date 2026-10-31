@@ -167,23 +167,18 @@ async function initialize(){
  const remote=snap.data().payload;if(!remote?.months)throw new core.SyncConflict(`invalid cloud state`);
  remoteConflict=core.copy(remote);
  if(restored){setBase(remote);ready=true;apply(remote);blocked=false;remoteConflict=null;return}
- if(saved?.uid===owner&&saved.payload){base=core.copy(saved.payload);ready=true;await flush();return}
+ if(saved?.uid===owner&&saved.payload){base=core.copy(saved.payload);ready=true;await flush();if(blocked){blocked=false;setBase(remote);apply(remote);remoteConflict=null}return}
  if(!core.hasMovements(current)||core.financialEqual(current,remote)){
   setBase(remote);ready=true;
   if(!core.equal(current,remote)&&!formOpen())apply(remote);
   remoteConflict=null;setStatus(`online`,`تم التحقق من بيانات السحابة`);return;
  }
- // For an older device without a baseline, safely combine independent movements.
- // Ambiguous overlapping edits still require review to avoid losing payments.
- try{
-  const combined=core.merge({months:{}},current,remote);
-  checkpoint(`first-connection-merged-backup`,current);
-  setBase(remote);ready=true;
-  if(!core.equal(current,combined))apply(combined);
-  if(!core.financialEqual(combined,remote))schedule();
-  else setStatus(`online`,`الحركات محدثة على كل اجهزتك`);
-  remoteConflict=null;
- }catch(error){ready=true;conflict(error,remote)}
+ // A verified account always uses its server snapshot as the canonical state.
+ // Preserve an old local-only version for recovery; never merge it back automatically.
+ checkpoint(`before-cloud-canonical-adoption`,current);
+ setBase(remote);ready=true;blocked=false;remoteConflict=null;
+ if(!core.equal(current,remote))apply(remote);
+ setStatus(`online`,`تم تحميل البيانات المعتمدة`);
 }
 function listen(){
  if(unsubscribe)unsubscribe();
