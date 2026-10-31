@@ -7,7 +7,7 @@ const nativeSet=Storage.prototype.setItem,nativeRemove=Storage.prototype.removeI
 const parse=raw=>{try{return JSON.parse(raw||`null`)}catch{return null}};
 const read=()=>parse(localStorage.getItem(KEY));
 const clientId=crypto.randomUUID?.()||`salary_${Date.now()}_${Math.random()}`;
-let user=null,db=null,auth=null,unsubscribe=null,ready=false,writing=false,again=false,timer=null,base=null,blocked=false,remoteConflict=null,view=core.copy(read()),generation=0,deferred=false;
+let user=null,db=null,auth=null,unsubscribe=null,ready=false,writing=false,again=false,timer=null,base=null,blocked=false,remoteConflict=null,view=core.copy(read()),generation=0,deferred=false,serverEpoch=null;
 let resolveInitialAuth;
 const initialAuth=new Promise(resolve=>{resolveInitialAuth=resolve});
 let status={mode:`offline`,label:`محفوظ على الجهاز · السحابة غير مربوطة`};
@@ -73,6 +73,8 @@ function showReview(){
 }
 function reference(){return db.collection(`moneyUsers`).doc(user.uid).collection(`apps`).doc(`salary`)}
 function baseKey(){return `${META}.${user.uid}`}
+function epochKey(){return `${META}.epoch.${user.uid}`}
+function observeEpoch(doc){const epoch=doc?.restoreEpoch||`none`,previous=localStorage.getItem(epochKey());serverEpoch=epoch;nativeSet.call(localStorage,epochKey(),epoch);if(previous&&previous!==epoch){checkpoint(`before-restore`,read());return true}return false}
 function setBase(payload){
  const value={uid:user.uid,payload:core.copy(payload)};
  // A baseline is only updated after a server read or a successful transaction.
@@ -103,6 +105,7 @@ async function flush(){
    const snapshot=await transaction.get(ref);
    const document=snapshot.exists?snapshot.data():{};
    const remote=document.payload||baseAtStart;
+   if((document.restoreEpoch||`none`)!==serverEpoch)throw new core.SyncConflict(`restore epoch changed`);
    remoteConflict=core.copy(remote);
    const merged=core.merge(baseAtStart,localAtStart,remote);
    if(!snapshot.exists||!core.equal(merged,remote))transaction.set(ref,{app:`salary`,payload:merged,syncProtocol:2,revision:Number(document.revision||0)+1,clientId,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAtMs:Date.now()},{merge:false});
@@ -159,9 +162,11 @@ async function initialize(){
  const owner=user.uid,epoch=generation;
  ready=false;const snap=await reference().get();if(epoch!==generation||owner!==user?.uid)return;
  const current=read(),saved=parse(sessionStorage.getItem(baseKey()));
- if(!snap.exists){setBase(current||{months:{}});ready=true;await flush();return}
+ if(!snap.exists){serverEpoch=`none`;setBase(current||{months:{}});ready=true;await flush();return}
+ const restored=observeEpoch(snap.data());
  const remote=snap.data().payload;if(!remote?.months)throw new core.SyncConflict(`invalid cloud state`);
  remoteConflict=core.copy(remote);
+ if(restored){setBase(remote);ready=true;apply(remote);blocked=false;remoteConflict=null;return}
  if(saved?.uid===owner&&saved.payload){base=core.copy(saved.payload);ready=true;await flush();return}
  if(!core.hasMovements(current)||core.financialEqual(current,remote)){
   setBase(remote);ready=true;
@@ -184,7 +189,8 @@ function listen(){
  if(unsubscribe)unsubscribe();
  unsubscribe=reference().onSnapshot(snapshot=>{
   if(!snapshot.exists||snapshot.metadata?.hasPendingWrites||blocked||!ready)return;
-  const data=snapshot.data();if(data.clientId===clientId||core.equal(data.payload,base))return;
+  const data=snapshot.data();if(observeEpoch(data)){clearTimeout(timer);again=false;blocked=false;setBase(data.payload);apply(data.payload);return}
+  if(data.clientId===clientId||core.equal(data.payload,base))return;
   if(formOpen()){again=true;setStatus(`syncing`,`تحديث متاح · اكمل النموذج للمزامنة`);return}
   // Apply a server change immediately when this device has no uncommitted edits.
   // Never overwrite local edits: reconcile those through the transactional writer.
@@ -209,6 +215,22 @@ window.addEventListener(`online`,()=>{if(user&&!blocked){if(ready)schedule();els
 window.addEventListener(`pagehide`,()=>{if(user&&ready&&!blocked)flush()});
 window.salarySync={
  getStatus:()=>({...status}),
+ restore:async payload=>{
+  if(!user||!ready||!db||writing||blocked)throw new Error(`الاتصال غير جاهز للاستيراد`);
+  const imported=core.copy(payload);core.validateAndRecompute(imported);
+  if(!imported.months||!imported.accounts)throw new Error(`ملف الاستيراد غير صالح`);
+  clearTimeout(timer);const owner=user.uid,requestGeneration=++generation;writing=true;
+  try{
+   const newEpoch=crypto.randomUUID?.()||`${Date.now()}-${Math.random()}`;
+   await db.runTransaction(async transaction=>{
+    const ref=reference(),snapshot=await transaction.get(ref),doc=snapshot.exists?snapshot.data():{};
+    transaction.set(ref,{app:`salary`,payload:imported,syncProtocol:2,revision:Number(doc.revision||0)+1,restoreEpoch:newEpoch,clientId,updatedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAtMs:Date.now()},{merge:false});
+   });
+   if(user?.uid!==owner||generation!==requestGeneration)throw new Error(`تغير الحساب خلال الاستيراد`);
+   checkpoint(`before-user-import`,read());nativeSet.call(localStorage,epochKey(),newEpoch);
+   serverEpoch=newEpoch;setBase(imported);blocked=false;remoteConflict=null;again=false;deferred=false;apply(imported);return true;
+  }finally{writing=false}
+ },
  isAuthenticated:()=>!!user,
  waitForInitialAuth:()=>initialAuth,
  connect:async()=>{
