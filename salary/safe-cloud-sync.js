@@ -8,6 +8,8 @@ const parse=raw=>{try{return JSON.parse(raw||`null`)}catch{return null}};
 const read=()=>parse(localStorage.getItem(KEY));
 const clientId=crypto.randomUUID?.()||`salary_${Date.now()}_${Math.random()}`;
 let user=null,db=null,auth=null,unsubscribe=null,ready=false,writing=false,again=false,timer=null,base=null,blocked=false,remoteConflict=null,view=core.copy(read()),generation=0,deferred=false;
+let resolveInitialAuth;
+const initialAuth=new Promise(resolve=>{resolveInitialAuth=resolve});
 let status={mode:`offline`,label:`محفوظ على الجهاز · السحابة غير مربوطة`};
 const config={apiKey:`AIzaSyDUSHbMd1A98_OpE3JSNXPD-XT0do8FutM`,authDomain:`moneywithbasel.firebaseapp.com`,projectId:`moneywithbasel`,storageBucket:`moneywithbasel.firebasestorage.app`,messagingSenderId:`1000601907861`,appId:`1:1000601907861:web:6995a21e42d36c1981a19c`};
 const LINKED=`money.salary.cloud-linked.v1`;
@@ -35,6 +37,7 @@ function conflict(error,remote){
  window.dispatchEvent(new CustomEvent(`salary:sync-conflict`));
 }
 function ensureUi(){
+ return; // Internal synchronization only.
  if(document.getElementById(`moneyCloudPill`))return;
  const style=document.createElement(`style`);style.textContent=`#moneyCloudPill{position:fixed;inset-inline-start:12px;top:12px;z-index:700;max-width:calc(100vw - 24px);padding:9px 12px;border:1px solid var(--hairline,#294046);border-radius:14px;background:var(--surface,#111a20);color:var(--text,#eef5f6);font:700 11px/1.7 Almarai,system-ui,sans-serif;box-shadow:0 8px 24px #0002}#moneyCloudPill button{all:unset;cursor:pointer}#moneyCloudPill[data-mode=error]{border-color:#c16b6b}#moneyCloudPill[data-mode=syncing]{border-color:#b79b60}#salarySyncReview{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;padding:16px;background:#0009}#salarySyncReview[hidden]{display:none}#salarySyncReview>section{max-width:580px;max-height:85dvh;overflow:auto;padding:24px;border:1px solid var(--hairline,#294046);border-radius:22px;background:var(--surface,#111a20);color:var(--text,#eef5f6);font-family:Almarai,system-ui,sans-serif}#salarySyncReview p{line-height:1.9}#salarySyncReview .syncActions{display:flex;flex-wrap:wrap;gap:10px}@media(max-width:760px){#moneyCloudPill{top:auto;bottom:calc(86px + env(safe-area-inset-bottom))}}`;
  document.head.append(style);
@@ -204,15 +207,31 @@ window.addEventListener(`salary:render`,resume);
 document.addEventListener(`click`,()=>queueMicrotask(resume));
 window.addEventListener(`online`,()=>{if(user&&!blocked){if(ready)schedule();else initialize().then(listen).catch(handleError)}});
 window.addEventListener(`pagehide`,()=>{if(user&&ready&&!blocked)flush()});
-window.salarySync={getStatus:()=>({...status}),retry:()=>{blocked=false;if(ready)schedule();else if(user)initialize().then(listen).catch(handleError)}};
+window.salarySync={
+ getStatus:()=>({...status}),
+ isAuthenticated:()=>!!user,
+ waitForInitialAuth:()=>initialAuth,
+ connect:async()=>{
+  await initialAuth;
+  if(!auth)throw new Error(`تعذر الاتصال بقاعدة البيانات`);
+  if(!user)await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  if(!user||!ready)await new Promise((resolve,reject)=>{
+   const timeout=setTimeout(()=>{window.removeEventListener(`salary:sync-ready`,check);reject(new Error(`تعذر تحميل البيانات المشتركة`))},20000);
+   const check=()=>{if(user&&ready&&!blocked){clearTimeout(timeout);window.removeEventListener(`salary:sync-ready`,check);resolve()}};
+   window.addEventListener(`salary:sync-ready`,check);check();
+  });
+  if(blocked)throw new Error(`يوجد اختلاف في البيانات يحتاج مراجعة`);
+ },
+ retry:()=>{blocked=false;if(ready)schedule();else if(user)initialize().then(listen).catch(handleError)}
+};
 ensureUi();
 if(!window.firebase){setStatus(`offline`,`محفوظ على الجهاز · المزامنة غير متاحة`);return}
 const app=firebase.apps.length?firebase.app():firebase.initializeApp(config);auth=firebase.auth(app);db=firebase.firestore(app);
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(handleError);
 auth.onAuthStateChanged(async current=>{
- generation++;clearTimeout(timer);if(unsubscribe){unsubscribe();unsubscribe=null}user=current;ready=false;base=null;blocked=false;
+ resolveInitialAuth();generation++;clearTimeout(timer);if(unsubscribe){unsubscribe();unsubscribe=null}user=current;ready=false;base=null;blocked=false;
  if(!user){setStatus(`offline`,`السحابة غير متصلة · اربط حسابك لعرض الارصدة`);return}
  nativeSet.call(localStorage,LINKED,`1`);
- try{setStatus(`syncing`,`جار فحص النسخ قبل المزامنة`);await initialize();if(user)listen()}catch(error){handleError(error)}
+ try{setStatus(`syncing`,`جار فحص النسخ قبل المزامنة`);await initialize();if(user)listen();window.dispatchEvent(new Event(`salary:sync-ready`))}catch(error){handleError(error)}
 });
 })();
