@@ -74,7 +74,7 @@ function showReview(){
 function reference(){return db.collection(`moneyUsers`).doc(user.uid).collection(`apps`).doc(`salary`)}
 function baseKey(){return `${META}.${user.uid}`}
 function epochKey(){return `${META}.epoch.${user.uid}`}
-function observeEpoch(doc){const epoch=doc?.restoreEpoch||`none`,previous=localStorage.getItem(epochKey());serverEpoch=epoch;nativeSet.call(localStorage,epochKey(),epoch);if(previous&&previous!==epoch){checkpoint(`before-restore`,read());return true}return false}
+function observeEpoch(doc){const epoch=doc?.restoreEpoch||`none`,previous=localStorage.getItem(epochKey());serverEpoch=epoch;nativeSet.call(localStorage,epochKey(),epoch);if(previous!==epoch&&epoch!==`none`){checkpoint(`before-restore`,read());return true}return false}
 function setBase(payload){
  const value={uid:user.uid,payload:core.copy(payload)};
  // A baseline is only updated after a server read or a successful transaction.
