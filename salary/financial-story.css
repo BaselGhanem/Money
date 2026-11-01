@@ -69,3 +69,7 @@ body.light #financialStoryContent .fs-controls select,body.light #financialStory
 @media(max-width:700px){#financialStoryContent .fs-panel-grid{grid-template-columns:1fr}#financialStoryContent .fs-header{padding:19px}#financialStoryContent .fs-chapters{gap:9px}#financialStoryContent .fs-chapter{padding:16px 12px}#financialStoryContent .fs-chapter strong{font-size:17px}#financialStoryContent .fs-panel{padding:18px 15px}#financialStoryContent .fs-opening{padding:26px 19px}#financialStoryContent .fs-controls{align-items:stretch;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){#financialStoryContent *,#financialStoryContent *::before{animation:none!important;transition:none!important}}
 body.no-motion #financialStoryContent *{animation:none!important;transition:none!important}
+
+#financialStoryContent .fs-heading-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+#financialStoryContent .fs-heading-actions .btn{min-height:38px;border:1px solid rgba(9,153,153,.4);background:rgba(9,153,153,.12);color:inherit;padding:8px 13px;border-radius:12px;font-size:12px}
+#financialStoryContent .fs-panel h4{font-size:14px;font-weight:800;margin:15px 0 8px}
