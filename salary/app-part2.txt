@@ -140,7 +140,7 @@ window.addEventListener('salary:finance-action',event=>{
    if(!cycle)throw Error('دورة الراتب غير موجودة');
    st.salaryCycleEvents||=[];
    let audit=st.salaryCycleEvents.find(x=>x.anchorId===cycle.payments[0].id);
-   if(!audit){audit={anchorId:cycle.payments[0].id,anchorMonth:cycle.anchorMonth,startedAt:cycle.startAt,opening:cycle.snapshot,quality:'reconstructed',reconciliation:{opening:{},closing:{}}};st.salaryCycleEvents.push(audit)}
+   if(!audit){audit={id:cycle.payments[0].id,anchorId:cycle.payments[0].id,anchorMonth:cycle.anchorMonth,startedAt:cycle.startAt,opening:cycle.snapshot,quality:'reconstructed',reconciliation:{opening:{},closing:{}}};st.salaryCycleEvents.push(audit)}
    audit.reconciliation||={opening:{},closing:{}};
    const side=action.side==='opening'?'opening':'closing';
    audit.reconciliation[side]||={};
