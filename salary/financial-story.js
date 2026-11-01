@@ -55,7 +55,7 @@
     return cycles(st).some(cycle=>cycle.closed&&date>=cycle.startDate&&date<cycle.endDate);
   }
   function confirmSalary(st,item){
-    if(!anchor(item)||item.completed!==true)return false;
+    if(!anchor(item)||item.completed!==true||item.salaryInstallmentOf)return false;
     st.salaryCycleEvents||=[];
     if(st.salaryCycleEvents.some(x=>x.anchorId===item.id))return false;
     const month=item.recurrenceMonth||item.date.slice(0,7);
@@ -186,7 +186,7 @@
     const accountRows=Object.keys(st.accounts||{}).map(name=>`<tr><td>${esc(name)}</td><td>${fmt(data.first[name])}</td><td>${fmt(data.last[name])}</td><td>${fmt((data.last[name]||0)-(data.first[name]||0))}</td></tr>`).join(``);
     const categoryRows=data.categories.map(cat=>`<details class="fs-category"><summary><span>${esc(cat.name)}</span><strong>${fmt(cat.value)}</strong></summary>${data.spenders.filter(x=>(x.item.category||`غير مصنف`)===cat.name).map(x=>`<div class="fs-line"><span>${esc(x.item.name)}<small>${esc(x.item.date)} · ${esc(x.item.account)}</small></span><b>${fmt(x.item.amount)}</b></div>`).join(``)}</details>`).join(``);
     const incomeRows=data.incomers.map(x=>`<div class="fs-line"><span>${esc(x.item.name)}<small>${esc(x.item.date)} · ${esc(x.item.account)}</small></span><b>${fmt(x.item.amount)}</b></div>`).join(``);
-    el.innerHTML=`<header class="fs-header"><div><span class="fs-eyebrow">FINANCIAL STORY · ${esc(cycle.id)}</span><h2>قصة دورة ${esc(cycle.label)}</h2><p>${esc(cycle.startDate)} ${cycle.closed?`— ${esc(cycle.endDate)}`:`— حتى وصول الراتب التالي`}</p></div><span class="fs-state">${badge}</span></header>
+    el.innerHTML=`<header class="fs-header"><div><span class="fs-eyebrow">FINANCIAL STORY · ${esc(cycle.id)}</span><h2>قصة دورة ${esc(cycle.label)}</h2><p>${esc(cycle.startDate)} ${cycle.closed?`— ${esc(cycle.endDate)}`:`— حتى وصول الراتب التالي`}</p></div><div class="fs-heading-actions"><span class="fs-state">${badge}</span>${!cycle.closed?`<button class="btn ghost" type="button" data-fs-add-installment="${esc(cycle.id)}">تسجيل دفعة راتب مكملة</button>`:``}</div></header>
       <div class="fs-controls"><label>اختيار الدورة <select id="fsCycleSelect">${data.cycles.slice().reverse().map(c=>`<option value="${esc(c.id)}" ${c.id===cycle.id?`selected`:``}>${esc(c.label)} · ${c.closed?`مغلقة`:`مفتوحة`}</option>`).join(``)}</select></label><span class="fs-confidence">${confidence}</span></div>
       <div class="fs-opening"><span>THE MONEY JOURNEY</span><h3>من رصيد البداية الى اخر دينار</h3><p>كل رقم قابل للتتبع من الحركة والحساب والتاريخ</p></div>
       <div class="fs-chapters">${segments.map((x,i)=>`<article class="fs-chapter" style="--fs-order:${i}"><small>${x.tag}</small><h3>${x.name}</h3><strong class="moneyValue">${fmt(x.value)}</strong><p>${x.desc}</p></article>`).join(``)}</div>
@@ -194,7 +194,11 @@
       <div class="fs-panel-grid"><section class="fs-panel"><div class="fs-panel-head"><h3>مصادر الدخل</h3><span>INCOME</span></div>${incomeRows||`<p class="fs-muted">لا يوجد دخل منفذ ضمن هذه الدورة</p>`}</section>
       <section class="fs-panel"><div class="fs-panel-head"><h3>اين صرفت مصاريك؟</h3><span>SPENDING</span></div>${categoryRows||`<p class="fs-muted">لا توجد مصاريف منفذة ضمن هذه الدورة</p>`}</section></div>
       <section class="fs-panel"><div class="fs-panel-head"><h3>الالتزامات المرحلة</h3><span>${data.carried.length} حركة</span></div>${data.carried.map(c=>{const x=entries(st).find(y=>y.item.id===c.itemId)?.item;return `<div class="fs-line"><span>${esc(x?.name||`التزام سابق`)}<small>مرحلة من ${esc(c.originalDate)}</small></span><b>${fmt(c.remainingAtCarry)}</b></div>`}).join(``)||`<p class="fs-muted">لا توجد التزامات مرحلة مسجلة</p>`}</section>
-      <section class="fs-panel"><div class="fs-panel-head"><h3>مطابقة الارصدة</h3><span>${confidence}</span></div><p class="fs-muted">راجع الرصيد الفعلي في البنك لكل حساب. المراجعة تحفظ كسجل مستقل ولا تغير ارقام الدورة المغلقة</p><div class="fs-reconcile-grid">${Object.keys(st.accounts||{}).map(name=>`<label><span>${esc(name)} · المحسوب ${fmt(data.last[name])}</span><input type="number" step="0.01" inputmode="decimal" data-fs-account="${esc(name)}" value="${data.cycle.record?.reconciliation?.closing?.[name]?.actual??``}" placeholder="الرصيد الفعلي"></label>`).join(``)}</div><button type="button" class="btn primary" id="fsSaveReconcile">حفظ المطابقة</button></section>
+      <section class="fs-panel"><div class="fs-panel-head"><h3>مطابقة الارصدة</h3><span>${confidence}</span></div><p class="fs-muted">مطابقة رصيد البداية ورصيد النهاية، دون تغيير ارقام التقرير المقفل</p>
+       <h4>رصيد ما قبل الراتب</h4><div class="fs-reconcile-grid">${Object.keys(st.accounts||{}).map(name=>`<label><span>${esc(name)} · المحسوب ${fmt(data.first[name])}</span><input type="number" step="0.01" inputmode="decimal" data-fs-opening="${esc(name)}" value="${data.cycle.record?.reconciliation?.opening?.[name]?.actual??``}" placeholder="الرصيد الفعلي"></label>`).join(``)}</div>
+       <button type="button" class="btn ghost" data-fs-reconcile="opening">حفظ مطابقة بداية الدورة</button>
+       <h4 style="margin-top:20px">رصيد نهاية الدورة</h4><div class="fs-reconcile-grid">${Object.keys(st.accounts||{}).map(name=>`<label><span>${esc(name)} · المحسوب ${fmt(data.last[name])}</span><input type="number" step="0.01" inputmode="decimal" data-fs-closing="${esc(name)}" value="${data.cycle.record?.reconciliation?.closing?.[name]?.actual??``}" placeholder="الرصيد الفعلي"></label>`).join(``)}</div>
+       <button type="button" class="btn primary" data-fs-reconcile="closing">حفظ مطابقة نهاية الدورة</button></section>
       <div class="fs-footer-note">فرق مراجعة حركة الرصيد: ${fmt(diff)} · ${Math.abs(diff)<0.01?`المعادلة متوازنة`:`راجع التسويات او التوقيتات التاريخية`}</div>`;
     el.dataset.cycleId=cycle.id;
   }
@@ -207,7 +211,7 @@
     panel.scrollIntoView({block:`nearest`,behavior:`smooth`});
   }
   document.addEventListener(`click`,event=>{
-    const btn=event.target.closest(`[data-fs-rule],[data-fs-confirm],[data-fs-close-policy],#fsSaveReconcile`);
+    const btn=event.target.closest(`[data-fs-rule],[data-fs-confirm],[data-fs-close-policy],[data-fs-reconcile],[data-fs-add-installment]`);
     if(!btn)return;
     if(btn.hasAttribute(`data-fs-close-policy`)){document.getElementById(`fsPolicyPanel`).hidden=true;return;}
     if(btn.hasAttribute(`data-fs-rule`)){const st=window.SalaryPlannerBridge?.snapshot();if(st)renderPolicy(st,btn.dataset.fsRule);return;}
@@ -218,7 +222,8 @@
       if(raw!==null)window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`confirmInvoice`,id,amount:raw}}));
       return;
     }
-    if(btn.id===`fsSaveReconcile`){const el=document.getElementById(`financialStoryContent`),actual={};el.querySelectorAll(`[data-fs-account]`).forEach(input=>{if(input.value.trim()!==``)actual[input.dataset.fsAccount]=input.value});window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`reconcile`,cycleId:el.dataset.cycleId,actual}}));}
+    if(btn.hasAttribute(`data-fs-reconcile`)){const el=document.getElementById(`financialStoryContent`),side=btn.dataset.fsReconcile,actual={};el.querySelectorAll(`[data-fs-${side}]`).forEach(input=>{if(input.value.trim()!==``)actual[input.getAttribute(`data-fs-${side}`)]=input.value});window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`reconcile`,cycleId:el.dataset.cycleId,side,actual}}));return;}
+    if(btn.hasAttribute(`data-fs-add-installment`)){const raw=prompt(`مبلغ دفعة الراتب المكملة بالدينار`);if(raw!==null)window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`installment`,cycleId:btn.dataset.fsAddInstallment,amount:raw}}));return;}
   });
   document.addEventListener(`submit`,event=>{if(event.target.id!==`fsPolicyForm`)return;event.preventDefault();const form=new FormData(event.target);window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`policy`,ruleId:form.get(`ruleId`),linked:form.has(`linked`),variable:form.get(`mode`)===`variable`}}))});
   document.addEventListener(`change`,event=>{if(event.target.id===`fsCycleSelect`){const state=window.SalaryPlannerBridge?.snapshot();if(state)render(state,event.target.value)}});
