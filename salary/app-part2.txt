@@ -105,7 +105,13 @@ window.addEventListener(`salary:cloud-state`,event=>{if(!event.detail?.months)re
 window.addEventListener('salary:finance-action',event=>{
  const action=event.detail||{};
  try{
-  if(action.type==='policy'){
+  if(action.type==='itemPolicy'){
+   const record=findObligation(action.itemId);
+   if(!record||!writable(record.item.date))return;
+   record.item.salaryLinked=Boolean(action.linked);
+   document.getElementById('fsPolicyPanel').hidden=true;
+   save('تم تحديث ارتباط الحركة بدورة الراتب');
+  }else if(action.type==='policy'){
    const rule=st.recurrences?.find(r=>r.id===action.ruleId);
    if(!rule)throw Error('لم نجد الالتزام المتكرر');
    window.FinancialStory.configure(st,action.ruleId,action.linked,action.variable);
