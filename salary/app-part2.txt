@@ -77,7 +77,7 @@ $(`addObligationBtn`).onclick=()=>{ot();$(`transactionCompleted`).checked=false;
 $(`obligationSearch`).oninput=renderObligations;$(`obligationStatus`).onchange=renderObligations;
 $(`paymentFirstDay`).onclick=()=>{$(`paymentDate`).value=localFirstDay();window.dispatchEvent(new Event(`salary:render`))};
 $(`obligationPaymentForm`).onsubmit=ev=>{
- ev.preventDefault();if(!writable())return;
+ ev.preventDefault();if(!writable(localToday()))return;
  const found=findObligation($(`paymentObligationId`).value);if(!found)return;
  const x=found.item;if(x.type!==`expense`||x.obligationId)return;if(!window.FinancialStory.canPay(st,x))return toast(`يجب تاكيد مبلغ الفاتورة قبل الدفع`);
  const amount=roundMoney($(`paymentAmount`).value),date=$(`paymentDate`).value,account=$(`paymentAccount`).value,v=obligationSummary(x),button=$(`paymentSave`),token=button.dataset.paymentToken;
@@ -87,7 +87,7 @@ $(`obligationPaymentForm`).onsubmit=ev=>{
  const before=JSON.stringify(st),payment={id:token,name:`دفعة · ${x.name}`,type:`expense`,amount,account,category:x.category||``,date,completed:true,recurring:false,obligationId:x.id,paymentMethod:button.dataset.paymentMode===`remaining`?`remaining`:`partial`,notes:$(`paymentNotes`).value.trim(),createdAt:new Date().toISOString()};
  button.disabled=true;
  try{
-  x.obligationTotal??=n(x.amount);x.obligationCreatedAt||=payment.createdAt;
+  if(!window.FinancialStory.isLocked(st,x.date)){x.obligationTotal??=n(x.amount);x.obligationCreatedAt||=payment.createdAt;}
   const month=date.slice(0,7);st.months[month]||={items:[],transfers:[]};st.months[month].items.push(payment);recordPaymentAudit(`create`,payment);st.settings.lastAccount=account;syncObligations();
   localStorage.setItem(S,JSON.stringify(st));
   const stored=JSON.parse(localStorage.getItem(S)||`null`),saved=Object.values(stored?.months||{}).flatMap(data=>data.items||[]).find(item=>item.id===token);
@@ -125,7 +125,7 @@ window.addEventListener('salary:finance-action',event=>{
    if(!writable(date))return;
    const account=cycle.payments[0]?.account;
    if(!st.accounts[account])throw Error('حساب الراتب غير موجود');
-   const transaction={id:id(),name:'دفعة مكملة من الراتب',amount,type:'income',category:'دخل',account,date,createdAt:new Date().toISOString(),completed:true,recurring:false,recurrenceId:window.FinancialStory.ANCHOR,recurrenceMonth:cycle.anchorMonth,salaryInstallmentOf:cycle.payments[0].id,notes:'دفعة ضمن الراتب المؤكد لنفس الدورة'};
+   const transaction={id:id(),name:'دفعة مكملة من الراتب',amount,type:'income',category:'دخل',account,date,createdAt:new Date().toISOString(),completed:true,recurring:false,recurrenceMonth:cycle.anchorMonth,salaryInstallmentOf:cycle.payments[0].id,notes:'دفعة ضمن الراتب المؤكد لنفس الدورة'};
    st.months[date.slice(0,7)]||={items:[],transfers:[]};
    st.months[date.slice(0,7)].items.push(transaction);
    save('تم تسجيل دفعة راتب مكملة ضمن نفس الدورة');
