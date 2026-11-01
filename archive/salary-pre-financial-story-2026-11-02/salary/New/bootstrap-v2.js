@@ -1,0 +1,2 @@
+(()=>{`use strict`;Promise.all([`app-part1.txt`,`cycle-core.txt`,`app-part2.txt`].map(async path=>{const response=await fetch(`${path}?v=20261006-new-cycle-1`,{cache:`no-store`});if(!response.ok)throw new Error(`Failed to load ${path}`);return response.text()})).then(parts=>new Function(parts.join(``))()).catch(error=>{console.error(error);const loader=document.getElementById(`loader`);if(window.salaryLoadingError){window.salaryLoadingError();return}if(loader)loader.innerHTML=`<strong>تعذر تشغيل النظام</strong><small>حدّث الصفحة وحاول مرة أخرى.</small>`})})();
+

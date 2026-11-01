@@ -1,0 +1,46 @@
+{
+  "generator": "Built-in image generation",
+  "direction": "Premium GTA V inspired cinematic illustration, personal finance, muted teal/charcoal/amber, no sensitive data",
+  "scenes": [
+    {
+      "file": "planner.webp",
+      "scene": "A Jordanian male professional seated at a beautiful desk with laptop, coffee, calculator and blank notes, morning window light"
+    },
+    {
+      "file": "payday.webp",
+      "scene": "A Jordanian male professional leaving a contemporary office at golden hour checking his smartphone confidently"
+    },
+    {
+      "file": "hunter.webp",
+      "scene": "A Jordanian male reviewing blank receipts, shopping bags, coffee and car keys at a refined desk"
+    },
+    {
+      "file": "analyst.webp",
+      "scene": "A Jordanian analyst at a premium dual monitor workstation, abstract charts without numbers or lettering, city view"
+    },
+    {
+      "file": "mission.webp",
+      "scene": "A Jordanian male standing on an Amman rooftop holding a smartphone, cinematic purposeful new-day mood"
+    },
+    {
+      "file": "coffee.webp",
+      "scene": "An elegant cafe scene with laptop, closed wallet, phone and coffee, stylish Jordanian male seated"
+    },
+    {
+      "file": "night.webp",
+      "scene": "A Jordanian male at a late-night desk illuminated by monitors, Amman city lights behind"
+    },
+    {
+      "file": "road.webp",
+      "scene": "A Jordanian male next to his parked car at a modern petrol station at dusk, phone and car keys"
+    },
+    {
+      "file": "home.webp",
+      "scene": "A Jordanian male organizing blank household notes and envelopes on a premium home desk"
+    },
+    {
+      "file": "weekend.webp",
+      "scene": "A relaxed Jordanian male reviewing a notebook and phone on a sunny balcony with Amman skyline"
+    }
+  ]
+}
