@@ -25,7 +25,7 @@
   }
   function cycles(st){
     const events=st.salaryCycleEvents||[];
-    const salaries=entries(st).filter(({item})=>anchor(item)&&item.completed===true&&item.date)
+    const salaries=entries(st).filter(({item})=>(anchor(item)||Boolean(item.salaryInstallmentOf))&&item.completed===true&&item.date)
       .sort((a,b)=>a.item.date.localeCompare(b.item.date)||String(a.item.confirmedAt||a.item.createdAt||``).localeCompare(String(b.item.confirmedAt||b.item.createdAt||``)));
     const groups=new Map();
     for(const {item} of salaries){
