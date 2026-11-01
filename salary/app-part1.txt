@@ -81,7 +81,7 @@ const empty=t=>`<div class="empty">${e(t)}</div>`,card=(manager=false)=>Object.e
 function financeRowTools(x){
  if(x.type!==`expense`||x.obligationId)return ``;
  const rule=st.recurrences?.find(r=>r.id===x.recurrenceId);
- if(!rule)return ``;
+ if(!rule)return `<div class="fs-policy-inline">${x.salaryLinked?`<span class="fs-policy-badge">مرتبط بالراتب</span>`:``}<button type="button" class="btn ghost" data-fs-rule="${e(x.id)}">ربط الحركة بالراتب</button></div>`;
  const variable=rule.valueMode===`variable`,waiting=variable&&x.invoiceConfirmed!==true;
  const status=window.FinancialStory.status(st,x,localToday());
  return `<div class="fs-policy-inline"><span class="fs-policy-badge">${e(window.FinancialStory.statusNames[status]||`معلق`)}</span>${x.originalPlannedDate||st.salaryCarryEvents?.some(v=>v.itemId===x.id)?`<span class="fs-policy-badge">مرحل</span>`:``}${rule.salaryLinked?`<span class="fs-policy-badge">مرتبط بالراتب</span>`:``}${waiting?`<span class="fs-policy-badge">قيمة تقديرية</span><button type="button" class="btn ghost" data-fs-confirm="${e(x.id)}">تأكيد قيمة الفاتورة</button>`:``}<button type="button" class="btn ghost" data-fs-rule="${e(rule.id)}">اعدادات الاستحقاق</button></div>`;
