@@ -116,6 +116,19 @@ window.addEventListener('salary:finance-action',event=>{
    if(!record||!writable(record.item.date))return;
    window.FinancialStory.confirmInvoice(st,action.id,action.amount);
    save('تم تأكيد قيمة الفاتورة الفعلية');
+  }else if(action.type==='installment'){
+   const cycle=window.FinancialStory.active(st);
+   const raw=String(action.amount??'').trim();
+   if(!cycle||cycle.id!==action.cycleId||cycle.closed)throw Error('الدورة غير مفتوحة');
+   if(!raw||!Number.isFinite(Number(raw))||Number(raw)<=0)throw Error('ادخل مبلغ الراتب الصحيح');
+   const amount=window.FinancialStory.amount(raw),date=localToday();
+   if(!writable(date))return;
+   const account=cycle.payments[0]?.account;
+   if(!st.accounts[account])throw Error('حساب الراتب غير موجود');
+   const transaction={id:id(),name:'دفعة مكملة من الراتب',amount,type:'income',category:'دخل',account,date,createdAt:new Date().toISOString(),completed:true,recurring:false,recurrenceId:window.FinancialStory.ANCHOR,recurrenceMonth:cycle.anchorMonth,salaryInstallmentOf:cycle.payments[0].id,notes:'دفعة ضمن الراتب المؤكد لنفس الدورة'};
+   st.months[date.slice(0,7)]||={items:[],transfers:[]};
+   st.months[date.slice(0,7)].items.push(transaction);
+   save('تم تسجيل دفعة راتب مكملة ضمن نفس الدورة');
   }else if(action.type==='reconcile'){
    const cycle=window.FinancialStory.cycles(st).find(c=>c.id===action.cycleId);
    if(!cycle)throw Error('دورة الراتب غير موجودة');
