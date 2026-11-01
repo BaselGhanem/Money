@@ -229,7 +229,7 @@
   document.addEventListener(`change`,event=>{if(event.target.id===`fsCycleSelect`){const state=window.SalaryPlannerBridge?.snapshot();if(state)render(state,event.target.value)}});
 function validation(stored,proposed){
  if(!stored?.months)return true;
- const protectedDate=x=>x?.date&&window.FinancialStory.isLocked(stored,x.date);
+ const protectedDate=x=>x?.date&&(window.FinancialStory.isLocked(stored,x.date)||window.FinancialStory.isLocked(proposed,x.date));
  const previous=new Map();
  for(const data of Object.values(stored.months)){
   for(const kind of [`items`,`transfers`])for(const item of data[kind]||[])previous.set(`${kind}:${item.id}`,item);
