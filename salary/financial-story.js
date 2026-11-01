@@ -82,7 +82,7 @@
     return !(rule?.valueMode===`variable`&&item.invoiceConfirmed!==true);
   }
   function lastConfirmed(st,ruleId){
-    const candidates=entries(st).filter(({item})=>item.recurrenceId===ruleId&&item.invoiceConfirmed===true&&Number.isFinite(Number(item.obligationTotal??item.amount)))
+    const candidates=entries(st).filter(({item})=>item.recurrenceId===ruleId&&(item.invoiceConfirmed===true||(item.completed===true&&item.invoiceConfirmed!==false))&&Number.isFinite(Number(item.obligationTotal??item.amount)))
       .sort((a,b)=>b.item.date.localeCompare(a.item.date));
     if(candidates.length)return amount(candidates[0].item.obligationTotal??candidates[0].item.amount);
     const rule=(st.recurrences||[]).find(x=>x.id===ruleId);
@@ -96,7 +96,7 @@
     rule.valueMode=variable?`variable`:`fixed`;
     if(variable&&previous!==`variable`)rule.lastConfirmedAmount=lastConfirmed(st,id);
     for(const {item} of entries(st)){
-      if(item.recurrenceId!==id||item.completed===true||item.obligationId)continue;
+      if(item.recurrenceId!==id||item.completed===true||item.obligationId||isLocked(st,item.date))continue;
       const hasPayment=entries(st).some(x=>x.item.obligationId===item.id&&x.item.completed===true);
       if(hasPayment)continue;
       if(variable){
@@ -122,7 +122,7 @@
     item.invoiceConfirmedAt=new Date().toISOString();
     rule.lastConfirmedAmount=total;
     for(const {item:future} of entries(st)){
-      if(future.id===id||future.recurrenceId!==rule.id||future.completed===true||future.invoiceConfirmed!==false||future.date<=item.date)continue;
+      if(future.id===id||future.recurrenceId!==rule.id||future.completed===true||future.invoiceConfirmed!==false||future.date<=item.date||isLocked(st,future.date))continue;
       if(entries(st).some(x=>x.item.obligationId===future.id&&x.item.completed===true))continue;
       future.estimatedAmount=total;future.obligationTotal=total;future.amount=total;
     }
@@ -173,7 +173,8 @@
   }
   function render(st,chosen){
     const el=document.getElementById(`financialStoryContent`);if(!el)return;
-    const data=story(st,chosen);
+    if(chosen)window.FinancialStory.selectedCycle=chosen;
+    const data=story(st,chosen||window.FinancialStory.selectedCycle);
     if(!data){el.innerHTML=`<div class="fs-empty"><h3>قصتك المالية تبدأ من الراتب</h3><p>عند تأكيد حركة إيداع الراتب من شركتي إلى بنكي ستظهر دورة الراتب هنا، ويمكن مراجعة الحركات السابقة من التقارير العادية</p></div>`;return;}
     const {cycle}=data,fmt=value=>`${Number(value||0).toLocaleString(`en-US`,{minimumFractionDigits:2,maximumFractionDigits:2})} د.أ`,diff=data.opening+data.income-data.expense+data.adjustments-data.closing;
     const badge=cycle.closed?`مغلقة · بانتظار المطابقة`:`مفتوحة`;
