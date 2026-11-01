@@ -221,5 +221,25 @@
   });
   document.addEventListener(`submit`,event=>{if(event.target.id!==`fsPolicyForm`)return;event.preventDefault();const form=new FormData(event.target);window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`policy`,ruleId:form.get(`ruleId`),linked:form.has(`linked`),variable:form.get(`mode`)===`variable`}}))});
   document.addEventListener(`change`,event=>{if(event.target.id===`fsCycleSelect`){const state=window.SalaryPlannerBridge?.snapshot();if(state)render(state,event.target.value)}});
-  window.FinancialStory={ANCHOR,entries,anchor,cycles,active,cycleAt,isLocked,confirmSalary,status,statusNames,canPay,lastConfirmed,configure,confirmInvoice,carry,story,render,renderPolicy,amount};
+function validation(stored,proposed){
+ if(!stored?.months)return true;
+ const protectedDate=x=>x?.date&&window.FinancialStory.isLocked(stored,x.date);
+ const previous=new Map();
+ for(const data of Object.values(stored.months)){
+  for(const kind of [`items`,`transfers`])for(const item of data[kind]||[])previous.set(`${kind}:${item.id}`,item);
+ }
+ const following=new Map();
+ for(const data of Object.values(proposed.months||{})){
+  for(const kind of [`items`,`transfers`])for(const item of data[kind]||[])following.set(`${kind}:${item.id}`,item);
+ }
+ for(const [id,item] of previous){
+  const next=following.get(id);
+  if((protectedDate(item)||protectedDate(next))&&JSON.stringify(item)!==JSON.stringify(next))return false;
+ }
+ for(const [id,item] of following){
+  if(!previous.has(id)&&protectedDate(item))return false;
+ }
+ return true;
+}
+  window.FinancialStory={ANCHOR,entries,anchor,validateLockedChanges:validation,cycles,active,cycleAt,isLocked,confirmSalary,status,statusNames,canPay,lastConfirmed,configure,confirmInvoice,carry,story,render,renderPolicy,amount};
 })();
