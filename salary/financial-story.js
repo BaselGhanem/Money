@@ -63,7 +63,7 @@
     const now=new Date().toISOString();
     item.confirmedAt||=now;
     const opening=old?.snapshot||allBalances(st,item.date,item.id);
-    st.salaryCycleEvents.push({anchorId:item.id,anchorMonth:month,startedAt:item.confirmedAt,opening,quality:old?old.quality:`recorded`,reconciliation:{opening:{},closing:{}},createdAt:now});
+    st.salaryCycleEvents.push({anchorId:item.id,anchorMonth:month,startedAt:item.confirmedAt,opening,quality:old?old.quality:(item.date===new Intl.DateTimeFormat(`en-CA`,{year:`numeric`,month:`2-digit`,day:`2-digit`,timeZone:`Asia/Amman`}).format(new Date())?`recorded`:`reconstructed`),reconciliation:{opening:{},closing:{}},createdAt:now});
     return true;
   }
   function status(st,item,today){
