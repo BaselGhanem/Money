@@ -68,9 +68,10 @@
   }
   function status(st,item,today){
     if(item.completed===true)return `done`;
-    const rule=ruleFor(st,item);
+    const rule=ruleFor(st,item),linked=item.salaryLinked??rule?.salaryLinked;
     const targetMonth=item.recurrenceMonth||item.date?.slice(0,7);
-    const target=rule?.salaryLinked&&targetMonth?nextMonth(targetMonth):null;
+    const intended=item.recurrenceMonth?nextMonth(item.recurrenceMonth):Number(item.date?.slice(-2))>=28?nextMonth(targetMonth):targetMonth;
+    const target=linked&&targetMonth?intended:null;
     if(target){if(!cycles(st).some(cycle=>cycle.label===target))return `waitingSalary`;if(rule?.valueMode===`variable`&&item.invoiceConfirmed!==true)return `needsAmount`;return item.date<today?`overdue`:`due`}
     if(item.date>today)return `upcoming`;
     if(rule?.valueMode===`variable`&&item.invoiceConfirmed!==true)return `needsAmount`;
@@ -204,7 +205,8 @@
   }
   function renderPolicy(st,id){
     const rule=(st.recurrences||[]).find(x=>x.id===id),panel=document.getElementById(`fsPolicyPanel`);
-    if(!rule||!panel)return;
+    if(!panel)return;
+    if(!rule){const record=entries(st).find(x=>x.item.id===id),item=record?.item;if(!item||item.type!==`expense`)return;panel.innerHTML=`<form id="fsPolicyForm"><h3>استحقاق ${esc(item.name)}</h3><input name="itemId" type="hidden" value="${esc(item.id)}"><label class="fs-check"><input type="checkbox" name="linked" ${item.salaryLinked?`checked`:``}> مرتبط بدورة الراتب</label><p>التغيير يخص هذه الحركة فقط، ولا ينشئ تكرارا جديدا</p><div class="fs-policy-actions"><button class="btn primary" type="submit">حفظ الارتباط</button><button class="btn ghost" type="button" data-fs-close-policy>اغلاق</button></div></form>`;panel.hidden=false;return;}
     const entry=entries(st).filter(x=>x.item.recurrenceId===id&&x.item.type===`expense`).sort((a,b)=>b.item.date.localeCompare(a.item.date))[0]?.item;
     panel.innerHTML=`<form id="fsPolicyForm"><h3>اعدادات ${esc(rule.template.name)}</h3><input type="hidden" name="ruleId" value="${esc(id)}"><label class="fs-check"><input type="checkbox" name="linked" ${rule.salaryLinked?`checked`:``}> مرتبط بنزول الراتب</label><label>نوع المبلغ <select name="mode"><option value="fixed" ${rule.valueMode!==`variable`?`selected`:``}>ثابت شهريا</option><option value="variable" ${rule.valueMode===`variable`?`selected`:``}>متغير · آخر مبلغ مؤكد كتقدير</option></select></label>${entry?`<p>آخر حركة: ${esc(entry.date)} · ${esc(entry.invoiceConfirmed===false?`تقديرية`:`معتمدة او ثابتة`)}</p>`:``}<div class="fs-policy-actions"><button class="btn primary" type="submit">حفظ القاعدة</button><button class="btn ghost" type="button" data-fs-close-policy>اغلاق</button></div></form>`;
     panel.hidden=false;
@@ -225,7 +227,7 @@
     if(btn.hasAttribute(`data-fs-reconcile`)){const el=document.getElementById(`financialStoryContent`),side=btn.dataset.fsReconcile,actual={};el.querySelectorAll(`[data-fs-${side}]`).forEach(input=>{if(input.value.trim()!==``)actual[input.getAttribute(`data-fs-${side}`)]=input.value});window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`reconcile`,cycleId:el.dataset.cycleId,side,actual}}));return;}
     if(btn.hasAttribute(`data-fs-add-installment`)){const raw=prompt(`مبلغ دفعة الراتب المكملة بالدينار`);if(raw!==null)window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`installment`,cycleId:btn.dataset.fsAddInstallment,amount:raw}}));return;}
   });
-  document.addEventListener(`submit`,event=>{if(event.target.id!==`fsPolicyForm`)return;event.preventDefault();const form=new FormData(event.target);window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:{type:`policy`,ruleId:form.get(`ruleId`),linked:form.has(`linked`),variable:form.get(`mode`)===`variable`}}))});
+  document.addEventListener(`submit`,event=>{if(event.target.id!==`fsPolicyForm`)return;event.preventDefault();const form=new FormData(event.target),itemId=form.get(`itemId`);window.dispatchEvent(new CustomEvent(`salary:finance-action`,{detail:itemId?{type:`itemPolicy`,itemId,linked:form.has(`linked`)}:{type:`policy`,ruleId:form.get(`ruleId`),linked:form.has(`linked`),variable:form.get(`mode`)===`variable`}}))});
   document.addEventListener(`change`,event=>{if(event.target.id===`fsCycleSelect`){const state=window.SalaryPlannerBridge?.snapshot();if(state)render(state,event.target.value)}});
 function validation(stored,proposed){
  if(!stored?.months)return true;
