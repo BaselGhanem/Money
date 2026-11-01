@@ -71,7 +71,7 @@
     const rule=ruleFor(st,item);
     const targetMonth=item.recurrenceMonth||item.date?.slice(0,7);
     const target=rule?.salaryLinked&&targetMonth?nextMonth(targetMonth):null;
-    if(target&&!cycles(st).some(cycle=>cycle.label===target))return `waitingSalary`;
+    if(target){if(!cycles(st).some(cycle=>cycle.label===target))return `waitingSalary`;if(rule?.valueMode===`variable`&&item.invoiceConfirmed!==true)return `needsAmount`;return item.date<today?`overdue`:`due`}
     if(item.date>today)return `upcoming`;
     if(rule?.valueMode===`variable`&&item.invoiceConfirmed!==true)return `needsAmount`;
     return item.date<today?`overdue`:`due`;
