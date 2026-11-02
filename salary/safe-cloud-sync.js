@@ -30,10 +30,12 @@ function checkpoint(reason,payload){
 }
 function download(name,payload){const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:`application/json`}));const a=document.createElement(`a`);a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function conflict(error,remote){
+ if(blocked)return;
  blocked=true;remoteConflict=remote||remoteConflict;
  try{checkpoint(`sync-conflict-local`,read())}catch{}
  setStatus(`error`,`تعارض محفوظ للمراجعة · لم نستبدل بياناتك`);
- console.warn(`Salary sync paused:`,error.name||`SyncConflict`);
+ console.warn(`Salary sync paused:`,error.name||`SyncConflict`,error.path||error.message||``, `No state was overwritten`);
+ try{showReview()}catch(error){console.warn(`Recovery review unavailable`,error.name||`error`)}
  window.dispatchEvent(new CustomEvent(`salary:sync-conflict`));
 }
 function ensureUi(){
@@ -54,7 +56,7 @@ function ensureUi(){
 function showReview(){
  let overlay=document.getElementById(`salarySyncReview`);
  if(!overlay){
-  overlay=document.createElement(`div`);overlay.id=`salarySyncReview`;overlay.hidden=true;
+  overlay=document.createElement(`div`);overlay.id=`salarySyncReview`;overlay.hidden=true;overlay.style.cssText=`position:fixed;inset:0;z-index:11000;display:grid;place-items:center;padding:16px;background:rgba(0,0,0,.78)`;const sheet=document.createElement(`style`);sheet.textContent=`#salarySyncReview[hidden]{display:none!important}#salarySyncReview section{width:min(100%,580px);max-height:85dvh;overflow:auto;padding:24px;border:1px solid rgba(9,153,153,.45);border-radius:22px;background:var(--surface,#14262b);color:var(--text,#f5ffff);font:500 14px/1.9 Almarai,system-ui,sans-serif;box-shadow:0 20px 90px #0008}#salarySyncReview h2{font-size:23px;margin:0 0 12px}#salarySyncReview .syncActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}#salarySyncReview button{cursor:pointer}`;document.head.append(sheet);
   overlay.innerHTML=`<section role="dialog" aria-modal="true" aria-labelledby="salarySyncTitle"><h2 id="salarySyncTitle">مراجعة اختلاف النسخ</h2><p>اوقفنا المزامنة حتى لا تستبدل نسخة مختلفة دفعاتك. نسخة الجهاز محفوظة، ويمكن تنزيل النسختين للمراجعة. لا تعد تسجيل الدفعات قبل مراجعة الفرق.</p><div class="syncActions"><button class="btn ghost" data-sync-local>تنزيل نسخة الجهاز</button><button class="btn ghost" data-sync-remote>تنزيل نسخة السحابة</button><button class="btn ghost" data-sync-recovery>تنزيل سجل الاسترجاع</button><button class="btn primary" data-sync-retry>اعادة المحاولة</button><button class="btn ghost" data-sync-use-cloud>استخدام نسخة السحابة بعد المراجعة</button><button class="btn ghost" data-sync-close>اغلاق</button></div></section>`;
   overlay.querySelector(`[data-sync-local]`).onclick=()=>download(`salary-device-backup.json`,read());
   overlay.querySelector(`[data-sync-remote]`).onclick=()=>{if(remoteConflict)download(`salary-cloud-backup.json`,remoteConflict)};
@@ -167,7 +169,7 @@ async function initialize(){
  const remote=snap.data().payload;if(!remote?.months)throw new core.SyncConflict(`invalid cloud state`);
  remoteConflict=core.copy(remote);
  if(restored){setBase(remote);ready=true;apply(remote);blocked=false;remoteConflict=null;return}
- if(saved?.uid===owner&&saved.payload){base=core.copy(saved.payload);ready=true;await flush();if(blocked){blocked=false;setBase(remote);apply(remote);remoteConflict=null}return}
+ if(saved?.uid===owner&&saved.payload){base=core.copy(saved.payload);ready=true;await flush();return}
  if(!core.hasMovements(current)||core.financialEqual(current,remote)){
   setBase(remote);ready=true;
   if(!core.equal(current,remote)&&!formOpen())apply(remote);
