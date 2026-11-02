@@ -13,7 +13,7 @@ function recurrenceDate(rule,month){const versions=rule.versions.slice().sort((a
 function recurrenceActiveAt(rule,date){let enabled=rule.enabled!==false;for(const version of [...(rule.statusVersions||[])].sort((a,b)=>a.from.localeCompare(b.from))){if(version.from<=date)enabled=version.enabled}return enabled}
 function recurrenceAmount(rule,date){let amount=n(rule.template.amount);for(const v of (rule.amountVersions||[]).slice().sort((a,b)=>a.from.localeCompare(b.from))){if(v.from<=date)amount=n(v.amount)}return amount}
 function updateRecurrenceAmount(rule,amount,from){if(rule.valueMode===`variable`)return;rule.amountVersions=(rule.amountVersions||[]).filter(v=>v.from!==from);rule.amountVersions.push({from,amount});for(const data of Object.values(st.months)){for(const x of data.items){if(x.recurrenceId!==rule.id||x.completed===true||!validDate(x.date)||x.date<from||x.obligationId||obligationPayments(x.id).length)continue;x.amount=recurrenceAmount(rule,x.date);if(x.obligationTotal!==undefined)x.obligationTotal=x.amount}}}
-function patchedEnsure(m){
+function ensure(m){
  normalizeRecurrences();st.months[m]||={items:[],transfers:[]};
  if(m<localToday().slice(0,7))return;
  for(const rule of st.recurrences){
