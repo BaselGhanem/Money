@@ -59,3 +59,18 @@ test(`history updates are rejected while current-cycle payments remain allowed`,
  assert.equal(financial.validateLockedChanges(state,modified),false);
  assert.equal(financial.isLocked(state,`2026-11-29`),false);
 });
+
+test(`settled obligations are excluded from the movement ledger while payment records stay`,()=>{
+ const {state,financial}=fixture();
+ const bill=state.months[`2026-10`].items.find(item=>item.id===`bill`);
+ bill.obligationTotal=100;
+ bill.amount=0;
+ bill.completed=false; // Historical closed-cycle flag is immutable
+ const payment=state.months[`2026-11`].items.find(item=>item.id===`bill-payment`);
+ payment.amount=100;
+ assert.equal(financial.status(state,bill,`2026-11-30`),`done`);
+ assert.match(app,/obligationSummary\(x\)\.remaining<\.005/);
+ assert.match(app,/مسدد بالكامل/);
+ assert.match(app,/obligationCard:true/);
+ assert.match(app,/data-complete-\$\{x.kind\}/);
+});
