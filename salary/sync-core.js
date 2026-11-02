@@ -21,7 +21,7 @@ function unpack(state){
   for(const kind of [`items`,`transfers`])for(const source of data[kind]||[]){
    if(!source.id||movements[source.id])throw new SyncConflict(`duplicate movement ID`);
    const record=copy(source);
-   if(kind===`items`&&record.obligationTotal!==undefined){delete record.amount;delete record.completed}
+   if(kind===`items`&&record.obligationTotal!==undefined&&!(typeof window!==`undefined`&&window.FinancialStory?.isLocked(state,record.date))){delete record.amount;delete record.completed}
    movements[source.id]={month,kind,record};
   }
  }
