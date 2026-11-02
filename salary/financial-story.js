@@ -68,6 +68,11 @@
   }
   function status(st,item,today){
     if(item.completed===true)return `done`;
+    if(item.type===`expense`&&!item.obligationId&&item.obligationTotal!==undefined){
+      const total=cents(item.obligationTotal);
+      const paid=entries(st).filter(({item:payment})=>payment.obligationId===item.id&&payment.completed===true).reduce((sum,{item:payment})=>sum+cents(payment.amount),0);
+      if(total-paid<=0)return `done`;
+    }
     const rule=ruleFor(st,item),linked=item.salaryLinked??rule?.salaryLinked;
     const targetMonth=item.recurrenceMonth||item.date?.slice(0,7);
     const intended=item.recurrenceMonth?nextMonth(item.recurrenceMonth):Number(item.date?.slice(-2))>=28?nextMonth(targetMonth):targetMonth;
