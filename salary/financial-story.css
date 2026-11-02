@@ -73,3 +73,11 @@ body.no-motion #financialStoryContent *{animation:none!important;transition:none
 #financialStoryContent .fs-heading-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
 #financialStoryContent .fs-heading-actions .btn{min-height:38px;border:1px solid rgba(9,153,153,.4);background:rgba(9,153,153,.12);color:inherit;padding:8px 13px;border-radius:12px;font-size:12px}
 #financialStoryContent .fs-panel h4{font-size:14px;font-weight:800;margin:15px 0 8px}
+
+/* Paid liabilities are historical obligations, never a new cash expense */
+.tx .amount.obligationAmount{display:flex;flex-direction:column;align-items:flex-start;gap:4px;color:var(--text,#e9f5f5);font-weight:800;direction:ltr;white-space:normal}
+.tx .amount.obligationAmount small{font:600 11px/1.5 Almarai,system-ui,sans-serif;direction:rtl;color:var(--muted,#97afb2)}
+.tx.isCompleted .amount.obligationAmount{color:#099999}
+.tx .completionToggle input:disabled + span{opacity:.8;cursor:default}
+body.light .tx .amount.obligationAmount{color:#114e52}
+body.light .tx.isCompleted .amount.obligationAmount{color:#087b7b}
